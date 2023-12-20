@@ -2,7 +2,10 @@
 
 
 #include "Character/Pippa/PippaCharacter.h"
+#include "AbilitySystemComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Player/FQFPlayerState.h"
+
 
 APippaCharacter::APippaCharacter()
 {
@@ -28,4 +31,28 @@ APippaCharacter::APippaCharacter()
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationRoll = false;
 	bUseControllerRotationYaw = false;
+}
+
+void APippaCharacter::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+
+	InitAbilityActorInfo();
+}
+
+void APippaCharacter::OnRep_PlayerState()
+{
+	Super::OnRep_PlayerState();
+
+	// Init ability actor info for the Client
+	InitAbilityActorInfo();
+}
+
+void APippaCharacter::InitAbilityActorInfo()
+{
+	AFQFPlayerState* FQFPlayerState = GetPlayerState<AFQFPlayerState>();
+	check(FQFPlayerState);
+	FQFPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(FQFPlayerState, this);
+	AbilitySystemComponent = FQFPlayerState->GetAbilitySystemComponent();
+	AttributeSet = FQFPlayerState->GetAttributeSet();
 }

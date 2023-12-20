@@ -16,9 +16,13 @@ class FLUFFQUAKEFURY_API AEnemyBase : public AFQFCharacterBase, public IEnemyInt
 	GENERATED_BODY()
 
 	AEnemyBase();
+
+public:
+	//EnemyInterface
+	virtual void HighlightActor() override;
+	virtual void UnHighlightActor() override;
+	
 protected:
 	virtual void BeginPlay() override;
 
-	virtual void HighlightActor() override;
-	virtual void UnHighlightActor() override;
 };
