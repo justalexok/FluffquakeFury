@@ -6,6 +6,7 @@
 #include "GameFramework/PlayerController.h"
 #include "PippaPlayerController.generated.h"
 
+class IEnemyInterface;
 class UInputMappingContext;
 class UInputAction;
 struct FInputActionValue;
@@ -22,6 +23,7 @@ class FLUFFQUAKEFURY_API APippaPlayerController : public APlayerController
 protected:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
+	virtual void PlayerTick(float DeltaTime) override;
 
 private:
 	UPROPERTY(EditAnywhere, Category="Input")
@@ -31,6 +33,9 @@ private:
 	TObjectPtr<UInputAction> MoveAction;
 
 	void Move(const FInputActionValue& InputActionValue);
-	
+
+	void CursorTrace();
+	IEnemyInterface* LastActor;
+	IEnemyInterface* ThisActor;
 	
 };
