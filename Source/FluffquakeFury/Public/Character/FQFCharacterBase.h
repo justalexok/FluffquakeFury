@@ -32,4 +32,7 @@ protected:
 
 	UPROPERTY()
 	TObjectPtr<UAttributeSet> AttributeSet;
+
+	UPROPERTY(EditAnywhere)
+	float BaseWalkSpeed = 500.f;
 };

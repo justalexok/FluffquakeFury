@@ -52,7 +52,7 @@ void APippaCharacter::InitAbilityActorInfo()
 {
 	AFQFPlayerState* FQFPlayerState = GetPlayerState<AFQFPlayerState>();
 	check(FQFPlayerState);
-	FQFPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(FQFPlayerState, this);
 	AbilitySystemComponent = FQFPlayerState->GetAbilitySystemComponent();
+	AbilitySystemComponent->InitAbilityActorInfo(FQFPlayerState, this);
 	AttributeSet = FQFPlayerState->GetAttributeSet();
 }

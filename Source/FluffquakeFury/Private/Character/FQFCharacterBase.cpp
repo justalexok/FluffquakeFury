@@ -3,6 +3,8 @@
 
 #include "Character/FQFCharacterBase.h"
 
+#include "GameFramework/CharacterMovementComponent.h"
+
 // Sets default values
 AFQFCharacterBase::AFQFCharacterBase()
 {
@@ -15,6 +17,8 @@ AFQFCharacterBase::AFQFCharacterBase()
 void AFQFCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
+
+	GetCharacterMovement()->MaxWalkSpeed = BaseWalkSpeed;
 	
 }
 
