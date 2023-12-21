@@ -5,13 +5,14 @@
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystemComponent.h"
 #include "Net/UnrealNetwork.h"
-#include "GameFramework/Character.h"
-#include "GameplayEffectExtension.h"
+
 
 UFQFAttributeSet::UFQFAttributeSet()
 {
 	InitHealth(100.f);
-	InitMana(50.f);
+	InitMana(75.f);
+	InitMaxHealth(400.f);
+	InitMaxMana(100.f);
 }
 
 void UFQFAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -20,6 +21,8 @@ void UFQFAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
 
 	DOREPLIFETIME_CONDITION_NOTIFY(UFQFAttributeSet, Health, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UFQFAttributeSet, Mana, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UFQFAttributeSet, MaxHealth, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UFQFAttributeSet, MaxMana, COND_None, REPNOTIFY_Always);
 }
 
 void UFQFAttributeSet::OnRep_Health(const FGameplayAttributeData& OldHealth) const
@@ -30,5 +33,17 @@ void UFQFAttributeSet::OnRep_Health(const FGameplayAttributeData& OldHealth) con
 void UFQFAttributeSet::OnRep_Mana(const FGameplayAttributeData& OldMana) const
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UFQFAttributeSet, Mana, OldMana);
+
+}
+
+void UFQFAttributeSet::OnRep_MaxHealth(const FGameplayAttributeData& OldMaxHealth) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UFQFAttributeSet, Mana, OldMaxHealth);
+
+}
+
+void UFQFAttributeSet::OnRep_MaxMana(const FGameplayAttributeData& OldMaxMana) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UFQFAttributeSet, Mana, OldMaxMana);
 
 }
