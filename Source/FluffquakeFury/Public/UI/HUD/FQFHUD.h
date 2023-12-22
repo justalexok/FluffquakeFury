@@ -6,7 +6,12 @@
 #include "GameFramework/HUD.h"
 #include "FQFHUD.generated.h"
 
+class UAttributeSet;
+class UAbilitySystemComponent;
+class UOverlayWidgetController;
 class UFQFUserWidget;
+struct FWidgetControllerParams;
+
 /**
  * 
  */
@@ -19,11 +24,18 @@ public:
 	UPROPERTY()
 	TObjectPtr<UFQFUserWidget>  OverlayWidget;
 
-protected:
-	virtual void BeginPlay() override;
+	UOverlayWidgetController* GetOverlayWidgetController(const FWidgetControllerParams& WCParams);
+
+	void InitOverlay(APlayerController* PC, APlayerState* PS, UAbilitySystemComponent* ASC, UAttributeSet* AS);
 
 private:
 
 	UPROPERTY(EditAnywhere)
-	TSubclassOf<UFQFUserWidget> OverlayWidgetClass;	
+	TSubclassOf<UFQFUserWidget> OverlayWidgetClass;
+
+	UPROPERTY()
+	TObjectPtr<UOverlayWidgetController> OverlayWidgetController;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UOverlayWidgetController> OverlayWidgetControllerClass;
 };
