@@ -3,7 +3,6 @@
 
 #include "UI/HUD/FQFHUD.h"
 #include "UI/OverlayWidgetController.h"
-
 #include "UI/FQFUserWidget.h"
 
 
@@ -13,10 +12,10 @@ UOverlayWidgetController* AFQFHUD::GetOverlayWidgetController(const FWidgetContr
 	{
 		OverlayWidgetController = NewObject<UOverlayWidgetController>(this, OverlayWidgetControllerClass);
 		OverlayWidgetController->SetWidgetControllerParams(WCParams);
+		OverlayWidgetController->BindCallbacksToDependencies();
 
 		return OverlayWidgetController;
 	}
-	OverlayWidgetController->BindCallbacksToDependencies();
 
 	return OverlayWidgetController;
 }
