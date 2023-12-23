@@ -3,6 +3,7 @@
 
 #include "Character/Pippa/PippaCharacter.h"
 #include "AbilitySystemComponent.h"
+#include "AbilitySystem/FQFAbilitySystemComponent.h"
 #include "Player/PippaPlayerController.h"
 #include "UI/HUD/FQFHUD.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -52,10 +53,13 @@ void APippaCharacter::OnRep_PlayerState()
 
 void APippaCharacter::InitAbilityActorInfo()
 {
+	GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Blue, FString("Init Ability Actor Info in Pippa CHaracter"));
+
 	AFQFPlayerState* FQFPlayerState = GetPlayerState<AFQFPlayerState>();
 	check(FQFPlayerState);
 	AbilitySystemComponent = FQFPlayerState->GetAbilitySystemComponent();
 	AbilitySystemComponent->InitAbilityActorInfo(FQFPlayerState, this);
+	Cast<UFQFAbilitySystemComponent>(FQFPlayerState->GetAbilitySystemComponent())->AbilityActorInfoSet();
 	AttributeSet = FQFPlayerState->GetAttributeSet();
 
 	if (APippaPlayerController* PippaPlayerController = Cast<APippaPlayerController>(GetController()))

@@ -14,4 +14,12 @@ class FLUFFQUAKEFURY_API UFQFAbilitySystemComponent : public UAbilitySystemCompo
 {
 	GENERATED_BODY()
 	
+public:
+	void AbilityActorInfoSet();
+
+protected:
+
+	UFUNCTION(Client,Reliable)
+	void ClientEffectApplied(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveEffectHandle);
+	
 };

@@ -35,4 +35,7 @@ protected:
 
 	UPROPERTY(EditAnywhere)
 	float BaseWalkSpeed = 500.f;
+
+	virtual void InitAbilityActorInfo();
+
 };

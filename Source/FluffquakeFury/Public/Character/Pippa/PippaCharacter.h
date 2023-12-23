@@ -21,7 +21,7 @@ class FLUFFQUAKEFURY_API APippaCharacter : public AFQFCharacterBase
 	virtual void PossessedBy(AController* NewController) override;
 	virtual void OnRep_PlayerState() override;
 private:
-	void InitAbilityActorInfo();
+	virtual void InitAbilityActorInfo() override;
 
 protected:
 	UPROPERTY(EditDefaultsOnly)
