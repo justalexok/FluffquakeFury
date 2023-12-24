@@ -34,6 +34,12 @@ APippaCharacter::APippaCharacter()
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationRoll = false;
 	bUseControllerRotationYaw = false;
+
+	if (AFQFPlayerState* PS = Cast<AFQFPlayerState>(GetPlayerState()))
+	{
+		AbilitySystemComponent = PS->GetAbilitySystemComponent();
+		AttributeSet = PS->GetAttributeSet();
+	}
 }
 
 void APippaCharacter::PossessedBy(AController* NewController)
@@ -57,8 +63,8 @@ void APippaCharacter::InitAbilityActorInfo()
 
 	AFQFPlayerState* FQFPlayerState = GetPlayerState<AFQFPlayerState>();
 	check(FQFPlayerState);
+	FQFPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(FQFPlayerState, this);
 	AbilitySystemComponent = FQFPlayerState->GetAbilitySystemComponent();
-	AbilitySystemComponent->InitAbilityActorInfo(FQFPlayerState, this);
 	Cast<UFQFAbilitySystemComponent>(FQFPlayerState->GetAbilitySystemComponent())->AbilityActorInfoSet();
 	AttributeSet = FQFPlayerState->GetAttributeSet();
 

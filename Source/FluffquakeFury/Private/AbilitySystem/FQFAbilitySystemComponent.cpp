@@ -5,12 +5,12 @@
 
 void UFQFAbilitySystemComponent::AbilityActorInfoSet()
 {
-	OnGameplayEffectAppliedDelegateToSelf.AddUObject(this, &UFQFAbilitySystemComponent::ClientEffectApplied);
+	OnGameplayEffectAppliedDelegateToSelf.AddUObject(this, &UFQFAbilitySystemComponent::EffectApplied);
 
 
 }
 
-void UFQFAbilitySystemComponent::ClientEffectApplied_Implementation(UAbilitySystemComponent* AbilitySystemComponent,
+void UFQFAbilitySystemComponent::EffectApplied(UAbilitySystemComponent* AbilitySystemComponent,
 	const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveEffectHandle)
 {
 	FGameplayTagContainer TagContainer;
