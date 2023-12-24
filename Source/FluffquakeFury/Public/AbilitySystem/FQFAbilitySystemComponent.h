@@ -6,6 +6,8 @@
 #include "AbilitySystemComponent.h"
 #include "FQFAbilitySystemComponent.generated.h"
 
+DECLARE_MULTICAST_DELEGATE_OneParam(FEffectAssetTags, const FGameplayTagContainer& /*AssetTags*/);
+
 /**
  * 
  */
@@ -16,6 +18,8 @@ class FLUFFQUAKEFURY_API UFQFAbilitySystemComponent : public UAbilitySystemCompo
 	
 public:
 	void AbilityActorInfoSet();
+	
+	FEffectAssetTags EffectAssetTags;
 
 protected:
 

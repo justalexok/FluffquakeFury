@@ -8,7 +8,7 @@ public class FluffquakeFury : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput", "GameplayAbilities", "UMG"});
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput", "GameplayAbilities", "UMG",  "Slate", "SlateCore"});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {"GameplayTasks", "GameplayTags", "NavigationSystem", "Niagara", "AIModule"});
 
