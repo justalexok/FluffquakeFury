@@ -16,10 +16,15 @@ class FLUFFQUAKEFURY_API APippaCharacter : public AFQFCharacterBase
 {
 	GENERATED_BODY()
 
+public:
+
 	APippaCharacter();
 	
 	virtual void PossessedBy(AController* NewController) override;
 	virtual void OnRep_PlayerState() override;
+
+	//CombatInterface
+	virtual int32 GetPlayerLevel() override;
 private:
 	virtual void InitAbilityActorInfo() override;
 

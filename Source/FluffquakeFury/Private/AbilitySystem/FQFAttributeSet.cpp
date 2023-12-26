@@ -14,8 +14,7 @@ UFQFAttributeSet::UFQFAttributeSet()
 {
 	InitHealth(50.f);
 	InitMana(75.f);
-	InitMaxHealth(100.f);
-	InitMaxMana(100.f);
+
 }
 
 void UFQFAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const

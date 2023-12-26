@@ -4,6 +4,7 @@
 #include "Player/FQFPlayerState.h"
 #include "AbilitySystem/FQFAbilitySystemComponent.h"
 #include "AbilitySystem/FQFAttributeSet.h"
+#include "Net/UnrealNetwork.h"
 
 AFQFPlayerState::AFQFPlayerState()
 {
@@ -15,4 +16,16 @@ AFQFPlayerState::AFQFPlayerState()
 	NetUpdateFrequency = 100.f;
 
 	
+}
+
+void AFQFPlayerState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(AFQFPlayerState, Level);
+
+}
+
+void AFQFPlayerState::OnRep_Level(int32 OldLevel)
+{
 }

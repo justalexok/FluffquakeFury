@@ -57,10 +57,15 @@ void APippaCharacter::OnRep_PlayerState()
 	InitAbilityActorInfo();
 }
 
+int32 APippaCharacter::GetPlayerLevel()
+{
+	const AFQFPlayerState* FQFPlayerState = GetPlayerState<AFQFPlayerState>();
+	check(FQFPlayerState);
+	return FQFPlayerState->GetPlayerLevel();
+}
+
 void APippaCharacter::InitAbilityActorInfo()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Blue, FString("Init Ability Actor Info in Pippa CHaracter"));
-
 	AFQFPlayerState* FQFPlayerState = GetPlayerState<AFQFPlayerState>();
 	check(FQFPlayerState);
 	FQFPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(FQFPlayerState, this);
@@ -76,4 +81,5 @@ void APippaCharacter::InitAbilityActorInfo()
 		}
 	}
 	InitializePrimaryAttributes();
+	InitializeVitalAttributes();
 }
