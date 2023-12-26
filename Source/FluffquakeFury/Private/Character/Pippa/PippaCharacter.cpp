@@ -75,4 +75,5 @@ void APippaCharacter::InitAbilityActorInfo()
 			FQFHUD->InitOverlay(PippaPlayerController, FQFPlayerState, AbilitySystemComponent, AttributeSet);
 		}
 	}
+	InitializePrimaryAttributes();
 }
