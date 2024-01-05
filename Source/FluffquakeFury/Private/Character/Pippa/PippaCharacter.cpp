@@ -47,6 +47,7 @@ void APippaCharacter::PossessedBy(AController* NewController)
 	Super::PossessedBy(NewController);
 
 	InitAbilityActorInfo();
+	AddCharacterAbilities();
 }
 
 void APippaCharacter::OnRep_PlayerState()
