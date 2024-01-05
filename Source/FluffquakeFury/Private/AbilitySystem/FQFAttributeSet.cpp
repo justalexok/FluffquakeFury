@@ -20,8 +20,10 @@ void UFQFAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
 
 	DOREPLIFETIME_CONDITION_NOTIFY(UFQFAttributeSet, Health, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UFQFAttributeSet, Fluff, COND_None, REPNOTIFY_Always);
+	
 	DOREPLIFETIME_CONDITION_NOTIFY(UFQFAttributeSet, MaxHealth, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UFQFAttributeSet, MaxFluff, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UFQFAttributeSet, LoadedFluff, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UFQFAttributeSet, Strength, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UFQFAttributeSet, Resilience, COND_None, REPNOTIFY_Always);
 
@@ -101,6 +103,13 @@ void UFQFAttributeSet::OnRep_MaxFluff(const FGameplayAttributeData& OldMaxFluff)
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UFQFAttributeSet, Fluff, OldMaxFluff);
 
 }
+
+void UFQFAttributeSet::OnRep_LoadedFluff(const FGameplayAttributeData& OldLoadedFluff) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UFQFAttributeSet, LoadedFluff, OldLoadedFluff);
+
+}
+
 void UFQFAttributeSet::OnRep_Strength(const FGameplayAttributeData& OldStrength) const
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UFQFAttributeSet, Strength, OldStrength);

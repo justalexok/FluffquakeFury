@@ -21,6 +21,8 @@ public:
 	FGameplayTag Attributes_Primary_Resilience;
 	FGameplayTag Attributes_Primary_MaxHealth;
 	FGameplayTag Attributes_Primary_MaxFluff;
+	FGameplayTag Attributes_Primary_LoadedFluff;
+
 
 	FGameplayTag InputTag_LMB;
 	FGameplayTag InputTag_RMB;

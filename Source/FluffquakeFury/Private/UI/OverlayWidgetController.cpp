@@ -47,6 +47,13 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 			OnMaxFluffChanged.Broadcast(Data.NewValue);
 		});
 
+	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(
+	FQFAttributeSet->GetLoadedFluffAttribute()).AddLambda(
+		[this](const FOnAttributeChangeData& Data)
+		{
+			OnLoadedFluffChanged.Broadcast(Data.NewValue);
+		});
+
 	Cast<UFQFAbilitySystemComponent>(AbilitySystemComponent)->EffectAssetTags.AddLambda(
 		[this](const FGameplayTagContainer& AssetTags)
 		{

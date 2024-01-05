@@ -70,16 +70,20 @@ public:
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Fluff, Category = "Vital Attributes")
 	FGameplayAttributeData Fluff;
 	ATTRIBUTE_ACCESSORS(UFQFAttributeSet, Fluff);
-
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxHealth, Category = "Secondary Attributes")
+	
+	//Primary
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxHealth, Category = "Primary Attributes")
 	FGameplayAttributeData MaxHealth;
 	ATTRIBUTE_ACCESSORS(UFQFAttributeSet, MaxHealth);
 
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxFluff, Category = "Secondary Attributes")
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxFluff, Category = "Primary Attributes")
 	FGameplayAttributeData MaxFluff;
 	ATTRIBUTE_ACCESSORS(UFQFAttributeSet, MaxFluff);
+	
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_LoadedFluff, Category = "Primary Attributes")
+	FGameplayAttributeData LoadedFluff;
+	ATTRIBUTE_ACCESSORS(UFQFAttributeSet, LoadedFluff);
 
-	//Primary
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Strength, Category = "Primary Attributes")
 	FGameplayAttributeData Strength;
 	ATTRIBUTE_ACCESSORS(UFQFAttributeSet, Strength);
@@ -100,6 +104,9 @@ public:
 	UFUNCTION()
 	void OnRep_MaxFluff(const FGameplayAttributeData& OldMaxFluff) const;
 
+	UFUNCTION()
+	void OnRep_LoadedFluff(const FGameplayAttributeData& OldLoadedFluff) const;
+	
 	UFUNCTION()
 	void OnRep_Strength(const FGameplayAttributeData& OldStrength) const;
 
