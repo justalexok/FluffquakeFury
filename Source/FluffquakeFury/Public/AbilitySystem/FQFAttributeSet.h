@@ -67,17 +67,17 @@ public:
 	FGameplayAttributeData Health;
 	ATTRIBUTE_ACCESSORS(UFQFAttributeSet, Health);
 
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Mana, Category = "Vital Attributes")
-	FGameplayAttributeData Mana;
-	ATTRIBUTE_ACCESSORS(UFQFAttributeSet, Mana);
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Fluff, Category = "Vital Attributes")
+	FGameplayAttributeData Fluff;
+	ATTRIBUTE_ACCESSORS(UFQFAttributeSet, Fluff);
 
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxHealth, Category = "Secondary Attributes")
 	FGameplayAttributeData MaxHealth;
 	ATTRIBUTE_ACCESSORS(UFQFAttributeSet, MaxHealth);
 
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxMana, Category = "Secondary Attributes")
-	FGameplayAttributeData MaxMana;
-	ATTRIBUTE_ACCESSORS(UFQFAttributeSet, MaxMana);
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxFluff, Category = "Secondary Attributes")
+	FGameplayAttributeData MaxFluff;
+	ATTRIBUTE_ACCESSORS(UFQFAttributeSet, MaxFluff);
 
 	//Primary
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Strength, Category = "Primary Attributes")
@@ -92,13 +92,13 @@ public:
 	void OnRep_Health(const FGameplayAttributeData& OldHealth) const;
 
 	UFUNCTION()
-	void OnRep_Mana(const FGameplayAttributeData& OldMana) const;
+	void OnRep_Fluff(const FGameplayAttributeData& OldFluff) const;
 
 	UFUNCTION()
 	void OnRep_MaxHealth(const FGameplayAttributeData& OldMaxHealth) const;
 
 	UFUNCTION()
-	void OnRep_MaxMana(const FGameplayAttributeData& OldMaxMana) const;
+	void OnRep_MaxFluff(const FGameplayAttributeData& OldMaxFluff) const;
 
 	UFUNCTION()
 	void OnRep_Strength(const FGameplayAttributeData& OldStrength) const;

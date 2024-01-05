@@ -52,10 +52,10 @@ public:
 	FOnAttributeChangedSignature OnMaxHealthChanged;
 	
 	UPROPERTY(BlueprintAssignable, Category="GAS|Attributes")
-	FOnAttributeChangedSignature OnManaChanged;
+	FOnAttributeChangedSignature OnFluffChanged;
 	
 	UPROPERTY(BlueprintAssignable, Category="GAS|Attributes")
-	FOnAttributeChangedSignature OnMaxManaChanged;
+	FOnAttributeChangedSignature OnMaxFluffChanged;
 
 	UPROPERTY(BlueprintAssignable, Category="GAS|Messages")
 	FMessageWidgetRowSignature MessageWidgetRowDelegate;

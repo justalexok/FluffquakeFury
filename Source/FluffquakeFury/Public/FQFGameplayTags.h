@@ -20,7 +20,7 @@ public:
 	FGameplayTag Attributes_Primary_Strength;
 	FGameplayTag Attributes_Primary_Resilience;
 	FGameplayTag Attributes_Primary_MaxHealth;
-	FGameplayTag Attributes_Primary_MaxMana;
+	FGameplayTag Attributes_Primary_MaxFluff;
 protected:
 
 private:

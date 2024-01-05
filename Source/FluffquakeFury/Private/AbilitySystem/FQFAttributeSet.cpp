@@ -4,7 +4,6 @@
 #include "AbilitySystem/FQFAttributeSet.h"
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystemComponent.h"
-#include "AbilitySystemBlueprintLibrary.h"
 #include "GameFramework/Character.h"
 #include "GameplayEffectExtension.h"
 #include "Net/UnrealNetwork.h"
@@ -12,8 +11,6 @@
 
 UFQFAttributeSet::UFQFAttributeSet()
 {
-	InitHealth(50.f);
-	InitMana(75.f);
 
 }
 
@@ -22,9 +19,9 @@ void UFQFAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
 	DOREPLIFETIME_CONDITION_NOTIFY(UFQFAttributeSet, Health, COND_None, REPNOTIFY_Always);
-	DOREPLIFETIME_CONDITION_NOTIFY(UFQFAttributeSet, Mana, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UFQFAttributeSet, Fluff, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UFQFAttributeSet, MaxHealth, COND_None, REPNOTIFY_Always);
-	DOREPLIFETIME_CONDITION_NOTIFY(UFQFAttributeSet, MaxMana, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UFQFAttributeSet, MaxFluff, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UFQFAttributeSet, Strength, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UFQFAttributeSet, Resilience, COND_None, REPNOTIFY_Always);
 
@@ -42,9 +39,9 @@ void UFQFAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbac
 	{
 		SetHealth(FMath::Clamp(GetHealth(), 0.f, GetMaxHealth()));
 	}
-	if (Data.EvaluatedData.Attribute == GetManaAttribute())
+	if (Data.EvaluatedData.Attribute == GetFluffAttribute())
 	{
-		SetMana(FMath::Clamp(GetMana(), 0.f, GetMaxMana()));
+		SetFluff(FMath::Clamp(GetFluff(), 0.f, GetMaxFluff()));
 	}
 }
 
@@ -87,21 +84,21 @@ void UFQFAttributeSet::OnRep_Health(const FGameplayAttributeData& OldHealth) con
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UFQFAttributeSet, Health, OldHealth);
 }
 
-void UFQFAttributeSet::OnRep_Mana(const FGameplayAttributeData& OldMana) const
+void UFQFAttributeSet::OnRep_Fluff(const FGameplayAttributeData& OldFluff) const
 {
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UFQFAttributeSet, Mana, OldMana);
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UFQFAttributeSet, Fluff, OldFluff);
 
 }
 
 void UFQFAttributeSet::OnRep_MaxHealth(const FGameplayAttributeData& OldMaxHealth) const
 {
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UFQFAttributeSet, Mana, OldMaxHealth);
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UFQFAttributeSet, Fluff, OldMaxHealth);
 
 }
 
-void UFQFAttributeSet::OnRep_MaxMana(const FGameplayAttributeData& OldMaxMana) const
+void UFQFAttributeSet::OnRep_MaxFluff(const FGameplayAttributeData& OldMaxFluff) const
 {
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UFQFAttributeSet, Mana, OldMaxMana);
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UFQFAttributeSet, Fluff, OldMaxFluff);
 
 }
 void UFQFAttributeSet::OnRep_Strength(const FGameplayAttributeData& OldStrength) const

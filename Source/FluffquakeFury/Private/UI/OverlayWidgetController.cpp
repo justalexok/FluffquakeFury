@@ -2,7 +2,6 @@
 
 
 #include "UI/OverlayWidgetController.h"
-
 #include "AbilitySystem/FQFAbilitySystemComponent.h"
 #include "AbilitySystem/FQFAttributeSet.h"
 
@@ -12,8 +11,8 @@ void UOverlayWidgetController::BroadcastInitialValues()
 
 	OnHealthChanged.Broadcast(FQFAttributeSet->GetHealth());
 	OnMaxHealthChanged.Broadcast(FQFAttributeSet->GetMaxHealth());
-	OnManaChanged.Broadcast(FQFAttributeSet->GetMana());
-	OnMaxManaChanged.Broadcast(FQFAttributeSet->GetMaxMana());
+	OnFluffChanged.Broadcast(FQFAttributeSet->GetFluff());
+	OnMaxFluffChanged.Broadcast(FQFAttributeSet->GetMaxFluff());
 
 }
 
@@ -35,17 +34,17 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 		});
 
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(
-	FQFAttributeSet->GetManaAttribute()).AddLambda(
+	FQFAttributeSet->GetFluffAttribute()).AddLambda(
 		[this](const FOnAttributeChangeData& Data)
 		{
-			OnManaChanged.Broadcast(Data.NewValue);
+			OnFluffChanged.Broadcast(Data.NewValue);
 		});
 
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(
-	FQFAttributeSet->GetMaxManaAttribute()).AddLambda(
+	FQFAttributeSet->GetMaxFluffAttribute()).AddLambda(
 		[this](const FOnAttributeChangeData& Data)
 		{
-			OnMaxManaChanged.Broadcast(Data.NewValue);
+			OnMaxFluffChanged.Broadcast(Data.NewValue);
 		});
 
 	Cast<UFQFAbilitySystemComponent>(AbilitySystemComponent)->EffectAssetTags.AddLambda(
