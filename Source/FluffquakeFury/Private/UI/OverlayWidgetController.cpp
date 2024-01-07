@@ -70,3 +70,10 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 			}
 		});
 }
+
+void UOverlayWidgetController::AddToLoadedFluff(int32 Amount)
+{
+	const UFQFAttributeSet* FQFAttributeSet = CastChecked<UFQFAttributeSet>(AttributeSet);
+
+	//TODO Create a GameplayEffect to add Amount to Loaded Fluff. 
+}

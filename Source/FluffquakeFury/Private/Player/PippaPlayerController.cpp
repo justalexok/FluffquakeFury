@@ -3,7 +3,7 @@
 
 #include "Player/PippaPlayerController.h"
 #include "EnhancedInputSubsystems.h"
-#include "EnhancedInputComponent.h"
+#include "Input/FQFInputComponent.h"
 #include "Interaction/EnemyInterface.h"
 
 
@@ -34,9 +34,9 @@ void APippaPlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
 
-	UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(InputComponent);
-
-	EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &APippaPlayerController::Move);
+	UFQFInputComponent* FQFInputComponent = CastChecked<UFQFInputComponent>(InputComponent);
+	FQFInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &APippaPlayerController::Move);
+	FQFInputComponent->BindAbilityActions(InputConfig, this, &ThisClass::AbilityInputTagPressed, &ThisClass::AbilityInputTagReleased, &ThisClass::AbilityInputTagHeld);
 }
 
 void APippaPlayerController::PlayerTick(float DeltaTime)
@@ -77,4 +77,22 @@ void APippaPlayerController::CursorTrace()
 		if (ThisActor) ThisActor->HighlightActor();
 
 	}
+}
+
+void APippaPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
+{
+	GEngine->AddOnScreenDebugMessage(1, 3.f, FColor::Red, *InputTag.ToString());
+
+}
+
+void APippaPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
+{
+	GEngine->AddOnScreenDebugMessage(2, 3.f, FColor::Blue, *InputTag.ToString());
+
+}
+
+void APippaPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
+{
+	GEngine->AddOnScreenDebugMessage(3, 3.f, FColor::Green, *InputTag.ToString());
+
 }

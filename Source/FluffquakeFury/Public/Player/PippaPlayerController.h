@@ -4,12 +4,15 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "GameplayTagContainer.h"
 #include "PippaPlayerController.generated.h"
 
+struct FGameplayTag;
 class IEnemyInterface;
 class UInputMappingContext;
 class UInputAction;
 struct FInputActionValue;
+class UFQFInputConfig;
 /**
  * 
  */
@@ -37,5 +40,12 @@ private:
 	void CursorTrace();
 	IEnemyInterface* LastActor;
 	IEnemyInterface* ThisActor;
+
+	void AbilityInputTagPressed(FGameplayTag InputTag);
+	void AbilityInputTagReleased(FGameplayTag InputTag);
+	void AbilityInputTagHeld(FGameplayTag InputTag);
+	
+	UPROPERTY(EditDefaultsOnly, Category="Input")
+	TObjectPtr<UFQFInputConfig> InputConfig;
 	
 };
