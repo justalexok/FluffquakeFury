@@ -12,7 +12,10 @@ class IEnemyInterface;
 class UInputMappingContext;
 class UInputAction;
 struct FInputActionValue;
+class UFQFAbilitySystemComponent;
 class UFQFInputConfig;
+class USplineComponent;
+
 /**
  * 
  */
@@ -40,12 +43,32 @@ private:
 	void CursorTrace();
 	IEnemyInterface* LastActor;
 	IEnemyInterface* ThisActor;
+	FHitResult CursorHit;
 
 	void AbilityInputTagPressed(FGameplayTag InputTag);
 	void AbilityInputTagReleased(FGameplayTag InputTag);
 	void AbilityInputTagHeld(FGameplayTag InputTag);
+
+	
+	UPROPERTY()
+	TObjectPtr<UFQFAbilitySystemComponent> FQFAbilitySystemComponent;
 	
 	UPROPERTY(EditDefaultsOnly, Category="Input")
-	TObjectPtr<UFQFInputConfig> InputConfig;
 	
+	TObjectPtr<UFQFInputConfig> InputConfig;
+	UFQFAbilitySystemComponent* GetASC();
+
+	FVector CachedDestination = FVector::ZeroVector;
+	float FollowTime = 0.f;
+	float ShortPressThreshold = 0.5f;
+	bool bAutoRunning = false;
+	bool bTargeting = false;
+
+	UPROPERTY(EditDefaultsOnly)
+	float AutoRunAcceptanceRadius = 50.f;
+
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<USplineComponent> Spline;
+
+	void AutoRun();
 };
