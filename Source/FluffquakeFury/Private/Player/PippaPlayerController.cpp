@@ -45,6 +45,8 @@ void APippaPlayerController::SetupInputComponent()
 
 	UFQFInputComponent* FQFInputComponent = CastChecked<UFQFInputComponent>(InputComponent);
 	FQFInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &APippaPlayerController::Move);
+	FQFInputComponent->BindAction(ShiftAction, ETriggerEvent::Started, this, &APippaPlayerController::ShiftPressed);
+	FQFInputComponent->BindAction(ShiftAction, ETriggerEvent::Completed, this, &APippaPlayerController::ShiftReleased);
 	FQFInputComponent->BindAbilityActions(InputConfig, this, &ThisClass::AbilityInputTagPressed, &ThisClass::AbilityInputTagReleased, &ThisClass::AbilityInputTagHeld);
 }
 
@@ -110,7 +112,7 @@ void APippaPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 		return;
 	}
 	//LMB and Targeting
-	if (bTargeting) 
+	if (bTargeting || bShiftKeyDown) 
 	{
 		if (GetASC()) GetASC()->AbilityInputTagHeld(InputTag);
 	}
@@ -140,12 +142,9 @@ void APippaPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 		return;
 	}
 
-	if (bTargeting)
-	{
-		if (GetASC()) GetASC()->AbilityInputTagReleased(InputTag);
-		
-	}
-	else
+	if (GetASC()) GetASC()->AbilityInputTagReleased(InputTag);
+
+	if (!bTargeting && !bShiftKeyDown)
 	{
 		APawn* ControlledPawn = GetPawn();
 		if (FollowTime <= ShortPressThreshold && ControlledPawn)
