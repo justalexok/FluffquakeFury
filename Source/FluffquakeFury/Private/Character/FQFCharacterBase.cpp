@@ -49,3 +49,9 @@ void AFQFCharacterBase::AddCharacterAbilities()
 	
 }
 
+void AFQFCharacterBase::InitializeDefaultAttributes() const
+{
+	ApplyEffectToSelf(DefaultPrimaryAttributes, 1);
+	ApplyEffectToSelf(DefaultVitalAttributes, 1);
+}
+
