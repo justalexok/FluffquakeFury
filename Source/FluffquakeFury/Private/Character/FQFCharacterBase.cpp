@@ -26,6 +26,12 @@ void AFQFCharacterBase::BeginPlay()
 	
 }
 
+FVector AFQFCharacterBase::GetCombatSocketLocation_Implementation()
+{
+	check(Weapon);
+	return Weapon->GetSocketLocation(WeaponTipSocketName);
+}
+
 void AFQFCharacterBase::InitAbilityActorInfo()
 {
 }
