@@ -32,6 +32,16 @@ FVector AFQFCharacterBase::GetCombatSocketLocation_Implementation()
 	return Weapon->GetSocketLocation(WeaponTipSocketName);
 }
 
+bool AFQFCharacterBase::IsDead_Implementation() const
+{
+	return bDead;
+}
+
+AActor* AFQFCharacterBase::GetAvatar_Implementation()
+{
+	return this;
+}
+
 void AFQFCharacterBase::InitAbilityActorInfo()
 {
 }
