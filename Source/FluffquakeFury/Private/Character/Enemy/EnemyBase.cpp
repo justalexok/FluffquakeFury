@@ -8,6 +8,8 @@
 #include "Components/WidgetComponent.h"
 #include "FluffquakeFury/FluffquakeFury.h"
 #include "UI/FQFUserWidget.h"
+#include "FQFGameplayTags.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 AEnemyBase::AEnemyBase()
 {
@@ -25,6 +27,7 @@ AEnemyBase::AEnemyBase()
 void AEnemyBase::BeginPlay()
 {
 	Super::BeginPlay();
+	GetCharacterMovement()->MaxWalkSpeed = BaseWalkSpeed;
 
 	InitAbilityActorInfo();
 
@@ -48,11 +51,22 @@ void AEnemyBase::BeginPlay()
 				OnMaxHealthChanged.Broadcast(Data.NewValue);
 			}
 		);
+		AbilitySystemComponent->RegisterGameplayTagEvent(FFQFGameplayTags::Get().Effects_HitReact, EGameplayTagEventType::NewOrRemoved).AddUObject(
+			this, &AEnemyBase::HitReactTagChanged
+
+		);
 
 		OnHealthChanged.Broadcast(FQFAS->GetHealth());
 		OnMaxHealthChanged.Broadcast(FQFAS->GetMaxHealth());
 	}
 	
+}
+
+void AEnemyBase::HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
+{
+	
+	bHitReacting = NewCount > 0;
+	GetCharacterMovement()->MaxWalkSpeed = bHitReacting ? 0.f : BaseWalkSpeed;
 }
 
 void AEnemyBase::InitAbilityActorInfo()

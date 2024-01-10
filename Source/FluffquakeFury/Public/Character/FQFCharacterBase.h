@@ -29,6 +29,7 @@ public:
 	virtual FVector GetCombatSocketLocation_Implementation() override;
 	virtual bool IsDead_Implementation() const override;
 	virtual AActor* GetAvatar_Implementation() override;
+	virtual UAnimMontage* GetHitReactMontage_Implementation() override;
 
 protected:
 	virtual void BeginPlay() override;
@@ -65,10 +66,11 @@ protected:
 	virtual void AddCharacterAbilities();
 	virtual void InitializeDefaultAttributes() const;
 
-	
 private:
 
 	UPROPERTY(EditAnywhere, Category = "Abilities")
 	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
 
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	TObjectPtr<UAnimMontage> HitReactMontage;
 };

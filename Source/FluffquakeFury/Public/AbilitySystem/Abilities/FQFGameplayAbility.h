@@ -24,5 +24,8 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void ApplyDamageToTargetActor(AActor* TargetActor);
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Damage")
+	FScalableFloat Damage;
 	
 };

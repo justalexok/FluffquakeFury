@@ -42,6 +42,11 @@ AActor* AFQFCharacterBase::GetAvatar_Implementation()
 	return this;
 }
 
+UAnimMontage* AFQFCharacterBase::GetHitReactMontage_Implementation()
+{
+	return HitReactMontage;
+}
+
 void AFQFCharacterBase::InitAbilityActorInfo()
 {
 }
