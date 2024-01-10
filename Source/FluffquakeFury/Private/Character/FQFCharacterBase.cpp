@@ -38,6 +38,9 @@ void AFQFCharacterBase::HandleDeath()
 	GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
 
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+	Dissolve();
+
 }
 void AFQFCharacterBase::Die()
 {
@@ -94,6 +97,29 @@ void AFQFCharacterBase::InitializeDefaultAttributes() const
 {
 	ApplyEffectToSelf(DefaultPrimaryAttributes, 1);
 	ApplyEffectToSelf(DefaultVitalAttributes, 1);
+}
+
+void AFQFCharacterBase::Dissolve()
+{
+	if (IsValid(DissolveMaterialInstance))
+	{
+		UMaterialInstanceDynamic* DynamicMatInst = UMaterialInstanceDynamic::Create(DissolveMaterialInstance, this);
+		//Loop over each Material in the SKM and swap for DynamicMatInst
+		for (int32 i = 0; i < GetMesh()->GetMaterials().Num(); ++i)
+		{
+			GetMesh()->SetMaterial(i, DynamicMatInst);
+		}	
+		StartDissolveTimeline(DynamicMatInst);
+	}
+	if (IsValid(WeaponDissolveMaterialInstance))
+	{
+		UMaterialInstanceDynamic* DynamicMatInst = UMaterialInstanceDynamic::Create(WeaponDissolveMaterialInstance, this);
+		for (int32 i = 0; i < GetMesh()->GetMaterials().Num(); ++i)
+		{
+			Weapon->SetMaterial(i, DynamicMatInst);
+		}
+		StartWeaponDissolveTimeline(DynamicMatInst);
+	}
 }
 
 
