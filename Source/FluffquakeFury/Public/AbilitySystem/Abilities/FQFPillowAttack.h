@@ -6,6 +6,8 @@
 #include "AbilitySystem/Abilities/FQFGameplayAbility.h"
 #include "FQFPillowAttack.generated.h"
 
+class UGameplayEffect;
+
 /**
  * 
  */
@@ -19,4 +21,6 @@ class FLUFFQUAKEFURY_API UFQFPillowAttack : public UFQFGameplayAbility
 protected:
 
 	virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData) override;
+
+	
 };

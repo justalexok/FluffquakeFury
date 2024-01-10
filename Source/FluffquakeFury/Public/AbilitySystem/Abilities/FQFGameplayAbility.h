@@ -18,5 +18,11 @@ public:
 	
 	UPROPERTY(EditDefaultsOnly, Category="Input")
 	FGameplayTag StartupInputTag;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TSubclassOf<UGameplayEffect> DamageEffectClass;
+
+	UFUNCTION(BlueprintCallable)
+	void ApplyDamageToTargetActor(AActor* TargetActor);
 	
 };
