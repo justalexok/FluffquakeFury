@@ -107,7 +107,10 @@ void APippaPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 	//Not LMB
 	if (!InputTag.MatchesTagExact(FFQFGameplayTags::Get().InputTag_LMB))
 	{
-		if (GetASC()) GetASC()->AbilityInputTagHeld(InputTag);
+		if (GetASC())
+		{
+			GetASC()->AbilityInputTagHeld(InputTag);
+		}
 		
 		return;
 	}
