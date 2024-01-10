@@ -9,6 +9,7 @@
 #include "FluffquakeFury/FluffquakeFury.h"
 #include "UI/FQFUserWidget.h"
 #include "FQFGameplayTags.h"
+#include "AbilitySystem/FQFBlueprintFunctionLibrary.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 AEnemyBase::AEnemyBase()
@@ -24,12 +25,19 @@ AEnemyBase::AEnemyBase()
 	HealthBar->SetupAttachment(GetRootComponent());
 }
 
+void AEnemyBase::Die()
+{
+	SetLifeSpan(5.f);
+	Super::Die();
+}
+
 void AEnemyBase::BeginPlay()
 {
 	Super::BeginPlay();
 	GetCharacterMovement()->MaxWalkSpeed = BaseWalkSpeed;
 
 	InitAbilityActorInfo();
+	UFQFBlueprintFunctionLibrary::GiveStartupAbilities(this, AbilitySystemComponent);
 
 
 	if (UFQFUserWidget* FQFUserWidget = Cast<UFQFUserWidget>(HealthBar->GetUserWidgetObject()))

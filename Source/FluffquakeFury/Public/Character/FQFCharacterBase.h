@@ -30,6 +30,12 @@ public:
 	virtual bool IsDead_Implementation() const override;
 	virtual AActor* GetAvatar_Implementation() override;
 	virtual UAnimMontage* GetHitReactMontage_Implementation() override;
+	virtual void Die() override;
+
+	UFUNCTION()
+	void HandleDeath();
+
+	
 
 protected:
 	virtual void BeginPlay() override;

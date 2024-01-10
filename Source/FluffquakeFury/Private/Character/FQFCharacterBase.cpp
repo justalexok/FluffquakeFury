@@ -26,6 +26,25 @@ void AFQFCharacterBase::BeginPlay()
 	
 }
 
+void AFQFCharacterBase::HandleDeath()
+{
+	Weapon->SetSimulatePhysics(true);
+	Weapon->SetEnableGravity(true);
+	Weapon->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+
+	GetMesh()->SetSimulatePhysics(true);
+	GetMesh()->SetEnableGravity(true);
+	GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+	GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
+
+	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+}
+void AFQFCharacterBase::Die()
+{
+	Weapon->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
+	HandleDeath();
+}
+
 FVector AFQFCharacterBase::GetCombatSocketLocation_Implementation()
 {
 	check(Weapon);
@@ -46,6 +65,7 @@ UAnimMontage* AFQFCharacterBase::GetHitReactMontage_Implementation()
 {
 	return HitReactMontage;
 }
+
 
 void AFQFCharacterBase::InitAbilityActorInfo()
 {
@@ -75,4 +95,8 @@ void AFQFCharacterBase::InitializeDefaultAttributes() const
 	ApplyEffectToSelf(DefaultPrimaryAttributes, 1);
 	ApplyEffectToSelf(DefaultVitalAttributes, 1);
 }
+
+
+
+
 

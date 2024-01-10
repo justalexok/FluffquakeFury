@@ -40,6 +40,8 @@ public:
 
 	UPROPERTY(BlueprintReadOnly, Category = "Combat")
 	bool bHitReacting = false;
+
+	virtual void Die() override;
 	
 protected:
 	virtual void BeginPlay() override;
