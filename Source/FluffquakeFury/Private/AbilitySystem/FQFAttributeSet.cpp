@@ -48,6 +48,11 @@ void UFQFAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbac
 	{		
 		SetFluff(FMath::Clamp(GetFluff(), 0.f, GetMaxFluff()));			
 	}
+	if (Data.EvaluatedData.Attribute == GetLoadedFluffAttribute())
+	{		
+		SetLoadedFluff(FMath::Clamp(GetLoadedFluff(), 0.f, 100));			
+	}
+	
 	if (Data.EvaluatedData.Attribute == GetIncomingDamageAttribute())
 	{
 		const float LocalIncomingDamage = GetIncomingDamage();

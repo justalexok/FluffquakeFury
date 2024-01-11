@@ -33,8 +33,7 @@ void AEffectActor::ApplyEffectToTarget(AActor* Target, TSubclassOf<UGameplayEffe
 	const float ReservedFluff = FQFAttributeSet->GetFluff() - FQFAttributeSet->GetLoadedFluff();
 	if (ReservedFluff >= 100.f)
 	{
-		//TELL PLAYER RESERVE FLUFF IS TOO FULL
-		UE_LOG(LogTemp,Warning,TEXT("Reserve tank full, empty into pillow!"));
+		//TODO TELL PLAYER RESERVE FLUFF IS TOO FULL
 	}
 	else
 	{
