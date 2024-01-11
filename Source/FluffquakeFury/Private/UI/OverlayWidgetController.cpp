@@ -73,16 +73,9 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 		});
 }
 
-void UOverlayWidgetController::AddToLoadedFluff(int32 Amount)
+void UOverlayWidgetController::ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGameplayEffect> GameplayEffectClass)
 {
-	const UFQFAttributeSet* FQFAttributeSet = CastChecked<UFQFAttributeSet>(AttributeSet);
-
-	//TODO Create a GameplayEffect to add Amount to Loaded Fluff. 
-}
-
-void UOverlayWidgetController::ApplyEffectToTarget(AActor* Target, TSubclassOf<UGameplayEffect> GameplayEffectClass)
-{
-	UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(Target);
+	UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor);
 	if (TargetASC == nullptr) return;
 
 	check(GameplayEffectClass);
