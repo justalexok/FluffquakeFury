@@ -74,6 +74,9 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 	void AddToLoadedFluff(int32 Amount);
+
+	UFUNCTION(BlueprintCallable)
+	void ApplyEffectToTarget(AActor* Target, TSubclassOf<UGameplayEffect> GameplayEffectClass);
 };
 
 template <typename T>

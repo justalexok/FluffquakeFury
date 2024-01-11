@@ -2,6 +2,8 @@
 
 
 #include "UI/OverlayWidgetController.h"
+
+#include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystem/FQFAbilitySystemComponent.h"
 #include "AbilitySystem/FQFAttributeSet.h"
 
@@ -76,4 +78,16 @@ void UOverlayWidgetController::AddToLoadedFluff(int32 Amount)
 	const UFQFAttributeSet* FQFAttributeSet = CastChecked<UFQFAttributeSet>(AttributeSet);
 
 	//TODO Create a GameplayEffect to add Amount to Loaded Fluff. 
+}
+
+void UOverlayWidgetController::ApplyEffectToTarget(AActor* Target, TSubclassOf<UGameplayEffect> GameplayEffectClass)
+{
+	UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(Target);
+	if (TargetASC == nullptr) return;
+
+	check(GameplayEffectClass);
+	FGameplayEffectContextHandle EffectContextHandle = TargetASC->MakeEffectContext();
+	EffectContextHandle.AddSourceObject(this);
+	const FGameplayEffectSpecHandle EffectSpecHandle = TargetASC->MakeOutgoingSpec(GameplayEffectClass, 1.f, EffectContextHandle);
+	TargetASC->ApplyGameplayEffectSpecToSelf(*EffectSpecHandle.Data.Get());
 }
