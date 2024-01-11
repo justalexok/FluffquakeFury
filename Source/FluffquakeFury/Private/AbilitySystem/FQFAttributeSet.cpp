@@ -45,8 +45,8 @@ void UFQFAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbac
 		UE_LOG(LogTemp,Warning,TEXT("Changed Health on %s, Health %f"), *Props.TargetAvatarActor->GetName(), GetHealth());
 	}
 	if (Data.EvaluatedData.Attribute == GetFluffAttribute())
-	{
-		SetFluff(FMath::Clamp(GetFluff(), 0.f, GetMaxFluff()));
+	{		
+		SetFluff(FMath::Clamp(GetFluff(), 0.f, GetMaxFluff()));			
 	}
 	if (Data.EvaluatedData.Attribute == GetIncomingDamageAttribute())
 	{
@@ -100,7 +100,7 @@ void UFQFAttributeSet::SetEffectProperties(const FGameplayEffectModCallbackData&
 		if (Props.SourceController)
 		{
 			Props.SourceCharacter = Cast<ACharacter>(Props.SourceController->GetPawn());
-		}
+		}		
 	}
 
 	if (Data.Target.AbilityActorInfo.IsValid() && Data.Target.AbilityActorInfo->AvatarActor.IsValid())

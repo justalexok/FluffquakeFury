@@ -2,6 +2,8 @@
 
 
 #include "AbilitySystem/FQFBlueprintFunctionLibrary.h"
+
+#include "AbilitySystem/FQFAttributeSet.h"
 #include "Game/FQFGameModeBase.h"
 #include "Interaction/CombatInterface.h"
 #include "Kismet/GameplayStatics.h"
@@ -83,4 +85,18 @@ void UFQFBlueprintFunctionLibrary::GetLivePlayersWithinRadius(const UObject* Wor
 			}
 		}
 	}
+}
+
+UFQFAttributeSet* UFQFBlueprintFunctionLibrary::GetAttributeSet(const UObject* WorldContextObject)
+{
+	if (const APlayerController* PC = UGameplayStatics::GetPlayerController(WorldContextObject, 0))
+	{
+		const AFQFPlayerState* PS = PC->GetPlayerState<AFQFPlayerState>();
+		if (UFQFAttributeSet* FQFAS = Cast<UFQFAttributeSet>(PS->GetAttributeSet()))
+		{
+			return FQFAS;
+		}
+	}
+	return nullptr;
+	
 }
