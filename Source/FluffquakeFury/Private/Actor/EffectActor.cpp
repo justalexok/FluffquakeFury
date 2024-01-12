@@ -15,14 +15,23 @@ AEffectActor::AEffectActor()
 	PrimaryActorTick.bCanEverTick = false;
 	SetRootComponent(CreateDefaultSubobject<USceneComponent>("SceneRoot"));
 	
-	BlockingVolume = CreateDefaultSubobject<UBoxComponent>(TEXT("BlockingVolume"));
-	RootComponent = BlockingVolume;
+	//Root Mesh = The Box itself. Ignores all. Switch if attribute full. 
+	RootStaticMesh = CreateDefaultSubobject<UStaticMeshComponent>("Root Static Mesh");
+	RootStaticMesh->SetupAttachment(RootComponent);
+	RootStaticMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	RootStaticMesh->SetCollisionObjectType(ECC_WorldStatic);
+	RootStaticMesh->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
 
-	BlockingVolume->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-	BlockingVolume->SetCollisionObjectType(ECC_WorldStatic);
-	BlockingVolume->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
-
+	//Switches The Root Mesh's Collision settings if Attribute full 
+	CollisionBox = CreateDefaultSubobject<UBoxComponent>(TEXT("CollisionBox"));
+	CollisionBox->SetupAttachment(RootComponent);	
+	CollisionBox->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	CollisionBox->SetCollisionObjectType(ECollisionChannel::ECC_WorldStatic);
+	CollisionBox->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Overlap);
 }
+
+
+
 
 void AEffectActor::BeginPlay()
 {
@@ -45,7 +54,7 @@ bool AEffectActor::ApplyEffectToTarget(AActor* Target, TSubclassOf<UGameplayEffe
 		if (ReservedFluff >= 100.f)
 		{
 			// TELL PLAYER RESERVE FLUFF FULL
-			EnableBlockingVolume(true);
+			EnableStaticMeshBlocking(true);
 			NotifyPlayerOfFullAttribute();
 			return false;
 		}
@@ -58,13 +67,13 @@ bool AEffectActor::ApplyEffectToTarget(AActor* Target, TSubclassOf<UGameplayEffe
 		if (FQFAttributeSet->GetHealth() == FQFAttributeSet->GetMaxHealth())
 		{
 			//TELL PLAYER HEALTH FULL
-			EnableBlockingVolume(true);
+			EnableStaticMeshBlocking(true);
 			NotifyPlayerOfFullAttribute();
 			return false;
 		}
 	}
 	 //Apply Effect
-	EnableBlockingVolume(false);
+	EnableStaticMeshBlocking(false);
 
 	check(GameplayEffectClass);
 	FGameplayEffectContextHandle EffectContextHandle = TargetASC->MakeEffectContext();
@@ -85,17 +94,17 @@ void AEffectActor::NotifyPlayerOfFullAttribute() const
 	}	
 }
 
-void AEffectActor::EnableBlockingVolume(const bool bEnabled) const
+void AEffectActor::EnableStaticMeshBlocking(const bool bEnabled) const
 {
 	if (bEnabled)
 	{
-		BlockingVolume->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-		BlockingVolume->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
+		RootStaticMesh->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+		RootStaticMesh->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
 	}
 	else
 	{
-		BlockingVolume->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-		BlockingVolume->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
+		RootStaticMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		RootStaticMesh->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
 	}
 
 }

@@ -7,6 +7,7 @@
 #include "GameFramework/Actor.h"
 #include "EffectActor.generated.h"
 
+class UBoxComponent;
 struct FGameplayTag;
 class UGameplayEffect;
 
@@ -35,9 +36,12 @@ protected:
 
 	void NotifyPlayerOfFullAttribute() const;
 
-	void EnableBlockingVolume(bool bEnabled) const;
+	void EnableStaticMeshBlocking(bool bEnabled) const;
+	
+	UPROPERTY(EditAnywhere)
+	UStaticMeshComponent* RootStaticMesh;
 
-	UPROPERTY(VisibleAnywhere)
-	class UBoxComponent* BlockingVolume;
+	UPROPERTY(EditAnywhere)
+	UBoxComponent* CollisionBox;
 
 };
