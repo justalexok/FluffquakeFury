@@ -9,6 +9,9 @@ FFQFGameplayTags FFQFGameplayTags::GameplayTags;
 
 void FFQFGameplayTags::InitializeNativeGameplayTags(){
 
+	GameplayTags.Attributes_Vital_Health = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Vital.Health"),FString("Amount of Health"));
+	GameplayTags.Attributes_Vital_Fluff = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Vital.Fluff"),FString("Amount of Fluff in total stock"));
+
 	GameplayTags.Attributes_Primary_Strength = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Primary.Strength"),FString("Increases physical damage"));
 	GameplayTags.Attributes_Primary_Resilience = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Primary.Resilience"),FString("Boosts defence against attacks"));
 	GameplayTags.Attributes_Primary_MaxHealth = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Primary.MaxHealth"),FString("Maximum amount of Health obtainable"));

@@ -17,6 +17,9 @@ public:
 	static const FFQFGameplayTags& Get() { return GameplayTags;}
 	static void InitializeNativeGameplayTags();
 
+	FGameplayTag Attributes_Vital_Health;
+	FGameplayTag Attributes_Vital_Fluff;
+
 	FGameplayTag Attributes_Primary_Strength;
 	FGameplayTag Attributes_Primary_Resilience;
 	FGameplayTag Attributes_Primary_MaxHealth;
