@@ -33,7 +33,11 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Applied Effects")
 	FGameplayTag EffectedAttribute;
 
-	
-	void NotifyPlayerOfFullAttribute();
+	void NotifyPlayerOfFullAttribute() const;
+
+	void EnableBlockingVolume(bool bEnabled) const;
+
+	UPROPERTY(VisibleAnywhere)
+	class UBoxComponent* BlockingVolume;
 
 };

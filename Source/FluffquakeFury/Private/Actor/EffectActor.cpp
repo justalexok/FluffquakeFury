@@ -7,12 +7,20 @@
 #include "AbilitySystem/FQFAttributeSet.h"
 #include "AbilitySystem/FQFBlueprintFunctionLibrary.h"
 #include "UI/OverlayWidgetController.h"
+#include "Components/BoxComponent.h" 
 
 // Sets default values
 AEffectActor::AEffectActor()
 {
 	PrimaryActorTick.bCanEverTick = false;
 	SetRootComponent(CreateDefaultSubobject<USceneComponent>("SceneRoot"));
+	
+	BlockingVolume = CreateDefaultSubobject<UBoxComponent>(TEXT("BlockingVolume"));
+	RootComponent = BlockingVolume;
+
+	BlockingVolume->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	BlockingVolume->SetCollisionObjectType(ECC_WorldStatic);
+	BlockingVolume->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
 
 }
 
@@ -37,6 +45,7 @@ bool AEffectActor::ApplyEffectToTarget(AActor* Target, TSubclassOf<UGameplayEffe
 		if (ReservedFluff >= 100.f)
 		{
 			// TELL PLAYER RESERVE FLUFF FULL
+			EnableBlockingVolume(true);
 			NotifyPlayerOfFullAttribute();
 			return false;
 		}
@@ -49,12 +58,14 @@ bool AEffectActor::ApplyEffectToTarget(AActor* Target, TSubclassOf<UGameplayEffe
 		if (FQFAttributeSet->GetHealth() == FQFAttributeSet->GetMaxHealth())
 		{
 			//TELL PLAYER HEALTH FULL
+			EnableBlockingVolume(true);
 			NotifyPlayerOfFullAttribute();
 			return false;
 		}
 	}
 	 //Apply Effect
-	
+	EnableBlockingVolume(false);
+
 	check(GameplayEffectClass);
 	FGameplayEffectContextHandle EffectContextHandle = TargetASC->MakeEffectContext();
 	EffectContextHandle.AddSourceObject(this);
@@ -63,16 +74,29 @@ bool AEffectActor::ApplyEffectToTarget(AActor* Target, TSubclassOf<UGameplayEffe
 	
 	return  true;
 	
-
-	
 }
 
-void AEffectActor::NotifyPlayerOfFullAttribute()
+void AEffectActor::NotifyPlayerOfFullAttribute() const
 {
 	if (UOverlayWidgetController* OverlayWidgetController = UFQFBlueprintFunctionLibrary::GetOverlayWidgetController(this))
 	{
 		const FUIWidgetRow* Row = OverlayWidgetController->GetDataTableRowByTag<FUIWidgetRow>(OverlayWidgetController->MessageWidgetDataTable, ErrorInPickupTag);
 		OverlayWidgetController->MessageWidgetRowDelegate.Broadcast(*Row);
 	}	
+}
+
+void AEffectActor::EnableBlockingVolume(const bool bEnabled) const
+{
+	if (bEnabled)
+	{
+		BlockingVolume->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+		BlockingVolume->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
+	}
+	else
+	{
+		BlockingVolume->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		BlockingVolume->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
+	}
+
 }
 
