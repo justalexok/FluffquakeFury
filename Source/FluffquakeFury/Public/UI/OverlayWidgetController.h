@@ -23,10 +23,8 @@ struct FUIWidgetRow : public FTableRowBase
 	TSubclassOf<UFQFUserWidget> MessageWidget;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	UTexture2D* Image = nullptr;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	FSlateColor ImageTint =  FSlateColor();
+	UTexture2D* Image = nullptr;	
+
 };
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAttributeChangedSignature, float, NewValue);
