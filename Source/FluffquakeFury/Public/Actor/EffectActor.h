@@ -37,6 +37,9 @@ protected:
 	void NotifyPlayerOfFullAttribute() const;
 
 	void EnableStaticMeshBlocking(bool bEnabled) const;
+
+	UFUNCTION(BlueprintCallable)
+	void RotateActor(float DeltaTime, float Speed);
 	
 	UPROPERTY(EditAnywhere)
 	UStaticMeshComponent* RootStaticMesh;

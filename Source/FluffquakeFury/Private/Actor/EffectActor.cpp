@@ -15,14 +15,13 @@ AEffectActor::AEffectActor()
 	PrimaryActorTick.bCanEverTick = false;
 	SetRootComponent(CreateDefaultSubobject<USceneComponent>("SceneRoot"));
 	
-	//Root Mesh = The Box itself. Ignores all. Switch if attribute full. 
+	//Root Mesh = The Box itself. Ignores all. Switch if attribute full following overlap with collision box 
 	RootStaticMesh = CreateDefaultSubobject<UStaticMeshComponent>("Root Static Mesh");
 	RootStaticMesh->SetupAttachment(RootComponent);
 	RootStaticMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	RootStaticMesh->SetCollisionObjectType(ECC_WorldStatic);
 	RootStaticMesh->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
 
-	//Switches The Root Mesh's Collision settings if Attribute full 
 	CollisionBox = CreateDefaultSubobject<UBoxComponent>(TEXT("CollisionBox"));
 	CollisionBox->SetupAttachment(RootComponent);	
 	CollisionBox->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
@@ -107,5 +106,11 @@ void AEffectActor::EnableStaticMeshBlocking(const bool bEnabled) const
 		RootStaticMesh->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
 	}
 
+}
+
+void AEffectActor::RotateActor(float DeltaTime, float Speed)
+{
+	FRotator NewRotation = GetActorRotation() + FRotator(0.0f, Speed * DeltaTime, 0.0f);
+	SetActorRotation(NewRotation);
 }
 
