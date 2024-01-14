@@ -23,6 +23,7 @@ APippaPlayerController::APippaPlayerController()
 
 }
 
+
 void APippaPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
@@ -69,6 +70,20 @@ void APippaPlayerController::ShowDamageNumber_Implementation(float DamageAmount,
 		DamageText->AttachToComponent(TargetCharacter->GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
 		DamageText->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
 		DamageText->SetDamageText(DamageAmount);
+	}
+}
+
+
+void APippaPlayerController::ShowPickupWidget_Implementation(float ChangeAmount, ACharacter* TargetCharacter,
+	FGameplayTag AttributeTag)
+{
+	if (IsValid(TargetCharacter) && PickupTextComponentClass)
+	{
+		UPickupTextComponent* HealthChangeText = NewObject<UPickupTextComponent>(TargetCharacter, PickupTextComponentClass);
+		HealthChangeText->RegisterComponent();
+		HealthChangeText->AttachToComponent(TargetCharacter->GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
+		HealthChangeText->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
+		HealthChangeText->SetPickupText(ChangeAmount, AttributeTag);
 	}
 }
 

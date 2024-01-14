@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
 #include "GameplayTagContainer.h"
+#include "UI/PickupTextComponent.h"
 #include "PippaPlayerController.generated.h"
 
 class UDamageTextComponent;
@@ -33,6 +34,9 @@ public:
 
 	UFUNCTION(Client, Reliable)
 	void ShowDamageNumber(float DamageAmount, ACharacter* TargetCharacter);
+
+	UFUNCTION(Client, Reliable)
+	void ShowPickupWidget(float ChangeAmount, ACharacter* TargetCharacter, FGameplayTag AttributeTag);
 
 protected:
 	virtual void BeginPlay() override;
@@ -88,4 +92,7 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UDamageTextComponent> DamageTextComponentClass;
+	
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UPickupTextComponent> PickupTextComponentClass;
 };

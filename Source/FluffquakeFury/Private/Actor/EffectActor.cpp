@@ -9,6 +9,8 @@
 #include "Character/Pippa/PippaCharacter.h"
 #include "UI/OverlayWidgetController.h"
 #include "Components/BoxComponent.h" 
+#include "Kismet/GameplayStatics.h"
+#include "Player/PippaPlayerController.h"
 
 // Sets default values
 AEffectActor::AEffectActor()
@@ -46,44 +48,22 @@ bool AEffectActor::ApplyEffectToTarget(AActor* Target, TSubclassOf<UGameplayEffe
 
 	const UFQFAttributeSet* FQFAttributeSet = UFQFBlueprintFunctionLibrary::GetAttributeSet(this);	
 	if (FQFAttributeSet == nullptr) return false;
-
-	//if GameplayEffect class is Fluff
-	// if (EffectedAttribute.MatchesTagExact(FFQFGameplayTags::Get().Attributes_Vital_Fluff))
-	// {
-	// 	const float ReservedFluff = FQFAttributeSet->GetFluff() - FQFAttributeSet->GetLoadedFluff();
-	// 	if (ReservedFluff >= 100.f)
-	// 	{
-	// 		// TELL PLAYER RESERVE FLUFF FULL
-	// 		EnableStaticMeshBlocking(true);
-	//
-	// 		//Knockback Player
-	// 		//Shake Box
-	// 		//
-	// 		// NotifyPlayerOfFullAttribute();
-	// 		return false;
-	// 	}
-	// }
-	//
-	//
-	// //if GameplayEffect class is Fluff
-	// if (EffectedAttribute.MatchesTagExact(FFQFGameplayTags::Get().Attributes_Vital_Health))
-	// {
-	// 	if (FQFAttributeSet->GetHealth() == FQFAttributeSet->GetMaxHealth())
-	// 	{
-	// 		//TELL PLAYER HEALTH FULL
-	// 		EnableStaticMeshBlocking(true);			
-	// 		// NotifyPlayerOfFullAttribute();
-	// 		return false;
-	// 	}
-	// }
-	 //Apply Effect
-	EnableStaticMeshBlocking(false);
-
+	
 	check(GameplayEffectClass);
 	FGameplayEffectContextHandle EffectContextHandle = TargetASC->MakeEffectContext();
 	EffectContextHandle.AddSourceObject(this);
 	const FGameplayEffectSpecHandle EffectSpecHandle = TargetASC->MakeOutgoingSpec(GameplayEffectClass, 1.f, EffectContextHandle);
 	TargetASC->ApplyGameplayEffectSpecToSelf(*EffectSpecHandle.Data.Get());
+
+	if (EffectedAttribute.MatchesTagExact(FFQFGameplayTags::Get().Attributes_Vital_Health))
+	{
+
+		ShowPickupText(91.f, Target,FFQFGameplayTags::Get().Attributes_Vital_Health);
+	}
+	if (EffectedAttribute.MatchesTagExact(FFQFGameplayTags::Get().Attributes_Vital_Fluff))
+	{
+		ShowPickupText(0.f, Target,FFQFGameplayTags::Get().Attributes_Vital_Fluff);
+	}	
 	
 	return  true;
 	
@@ -113,6 +93,18 @@ void AEffectActor::EnableStaticMeshBlocking(const bool bEnabled) const
 
 }
 
+void AEffectActor::ShowPickupText(float ChangeAmount, AActor* Target, FGameplayTag AttributeTag) const
+{
+
+	if (ACharacter* TargetCharacter = Cast<ACharacter>(Target))
+	{
+		if(APippaPlayerController* PC = Cast<APippaPlayerController>(UGameplayStatics::GetPlayerController(TargetCharacter, 0)))
+		{
+			PC->ShowPickupWidget(ChangeAmount, TargetCharacter, AttributeTag);
+		}
+	}
+}
+		
 void AEffectActor::RotateActor(float DeltaTime, float Speed)
 {
 	FRotator NewRotation = GetActorRotation() + FRotator(0.0f, Speed * DeltaTime, 0.0f);

@@ -38,6 +38,9 @@ protected:
 
 	void EnableStaticMeshBlocking(bool bEnabled) const;
 
+	void ShowPickupText(float ChangeAmount, AActor* Target, FGameplayTag AttributeTag) const;
+
+
 	UFUNCTION(BlueprintCallable)
 	void RotateActor(float DeltaTime, float Speed);
 
