@@ -7,6 +7,7 @@
 #include "GameplayTagContainer.h"
 #include "PippaPlayerController.generated.h"
 
+class UDamageTextComponent;
 struct FGameplayTag;
 class IEnemyInterface;
 class UInputMappingContext;
@@ -26,10 +27,16 @@ class FLUFFQUAKEFURY_API APippaPlayerController : public APlayerController
 
 	APippaPlayerController();
 
+public:
+	
+	virtual void PlayerTick(float DeltaTime) override;
+
+	UFUNCTION(Client, Reliable)
+	void ShowDamageNumber(float DamageAmount, ACharacter* TargetCharacter);
+
 protected:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
-	virtual void PlayerTick(float DeltaTime) override;
 
 private:
 	UPROPERTY(EditAnywhere, Category="Input")
@@ -78,4 +85,7 @@ private:
 	TObjectPtr<USplineComponent> Spline;
 
 	void AutoRun();
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UDamageTextComponent> DamageTextComponentClass;
 };

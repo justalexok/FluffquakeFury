@@ -9,6 +9,8 @@
 #include "GameplayEffectExtension.h"
 #include "Net/UnrealNetwork.h"
 #include "Interaction/CombatInterface.h"
+#include "Kismet/GameplayStatics.h"
+#include "Player/PippaPlayerController.h"
 
 
 UFQFAttributeSet::UFQFAttributeSet()
@@ -38,6 +40,8 @@ void UFQFAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbac
 
 	FEffectProperties Props;
 	SetEffectProperties(Data, Props);
+
+	// UE_LOG(LogTemp,Warning,TEXT("PostGameplayEffectExecute on Target Character: %s, Source CHaracter: %s"), *Props.TargetCharacter->GetName(),*Props.SourceCharacter->GetName());
 
 	if (Data.EvaluatedData.Attribute == GetHealthAttribute())
 	{
@@ -79,6 +83,8 @@ void UFQFAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbac
 				TagContainer.AddTag(FFQFGameplayTags::Get().Effects_HitReact);
 				Props.TargetASC->TryActivateAbilitiesByTag(TagContainer);
 			}
+			ShowFloatingText(Props, LocalIncomingDamage);
+			
 		}
 	}
 }
@@ -114,6 +120,17 @@ void UFQFAttributeSet::SetEffectProperties(const FGameplayEffectModCallbackData&
 		Props.TargetController = Data.Target.AbilityActorInfo->PlayerController.Get();
 		Props.TargetCharacter = Cast<ACharacter>(Props.TargetAvatarActor);
 		Props.TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(Props.TargetAvatarActor);
+	}
+}
+
+void UFQFAttributeSet::ShowFloatingText(const FEffectProperties& Props, float Damage) const
+{
+	if (Props.SourceCharacter != Props.TargetCharacter)
+	{
+		if(APippaPlayerController* PC = Cast<APippaPlayerController>(UGameplayStatics::GetPlayerController(Props.SourceCharacter, 0)))
+		{
+			PC->ShowDamageNumber(Damage, Props.TargetCharacter);
+		}
 	}
 }
 
