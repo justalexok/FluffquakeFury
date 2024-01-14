@@ -6,6 +6,7 @@
 #include "FQFGameplayTags.h"
 #include "AbilitySystem/FQFAttributeSet.h"
 #include "AbilitySystem/FQFBlueprintFunctionLibrary.h"
+#include "Character/Pippa/PippaCharacter.h"
 #include "UI/OverlayWidgetController.h"
 #include "Components/BoxComponent.h" 
 
@@ -18,9 +19,9 @@ AEffectActor::AEffectActor()
 	//Root Mesh = The Box itself. Ignores all. Switch if attribute full following overlap with collision box 
 	RootStaticMesh = CreateDefaultSubobject<UStaticMeshComponent>("Root Static Mesh");
 	RootStaticMesh->SetupAttachment(RootComponent);
-	RootStaticMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	RootStaticMesh->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	RootStaticMesh->SetCollisionObjectType(ECC_WorldStatic);
-	RootStaticMesh->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
+	RootStaticMesh->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
 
 	CollisionBox = CreateDefaultSubobject<UBoxComponent>(TEXT("CollisionBox"));
 	CollisionBox->SetupAttachment(RootComponent);	
@@ -47,30 +48,34 @@ bool AEffectActor::ApplyEffectToTarget(AActor* Target, TSubclassOf<UGameplayEffe
 	if (FQFAttributeSet == nullptr) return false;
 
 	//if GameplayEffect class is Fluff
-	if (EffectedAttribute.MatchesTagExact(FFQFGameplayTags::Get().Attributes_Vital_Fluff))
-	{
-		const float ReservedFluff = FQFAttributeSet->GetFluff() - FQFAttributeSet->GetLoadedFluff();
-		if (ReservedFluff >= 100.f)
-		{
-			// TELL PLAYER RESERVE FLUFF FULL
-			EnableStaticMeshBlocking(true);
-			NotifyPlayerOfFullAttribute();
-			return false;
-		}
-	}
-	
-	
-	//if GameplayEffect class is Fluff
-	if (EffectedAttribute.MatchesTagExact(FFQFGameplayTags::Get().Attributes_Vital_Health))
-	{
-		if (FQFAttributeSet->GetHealth() == FQFAttributeSet->GetMaxHealth())
-		{
-			//TELL PLAYER HEALTH FULL
-			EnableStaticMeshBlocking(true);
-			NotifyPlayerOfFullAttribute();
-			return false;
-		}
-	}
+	// if (EffectedAttribute.MatchesTagExact(FFQFGameplayTags::Get().Attributes_Vital_Fluff))
+	// {
+	// 	const float ReservedFluff = FQFAttributeSet->GetFluff() - FQFAttributeSet->GetLoadedFluff();
+	// 	if (ReservedFluff >= 100.f)
+	// 	{
+	// 		// TELL PLAYER RESERVE FLUFF FULL
+	// 		EnableStaticMeshBlocking(true);
+	//
+	// 		//Knockback Player
+	// 		//Shake Box
+	// 		//
+	// 		// NotifyPlayerOfFullAttribute();
+	// 		return false;
+	// 	}
+	// }
+	//
+	//
+	// //if GameplayEffect class is Fluff
+	// if (EffectedAttribute.MatchesTagExact(FFQFGameplayTags::Get().Attributes_Vital_Health))
+	// {
+	// 	if (FQFAttributeSet->GetHealth() == FQFAttributeSet->GetMaxHealth())
+	// 	{
+	// 		//TELL PLAYER HEALTH FULL
+	// 		EnableStaticMeshBlocking(true);			
+	// 		// NotifyPlayerOfFullAttribute();
+	// 		return false;
+	// 	}
+	// }
 	 //Apply Effect
 	EnableStaticMeshBlocking(false);
 
@@ -112,5 +117,18 @@ void AEffectActor::RotateActor(float DeltaTime, float Speed)
 {
 	FRotator NewRotation = GetActorRotation() + FRotator(0.0f, Speed * DeltaTime, 0.0f);
 	SetActorRotation(NewRotation);
+}
+
+void AEffectActor::KnockbackCharacter(AActor* OverlappedActor, float Pitch, float Magnitude)
+{
+	if (APippaCharacter* PippaCharacter = Cast<APippaCharacter>(OverlappedActor))
+	{
+		const FVector Direction = PippaCharacter->GetActorLocation() - GetActorLocation();  
+		FRotator Rotation = Direction.Rotation();
+		Rotation.Pitch = Pitch;
+		const FVector ToTarget = Rotation.Vector();
+		const FVector KnockbackForce = ToTarget * Magnitude;
+		PippaCharacter->LaunchCharacter(KnockbackForce, true, true);
+	}
 }
 

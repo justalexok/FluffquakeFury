@@ -40,11 +40,14 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 	void RotateActor(float DeltaTime, float Speed);
+
+	UFUNCTION(BlueprintCallable)
+	void KnockbackCharacter(AActor* OverlappedActor, float Pitch, float Magnitude);
 	
 	UPROPERTY(EditAnywhere)
 	UStaticMeshComponent* RootStaticMesh;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UBoxComponent* CollisionBox;
 
 };
