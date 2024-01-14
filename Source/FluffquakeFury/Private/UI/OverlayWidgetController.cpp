@@ -54,23 +54,7 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 		[this](const FOnAttributeChangeData& Data)
 		{
 			OnLoadedFluffChanged.Broadcast(Data.NewValue);
-		});
-
-	Cast<UFQFAbilitySystemComponent>(AbilitySystemComponent)->EffectAssetTags.AddLambda(
-		[this](const FGameplayTagContainer& AssetTags)
-		{
-
-			for (const FGameplayTag& Tag: AssetTags)
-			{
-				FGameplayTag MessageTag = FGameplayTag::RequestGameplayTag(FName("Message"));
-				if (Tag.MatchesTag(MessageTag))
-				{
-					const FUIWidgetRow* Row = GetDataTableRowByTag<FUIWidgetRow>(MessageWidgetDataTable, Tag);
-					MessageWidgetRowDelegate.Broadcast(*Row);
-				}
-
-			}
-		});
+		});	
 }
 
 void UOverlayWidgetController::ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGameplayEffect> GameplayEffectClass)

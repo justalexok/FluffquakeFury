@@ -27,30 +27,31 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Applied Effects")
 	TSubclassOf<UGameplayEffect> InstantGameplayEffectClass;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Applied Effects")
-	FGameplayTag ErrorInPickupTag;
-
+	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Applied Effects")
 	FGameplayTag EffectedAttribute;
 
-	void NotifyPlayerOfFullAttribute() const;
-
-	void EnableStaticMeshBlocking(bool bEnabled) const;
-
 	void ShowPickupText(float ChangeAmount, AActor* Target, FGameplayTag AttributeTag) const;
 
-
-	UFUNCTION(BlueprintCallable)
-	void RotateActor(float DeltaTime, float Speed);
-
-	UFUNCTION(BlueprintCallable)
-	void KnockbackCharacter(AActor* OverlappedActor, float Pitch, float Magnitude);
-	
 	UPROPERTY(EditAnywhere)
 	UStaticMeshComponent* RootStaticMesh;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UBoxComponent* CollisionBox;
+
+	UFUNCTION(BlueprintCallable)
+	void RotateActor(float DeltaTime, float Speed);
+
+	float GetModifiedMagnitude(TSubclassOf<UGameplayEffect> GameplayEffectClass);
+	
+	// UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Applied Effects")
+	// FGameplayTag ErrorInPickupTag;
+	
+	// void NotifyPlayerOfFullAttribute() const;
+	// void EnableStaticMeshBlocking(bool bEnabled) const;
+	
+	// UFUNCTION(BlueprintCallable)
+	// void KnockbackCharacter(AActor* OverlappedActor, float Pitch, float Magnitude);
+
 
 };

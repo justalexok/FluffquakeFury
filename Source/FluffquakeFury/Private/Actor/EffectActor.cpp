@@ -7,7 +7,6 @@
 #include "AbilitySystem/FQFAttributeSet.h"
 #include "AbilitySystem/FQFBlueprintFunctionLibrary.h"
 #include "Character/Pippa/PippaCharacter.h"
-#include "UI/OverlayWidgetController.h"
 #include "Components/BoxComponent.h" 
 #include "Kismet/GameplayStatics.h"
 #include "Player/PippaPlayerController.h"
@@ -48,7 +47,7 @@ bool AEffectActor::ApplyEffectToTarget(AActor* Target, TSubclassOf<UGameplayEffe
 
 	const UFQFAttributeSet* FQFAttributeSet = UFQFBlueprintFunctionLibrary::GetAttributeSet(this);	
 	if (FQFAttributeSet == nullptr) return false;
-	
+
 	check(GameplayEffectClass);
 	FGameplayEffectContextHandle EffectContextHandle = TargetASC->MakeEffectContext();
 	EffectContextHandle.AddSourceObject(this);
@@ -57,8 +56,8 @@ bool AEffectActor::ApplyEffectToTarget(AActor* Target, TSubclassOf<UGameplayEffe
 
 	if (EffectedAttribute.MatchesTagExact(FFQFGameplayTags::Get().Attributes_Vital_Health))
 	{
-
-		ShowPickupText(91.f, Target,FFQFGameplayTags::Get().Attributes_Vital_Health);
+		const float ModifiedMagnitude = GetModifiedMagnitude(GameplayEffectClass);
+		ShowPickupText(ModifiedMagnitude, Target,FFQFGameplayTags::Get().Attributes_Vital_Health);
 	}
 	if (EffectedAttribute.MatchesTagExact(FFQFGameplayTags::Get().Attributes_Vital_Fluff))
 	{
@@ -68,31 +67,6 @@ bool AEffectActor::ApplyEffectToTarget(AActor* Target, TSubclassOf<UGameplayEffe
 	return  true;
 	
 }
-
-void AEffectActor::NotifyPlayerOfFullAttribute() const
-{
-	if (UOverlayWidgetController* OverlayWidgetController = UFQFBlueprintFunctionLibrary::GetOverlayWidgetController(this))
-	{
-		const FUIWidgetRow* Row = OverlayWidgetController->GetDataTableRowByTag<FUIWidgetRow>(OverlayWidgetController->MessageWidgetDataTable, ErrorInPickupTag);
-		OverlayWidgetController->MessageWidgetRowDelegate.Broadcast(*Row);
-	}	
-}
-
-void AEffectActor::EnableStaticMeshBlocking(const bool bEnabled) const
-{
-	if (bEnabled)
-	{
-		RootStaticMesh->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-		RootStaticMesh->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
-	}
-	else
-	{
-		RootStaticMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-		RootStaticMesh->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
-	}
-
-}
-
 void AEffectActor::ShowPickupText(float ChangeAmount, AActor* Target, FGameplayTag AttributeTag) const
 {
 
@@ -104,23 +78,62 @@ void AEffectActor::ShowPickupText(float ChangeAmount, AActor* Target, FGameplayT
 		}
 	}
 }
-		
 void AEffectActor::RotateActor(float DeltaTime, float Speed)
 {
 	FRotator NewRotation = GetActorRotation() + FRotator(0.0f, Speed * DeltaTime, 0.0f);
 	SetActorRotation(NewRotation);
 }
 
-void AEffectActor::KnockbackCharacter(AActor* OverlappedActor, float Pitch, float Magnitude)
+float AEffectActor::GetModifiedMagnitude(TSubclassOf<UGameplayEffect> GameplayEffectClass)
 {
-	if (APippaCharacter* PippaCharacter = Cast<APippaCharacter>(OverlappedActor))
+	float ModifiedMagnitude = 0.f;	
+	if (UGameplayEffect* GameplayEffect = GameplayEffectClass.GetDefaultObject())
+	for (FGameplayModifierInfo Mod: GameplayEffect->Modifiers)
 	{
-		const FVector Direction = PippaCharacter->GetActorLocation() - GetActorLocation();  
-		FRotator Rotation = Direction.Rotation();
-		Rotation.Pitch = Pitch;
-		const FVector ToTarget = Rotation.Vector();
-		const FVector KnockbackForce = ToTarget * Magnitude;
-		PippaCharacter->LaunchCharacter(KnockbackForce, true, true);
+		Mod.ModifierMagnitude.GetStaticMagnitudeIfPossible(1,ModifiedMagnitude);
 	}
+	return  ModifiedMagnitude;
 }
+
+//
+
+// void AEffectActor::NotifyPlayerOfFullAttribute() const
+// {
+// 	if (UOverlayWidgetController* OverlayWidgetController = UFQFBlueprintFunctionLibrary::GetOverlayWidgetController(this))
+// 	{
+// 		const FUIWidgetRow* Row = OverlayWidgetController->GetDataTableRowByTag<FUIWidgetRow>(OverlayWidgetController->MessageWidgetDataTable, ErrorInPickupTag);
+// 		OverlayWidgetController->MessageWidgetRowDelegate.Broadcast(*Row);
+// 	}	
+// }
+//
+// void AEffectActor::EnableStaticMeshBlocking(const bool bEnabled) const
+// {
+// 	if (bEnabled)
+// 	{
+// 		RootStaticMesh->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+// 		RootStaticMesh->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
+// 	}
+// 	else
+// 	{
+// 		RootStaticMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+// 		RootStaticMesh->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
+// 	}
+//
+// }
+
+
+// 		
+
+// void AEffectActor::KnockbackCharacter(AActor* OverlappedActor, float Pitch, float Magnitude)
+// {
+// 	if (APippaCharacter* PippaCharacter = Cast<APippaCharacter>(OverlappedActor))
+// 	{
+// 		const FVector Direction = PippaCharacter->GetActorLocation() - GetActorLocation();  
+// 		FRotator Rotation = Direction.Rotation();
+// 		Rotation.Pitch = Pitch;
+// 		const FVector ToTarget = Rotation.Vector();
+// 		const FVector KnockbackForce = ToTarget * Magnitude;
+// 		PippaCharacter->LaunchCharacter(KnockbackForce, true, true);
+// 	}
+// }
 
