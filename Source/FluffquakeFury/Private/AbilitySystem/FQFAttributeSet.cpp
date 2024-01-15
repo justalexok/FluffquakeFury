@@ -30,6 +30,7 @@ void UFQFAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
 	DOREPLIFETIME_CONDITION_NOTIFY(UFQFAttributeSet, LoadedFluff, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UFQFAttributeSet, Strength, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UFQFAttributeSet, Resilience, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UFQFAttributeSet, BlockChance, COND_None, REPNOTIFY_Always);
 
 
 }
@@ -170,5 +171,10 @@ void UFQFAttributeSet::OnRep_Strength(const FGameplayAttributeData& OldStrength)
 void UFQFAttributeSet::OnRep_Resilience(const FGameplayAttributeData& OldResilience) const
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UFQFAttributeSet, Resilience, OldResilience);
+}
+
+void UFQFAttributeSet::OnRep_BlockChance(const FGameplayAttributeData& OldBlockChance) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UFQFAttributeSet, BlockChance, OldBlockChance);
 }
 

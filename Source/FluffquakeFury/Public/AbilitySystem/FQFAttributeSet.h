@@ -94,6 +94,10 @@ public:
 	FGameplayAttributeData Resilience;
 	ATTRIBUTE_ACCESSORS(UFQFAttributeSet, Resilience);
 
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_BlockChance, Category = "Primary Attributes")
+	FGameplayAttributeData BlockChance;
+	ATTRIBUTE_ACCESSORS(UFQFAttributeSet, BlockChance);
+
 	//Meta
 	
 	UPROPERTY(BlueprintReadOnly, Category = "Meta Attributes")
@@ -120,6 +124,9 @@ public:
 
 	UFUNCTION()
 	void OnRep_Resilience(const FGameplayAttributeData& OldResilience) const;
+
+	UFUNCTION()
+	void OnRep_BlockChance(const FGameplayAttributeData& OldBlockChance) const;
 private:
 
 	void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Props) const;

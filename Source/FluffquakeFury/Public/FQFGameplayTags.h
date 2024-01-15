@@ -25,6 +25,8 @@ public:
 	FGameplayTag Attributes_Primary_MaxHealth;
 	FGameplayTag Attributes_Primary_MaxFluff;
 	FGameplayTag Attributes_Primary_LoadedFluff;
+	FGameplayTag Attributes_Primary_BlockChance;
+
 
 	FGameplayTag InputTag_LMB;
 	FGameplayTag InputTag_RMB;
@@ -34,6 +36,7 @@ public:
 	FGameplayTag InputTag_4;
 
 	FGameplayTag Damage;
+	FGameplayTag ExplosionChance;
 
 	FGameplayTag Effects_HitReact;
 protected:

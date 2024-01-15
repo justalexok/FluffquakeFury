@@ -17,6 +17,7 @@ void FFQFGameplayTags::InitializeNativeGameplayTags(){
 	GameplayTags.Attributes_Primary_MaxHealth = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Primary.MaxHealth"),FString("Maximum amount of Health obtainable"));
 	GameplayTags.Attributes_Primary_MaxFluff = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Primary.MaxFluff"),FString("Maximum amount of Fluff obtainable"));
 	GameplayTags.Attributes_Primary_LoadedFluff = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Primary.LoadedFluff"),FString("Amount of Fluff loaded into Pillow"));
+	GameplayTags.Attributes_Primary_BlockChance = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Primary.BlockChance"),FString("Chances of blocking an attack"));
 
 	GameplayTags.InputTag_LMB = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.LMB"),FString("Input Tag for Left Mouse Button"));
 	GameplayTags.InputTag_RMB = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.RMB"),FString("Input Tag for Right Mouse Button"));
@@ -26,6 +27,7 @@ void FFQFGameplayTags::InitializeNativeGameplayTags(){
 	GameplayTags.InputTag_4 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.4"),FString("Input Tag for 4 key"));
 
 	GameplayTags.Damage = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage"),FString("Tag for Damage"));
+	GameplayTags.ExplosionChance = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("ExplosionChance"),FString("Tag for Explosion Chance"));
 
 	GameplayTags.Effects_HitReact = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Effects.HitReact"),FString("Tag granted when Hit Reacting"));
 

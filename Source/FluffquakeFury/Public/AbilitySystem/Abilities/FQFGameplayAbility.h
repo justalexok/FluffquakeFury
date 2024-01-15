@@ -18,14 +18,18 @@ public:
 	
 	UPROPERTY(EditDefaultsOnly, Category="Input")
 	FGameplayTag StartupInputTag;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Damage")
+	FScalableFloat Damage;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Damage")
+	FScalableFloat ExplosionChance;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Damage")
 	TSubclassOf<UGameplayEffect> DamageEffectClass;
 
 	UFUNCTION(BlueprintCallable)
 	void ApplyDamageToTargetActor(AActor* TargetActor);
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Damage")
-	FScalableFloat Damage;
 	
 };
