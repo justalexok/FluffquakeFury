@@ -31,9 +31,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Applied Effects")
 	FGameplayTag EffectedAttribute;
 
-	void ShowPickupText(float ChangeAmount, AActor* Target, FGameplayTag AttributeTag) const;
+	void ShowPickupText(float ChangeAmount, AActor* Target, FGameplayTag AttributeTag);
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UStaticMeshComponent* RootStaticMesh;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

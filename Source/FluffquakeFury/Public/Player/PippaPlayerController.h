@@ -36,7 +36,7 @@ public:
 	void ShowDamageNumber(float DamageAmount, ACharacter* TargetCharacter);
 
 	UFUNCTION(Client, Reliable)
-	void ShowPickupWidget(float ChangeAmount, ACharacter* TargetCharacter, FGameplayTag AttributeTag);
+	void ShowPickupWidget(float ChangeAmount, FGameplayTag AttributeTag, AEffectActor* EffectActor);
 
 protected:
 	virtual void BeginPlay() override;

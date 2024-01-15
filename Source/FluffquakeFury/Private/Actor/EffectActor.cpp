@@ -62,19 +62,20 @@ bool AEffectActor::ApplyEffectToTarget(AActor* Target, TSubclassOf<UGameplayEffe
 	if (EffectedAttribute.MatchesTagExact(FFQFGameplayTags::Get().Attributes_Vital_Fluff))
 	{
 		ShowPickupText(0.f, Target,FFQFGameplayTags::Get().Attributes_Vital_Fluff);
-	}	
+	}
+
 	
 	return  true;
 	
 }
-void AEffectActor::ShowPickupText(float ChangeAmount, AActor* Target, FGameplayTag AttributeTag) const
+void AEffectActor::ShowPickupText(float ChangeAmount, AActor* Target, FGameplayTag AttributeTag) 
 {
 
 	if (ACharacter* TargetCharacter = Cast<ACharacter>(Target))
 	{
 		if(APippaPlayerController* PC = Cast<APippaPlayerController>(UGameplayStatics::GetPlayerController(TargetCharacter, 0)))
 		{
-			PC->ShowPickupWidget(ChangeAmount, TargetCharacter, AttributeTag);
+			PC->ShowPickupWidget(ChangeAmount, AttributeTag,this);
 		}
 	}
 }

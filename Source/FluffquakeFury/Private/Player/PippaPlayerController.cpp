@@ -9,6 +9,7 @@
 #include "NavigationPath.h"
 #include "NavigationSystem.h"
 #include "AbilitySystem/FQFAbilitySystemComponent.h"
+#include "Actor/EffectActor.h"
 #include "Components/SplineComponent.h"
 #include "Input/FQFInputComponent.h"
 #include "Interaction/EnemyInterface.h"
@@ -74,16 +75,16 @@ void APippaPlayerController::ShowDamageNumber_Implementation(float DamageAmount,
 }
 
 
-void APippaPlayerController::ShowPickupWidget_Implementation(float ChangeAmount, ACharacter* TargetCharacter,
-	FGameplayTag AttributeTag)
+void APippaPlayerController::ShowPickupWidget_Implementation(float ChangeAmount,
+	FGameplayTag AttributeTag, AEffectActor* EffectActor)
 {
-	if (IsValid(TargetCharacter) && PickupTextComponentClass)
+	if (IsValid(EffectActor) && PickupTextComponentClass)
 	{
-		UPickupTextComponent* HealthChangeText = NewObject<UPickupTextComponent>(TargetCharacter, PickupTextComponentClass);
+		UPickupTextComponent* HealthChangeText = NewObject<UPickupTextComponent>(EffectActor, PickupTextComponentClass);
 		HealthChangeText->RegisterComponent();
-		HealthChangeText->AttachToComponent(TargetCharacter->GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
+		HealthChangeText->AttachToComponent(EffectActor->GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
 		HealthChangeText->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
-		HealthChangeText->SetPickupText(ChangeAmount, AttributeTag);
+		HealthChangeText->SetPickupText(ChangeAmount, AttributeTag);		
 	}
 }
 
