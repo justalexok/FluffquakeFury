@@ -70,9 +70,11 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	
 	Damage = bBlocked ? Damage / 2.f : Damage;
 
+	//Get ExplosionChance Set By Caller Magnitude
 	float ExplosionChance = Spec.GetSetByCallerMagnitude(FFQFGameplayTags::Get().ExplosionChance);
 
 	UE_LOG(LogTemp, Warning, TEXT("Explosion Chance : %f"), ExplosionChance);
+	
 	const FGameplayModifierEvaluatedData EvaluatedData(UFQFAttributeSet::GetIncomingDamageAttribute(), EGameplayModOp::Additive, Damage);
 	OutExecutionOutput.AddOutputModifier(EvaluatedData);
 }

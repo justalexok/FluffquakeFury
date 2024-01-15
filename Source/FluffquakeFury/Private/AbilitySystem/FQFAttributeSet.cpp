@@ -68,7 +68,7 @@ void UFQFAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbac
 			SetHealth(FMath::Clamp(NewHealth, 0.f, GetMaxHealth()));
 			UE_LOG(LogTemp,Warning,TEXT("Incoming Damage on %s, Damage: %f, New Health %f"), *Props.TargetAvatarActor->GetName(),LocalIncomingDamage, GetHealth());
 
-			const bool bFatal = NewHealth <= 0.f;
+			const bool bFatal = GetHealth() <= 0.01f;
 
 			if (bFatal)
 			{
