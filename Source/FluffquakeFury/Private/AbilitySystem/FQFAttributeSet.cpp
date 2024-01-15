@@ -7,6 +7,7 @@
 #include "FQFGameplayTags.h"
 #include "GameFramework/Character.h"
 #include "GameplayEffectExtension.h"
+#include "AbilitySystem/FQFBlueprintFunctionLibrary.h"
 #include "Net/UnrealNetwork.h"
 #include "Interaction/CombatInterface.h"
 #include "Kismet/GameplayStatics.h"
@@ -68,7 +69,7 @@ void UFQFAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbac
 			SetHealth(FMath::Clamp(NewHealth, 0.f, GetMaxHealth()));
 			UE_LOG(LogTemp,Warning,TEXT("Incoming Damage on %s, Damage: %f, New Health %f"), *Props.TargetAvatarActor->GetName(),LocalIncomingDamage, GetHealth());
 
-			const bool bFatal = GetHealth() <= 0.01f;
+			const bool bFatal = GetHealth() <= 0.f;
 
 			if (bFatal)
 			{
@@ -84,7 +85,10 @@ void UFQFAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbac
 				TagContainer.AddTag(FFQFGameplayTags::Get().Effects_HitReact);
 				Props.TargetASC->TryActivateAbilitiesByTag(TagContainer);
 			}
-			ShowFloatingText(Props, LocalIncomingDamage);
+			const bool bBlocked = UFQFBlueprintFunctionLibrary::IsBlockedHit(Props.EffectContextHandle);
+			const bool bExploded = UFQFBlueprintFunctionLibrary::HasPillowExploded(Props.EffectContextHandle);
+
+			ShowFloatingText(Props, LocalIncomingDamage, bBlocked, bExploded);
 			
 		}
 	}
@@ -124,7 +128,7 @@ void UFQFAttributeSet::SetEffectProperties(const FGameplayEffectModCallbackData&
 	}
 }
 
-void UFQFAttributeSet::ShowFloatingText(const FEffectProperties& Props, float Damage) const
+void UFQFAttributeSet::ShowFloatingText(const FEffectProperties& Props, float Damage, bool bBlockedHit, bool bHasPillowExploded) const
 {
 	if (Props.SourceCharacter != Props.TargetCharacter)
 	{

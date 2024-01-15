@@ -6,6 +6,7 @@
 #include "AbilitySystemComponent.h"
 #include "FQFGameplayTags.h"
 #include "AbilitySystem/FQFAttributeSet.h"
+#include "AbilitySystem/FQFBlueprintFunctionLibrary.h"
 
 struct FQFDamageStatics
 {
@@ -62,18 +63,33 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	TargetBlockChance = FMath::Max<float>(TargetBlockChance, 0.f);	
 	const bool bBlocked = FMath::RandRange(1, 100) < TargetBlockChance;
 	
+	FGameplayEffectContextHandle EffectContextHandle = Spec.GetContext();
+	UFQFBlueprintFunctionLibrary::SetIsBlockedHit(EffectContextHandle, bBlocked);
+	
 	//Capture LoadedFluff on Source 
 	float SourceLoadedFluff = 0.f;
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().LoadedFluffDef, EvaluationParameters, SourceLoadedFluff);
 
+	//Get ExplosionChance Set By Caller Magnitude and determine if explosion
+	const float ExplosionChance = Spec.GetSetByCallerMagnitude(FFQFGameplayTags::Get().ExplosionChance);
+	UE_LOG(LogTemp, Warning, TEXT("Explosion Chance : %f"), ExplosionChance);
+	const bool bExploded = FMath::RandRange(1, 100) < ExplosionChance;
+
+	UFQFBlueprintFunctionLibrary::SetHasPillowExploded(EffectContextHandle, bExploded);
+	
+	//Alter Damage
 	Damage *= SourceLoadedFluff / 100;
 	
-	Damage = bBlocked ? Damage / 2.f : Damage;
+	Damage = bBlocked ? Damage / 2.f : Damage;	
 
-	//Get ExplosionChance Set By Caller Magnitude
-	float ExplosionChance = Spec.GetSetByCallerMagnitude(FFQFGameplayTags::Get().ExplosionChance);
+	if (bExploded)
+	{
+		Damage = 0;
+		UE_LOG(LogTemp, Error, TEXT("PILLOW EXPLODED!"));
 
-	UE_LOG(LogTemp, Warning, TEXT("Explosion Chance : %f"), ExplosionChance);
+	}
+
+	Damage = round(Damage);
 	
 	const FGameplayModifierEvaluatedData EvaluatedData(UFQFAttributeSet::GetIncomingDamageAttribute(), EGameplayModOp::Additive, Damage);
 	OutExecutionOutput.AddOutputModifier(EvaluatedData);

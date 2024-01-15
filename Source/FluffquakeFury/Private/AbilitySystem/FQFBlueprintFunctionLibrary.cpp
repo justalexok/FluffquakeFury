@@ -10,6 +10,8 @@
 #include "Player/FQFPlayerState.h"
 #include "UI/FQFWidgetController.h"
 #include "UI/HUD/FQFHUD.h"
+#include "FQFAbilityTypes.h"
+
 
 
 UOverlayWidgetController* UFQFBlueprintFunctionLibrary::GetOverlayWidgetController(const UObject* WorldContextObject)
@@ -99,4 +101,40 @@ UFQFAttributeSet* UFQFBlueprintFunctionLibrary::GetAttributeSet(const UObject* W
 	}
 	return nullptr;
 	
+}
+
+bool UFQFBlueprintFunctionLibrary::IsBlockedHit(const FGameplayEffectContextHandle& EffectContextHandle)
+{
+	if (const FFQFGameplayEffectContext* FQFEffectContext = static_cast<const FFQFGameplayEffectContext*>(EffectContextHandle.Get()))
+	{
+		return FQFEffectContext->IsBlockedHit();
+	}
+	return false;
+}
+
+bool UFQFBlueprintFunctionLibrary::HasPillowExploded(const FGameplayEffectContextHandle& EffectContextHandle)
+{
+	if (const FFQFGameplayEffectContext* FQFEffectContext = static_cast<const FFQFGameplayEffectContext*>(EffectContextHandle.Get()))
+	{
+		return FQFEffectContext->HasPillowExploded();
+	}
+	return false;
+}
+
+void UFQFBlueprintFunctionLibrary::SetIsBlockedHit(FGameplayEffectContextHandle& EffectContextHandle,
+	bool bInIsBlockedHit)
+{
+	if (FFQFGameplayEffectContext* FQFEffectContext = static_cast<FFQFGameplayEffectContext*>(EffectContextHandle.Get()))
+	{
+		FQFEffectContext->SetIsBlockedHit(bInIsBlockedHit);
+	}
+}
+
+void UFQFBlueprintFunctionLibrary::SetHasPillowExploded(FGameplayEffectContextHandle& EffectContextHandle,
+	bool bInHasPillowExploded)
+{
+	if (FFQFGameplayEffectContext* FQFEffectContext = static_cast<FFQFGameplayEffectContext*>(EffectContextHandle.Get()))
+	{
+		FQFEffectContext->SetHasPillowExploded(bInHasPillowExploded);
+	}
 }
