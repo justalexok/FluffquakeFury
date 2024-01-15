@@ -128,13 +128,13 @@ void UFQFAttributeSet::SetEffectProperties(const FGameplayEffectModCallbackData&
 	}
 }
 
-void UFQFAttributeSet::ShowFloatingText(const FEffectProperties& Props, float Damage, bool bBlockedHit, bool bHasPillowExploded) const
+void UFQFAttributeSet::ShowFloatingText(const FEffectProperties& Props, float Damage, bool bBlockedHit, bool bPillowExploded) const
 {
 	if (Props.SourceCharacter != Props.TargetCharacter)
 	{
 		if(APippaPlayerController* PC = Cast<APippaPlayerController>(UGameplayStatics::GetPlayerController(Props.SourceCharacter, 0)))
 		{
-			PC->ShowDamageNumber(Damage, Props.TargetCharacter);
+			PC->ShowDamageNumber(Damage, Props.TargetCharacter, bBlockedHit, bPillowExploded);
 		}
 	}
 }

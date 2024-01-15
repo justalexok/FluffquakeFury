@@ -62,7 +62,7 @@ void APippaPlayerController::PlayerTick(float DeltaTime)
 	AutoRun();
 }
 
-void APippaPlayerController::ShowDamageNumber_Implementation(float DamageAmount, ACharacter* TargetCharacter)
+void APippaPlayerController::ShowDamageNumber_Implementation(float DamageAmount, ACharacter* TargetCharacter, bool bBlockedHit, bool bPillowExploded)
 {
 	if (IsValid(TargetCharacter) && DamageTextComponentClass)
 	{
@@ -70,7 +70,7 @@ void APippaPlayerController::ShowDamageNumber_Implementation(float DamageAmount,
 		DamageText->RegisterComponent();
 		DamageText->AttachToComponent(TargetCharacter->GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
 		DamageText->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
-		DamageText->SetDamageText(DamageAmount);
+		DamageText->SetDamageText(DamageAmount, bBlockedHit, bPillowExploded);
 	}
 }
 
