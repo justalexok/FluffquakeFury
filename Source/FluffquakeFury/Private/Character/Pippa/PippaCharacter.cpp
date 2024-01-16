@@ -40,6 +40,7 @@ APippaCharacter::APippaCharacter()
 		AbilitySystemComponent = PS->GetAbilitySystemComponent();
 		AttributeSet = PS->GetAttributeSet();
 	}
+	
 }
 
 void APippaCharacter::PossessedBy(AController* NewController)
@@ -83,4 +84,9 @@ void APippaCharacter::InitAbilityActorInfo()
 	}
 	InitializeDefaultAttributes();
 
+	if (PillowClass)
+	{
+		Pillow = GetWorld()->SpawnActor<APillowBase>(PillowClass, FVector::ZeroVector, FRotator::ZeroRotator);
+	}
+	
 }

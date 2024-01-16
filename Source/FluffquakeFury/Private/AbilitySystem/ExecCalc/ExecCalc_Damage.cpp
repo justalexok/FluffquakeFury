@@ -86,11 +86,12 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	{
 		Damage = 0;
 		UE_LOG(LogTemp, Error, TEXT("PILLOW EXPLODED!"));
-
 	}
 
 	Damage = round(Damage);
 	
-	const FGameplayModifierEvaluatedData EvaluatedData(UFQFAttributeSet::GetIncomingDamageAttribute(), EGameplayModOp::Additive, Damage);
-	OutExecutionOutput.AddOutputModifier(EvaluatedData);
+	const FGameplayModifierEvaluatedData IncomingDamageEvaluatedData(UFQFAttributeSet::GetIncomingDamageAttribute(), EGameplayModOp::Additive, Damage);
+	OutExecutionOutput.AddOutputModifier(IncomingDamageEvaluatedData);
+
+
 }

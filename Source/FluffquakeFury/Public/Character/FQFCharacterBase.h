@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystemInterface.h"
+#include "Actor/PillowBase.h"
 #include "GameFramework/Character.h"
 #include "Interaction/CombatInterface.h"
 #include "FQFCharacterBase.generated.h"
@@ -14,6 +15,7 @@ class UGameplayEffect;
 class UGameplayAbility;
 
 
+	
 UCLASS()
 class FLUFFQUAKEFURY_API AFQFCharacterBase : public ACharacter, public IAbilitySystemInterface, public ICombatInterface
 {
@@ -35,19 +37,24 @@ public:
 	UFUNCTION()
 	void HandleDeath();
 
-	
+	UPROPERTY(EditDefaultsOnly, Category="Combat")
+	TSubclassOf<APillowBase> PillowClass;
+
+	APillowBase* Pillow;
 
 protected:
 	virtual void BeginPlay() override;
 
+
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	TObjectPtr<USkeletalMeshComponent> Weapon;
 
+	
+	
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	FName WeaponTipSocketName;
 
 	bool bDead = false;
-
 	
 	UPROPERTY()
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
@@ -95,4 +102,5 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	TObjectPtr<UAnimMontage> HitReactMontage;
+
 };

@@ -135,6 +135,6 @@ void UFQFBlueprintFunctionLibrary::SetHasPillowExploded(FGameplayEffectContextHa
 {
 	if (FFQFGameplayEffectContext* FQFEffectContext = static_cast<FFQFGameplayEffectContext*>(EffectContextHandle.Get()))
 	{
-		FQFEffectContext->SetHasPillowExploded(bInHasPillowExploded);
+		FQFEffectContext->SetHasPillowExploded(bInHasPillowExploded);		
 	}
 }
