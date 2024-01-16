@@ -25,6 +25,7 @@ public:
 
 	//CombatInterface
 	virtual int32 GetPlayerLevel() override;
+	virtual void KnockbackCharacter(float Pitch, float Magnitude) override;
 private:
 	virtual void InitAbilityActorInfo() override;
 

@@ -8,3 +8,7 @@ int32 ICombatInterface::GetPlayerLevel()
 {
 	return 0;
 }
+
+void ICombatInterface::KnockbackCharacter(float Pitch, float Magnitude)
+{
+}

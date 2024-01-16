@@ -128,9 +128,10 @@ public:
 	UFUNCTION()
 	void OnRep_BlockChance(const FGameplayAttributeData& OldBlockChance) const;
 private:
-
-	void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Props) const;
-	void ShowFloatingText(const FEffectProperties& Props, float Damage, bool bBlockedHit, bool bPillowExploded) const;
+	static void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Props);
+	static void ShowFloatingText(const FEffectProperties& Props, float Damage, bool bBlockedHit, bool bPillowExploded);
 	void SpawnNiagara(ACharacter* SourceCharacter, bool bBlockedHit, bool bPillowExploded) const;
+	void HandleExplosion(const FEffectProperties& Props, float LocalIncomingDamage) const;
 	
 };
+

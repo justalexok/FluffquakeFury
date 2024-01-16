@@ -50,8 +50,7 @@ protected:
 	// void NotifyPlayerOfFullAttribute() const;
 	// void EnableStaticMeshBlocking(bool bEnabled) const;
 	
-	// UFUNCTION(BlueprintCallable)
-	// void KnockbackCharacter(AActor* OverlappedActor, float Pitch, float Magnitude);
+	
 
 
 };

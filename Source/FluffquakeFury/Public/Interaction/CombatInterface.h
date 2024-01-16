@@ -68,4 +68,6 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	AActor* GetAvatar();
+
+	virtual void KnockbackCharacter(float Pitch, float Magnitude);
 };

@@ -125,16 +125,5 @@ float AEffectActor::GetModifiedMagnitude(TSubclassOf<UGameplayEffect> GameplayEf
 
 // 		
 
-// void AEffectActor::KnockbackCharacter(AActor* OverlappedActor, float Pitch, float Magnitude)
-// {
-// 	if (APippaCharacter* PippaCharacter = Cast<APippaCharacter>(OverlappedActor))
-// 	{
-// 		const FVector Direction = PippaCharacter->GetActorLocation() - GetActorLocation();  
-// 		FRotator Rotation = Direction.Rotation();
-// 		Rotation.Pitch = Pitch;
-// 		const FVector ToTarget = Rotation.Vector();
-// 		const FVector KnockbackForce = ToTarget * Magnitude;
-// 		PippaCharacter->LaunchCharacter(KnockbackForce, true, true);
-// 	}
-// }
+
 
