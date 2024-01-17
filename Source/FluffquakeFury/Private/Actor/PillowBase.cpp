@@ -6,6 +6,9 @@
 
 APillowBase::APillowBase()
 {
+	// TestPillowMesh = CreateDefaultSubobject<USkeletalMeshComponent>("TestPillow");
+	// TestPillowMesh->SetupAttachment(GetRootComponent(), FName("WeaponHandSocket"));
+	// TestPillowMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
 void APillowBase::BeginPlay()

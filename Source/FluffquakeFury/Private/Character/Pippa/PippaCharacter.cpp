@@ -99,6 +99,10 @@ void APippaCharacter::InitAbilityActorInfo()
 	if (PillowClass)
 	{
 		Pillow = GetWorld()->SpawnActor<APillowBase>(PillowClass, FVector::ZeroVector, FRotator::ZeroRotator);
+		// TestPillowMesh = Pillow->TestPillowMesh;
+		// TestPillowMesh = CreateDefaultSubobject<USkeletalMeshComponent>("TestPillowMesh");
+		// TestPillowMesh->SetupAttachment(GetMesh(), FName("WeaponHandSocket"));
+		// TestPillowMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	}
 	
 }

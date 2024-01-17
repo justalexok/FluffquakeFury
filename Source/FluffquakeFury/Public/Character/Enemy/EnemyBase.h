@@ -9,6 +9,8 @@
 #include "AbilitySystem/Data/CharacterClassInfo.h"
 #include "EnemyBase.generated.h"
 
+class UBehaviorTree;
+class AFQFAIController;
 class UWidgetComponent;
 
 /**
@@ -22,6 +24,7 @@ class FLUFFQUAKEFURY_API AEnemyBase : public AFQFCharacterBase, public IEnemyInt
 
 public:
 	AEnemyBase();
+	virtual void PossessedBy(AController* NewController) override;
 
 	//EnemyInterface
 	virtual void HighlightActor() override;
@@ -42,6 +45,8 @@ public:
 	bool bHitReacting = false;
 
 	virtual void Die() override;
+
+	virtual void Tick(float DeltaSeconds) override;
 	
 protected:
 	virtual void BeginPlay() override;
@@ -55,4 +60,10 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Class Defaults")
 	ECharacterClass CharacterClass = ECharacterClass::Warrior;
+
+	UPROPERTY(EditAnywhere, Category = "AI")
+	TObjectPtr<UBehaviorTree> BehaviorTree;
+
+	UPROPERTY()
+	TObjectPtr<AFQFAIController> FQFAIController;
 };

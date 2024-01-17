@@ -44,11 +44,13 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
-
+	
+	// UPROPERTY(EditAnywhere)
+	// TObjectPtr<USkeletalMeshComponent> TestPillowMesh;
 
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	TObjectPtr<USkeletalMeshComponent> Weapon;
-
+	
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	FName WeaponTipSocketName;
 

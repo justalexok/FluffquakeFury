@@ -18,7 +18,10 @@ class FLUFFQUAKEFURY_API APillowBase : public AActor
 
 	APillowBase();
 	
-public:		
+public:
+
+	// UPROPERTY(EditAnywhere)
+	// TObjectPtr<USkeletalMeshComponent> TestPillowMesh;
 
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<UNiagaraSystem> DynamicImpactEffect;

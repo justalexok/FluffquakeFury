@@ -10,6 +10,9 @@
 #include "UI/FQFUserWidget.h"
 #include "FQFGameplayTags.h"
 #include "AbilitySystem/FQFBlueprintFunctionLibrary.h"
+#include "AI/FQFAIController.h"
+#include "BehaviorTree/BehaviorTree.h"
+#include "BehaviorTree/BlackboardComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 AEnemyBase::AEnemyBase()
@@ -25,10 +28,34 @@ AEnemyBase::AEnemyBase()
 	HealthBar->SetupAttachment(GetRootComponent());
 }
 
+void AEnemyBase::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+
+	if (!HasAuthority()) return;
+	FQFAIController = Cast<AFQFAIController>(NewController);
+	FQFAIController->GetBlackboardComponent()->InitializeBlackboard(*BehaviorTree->BlackboardAsset);
+	FQFAIController->RunBehaviorTree(BehaviorTree);
+	
+	bUseControllerRotationPitch = false;
+	bUseControllerRotationRoll = false;
+	bUseControllerRotationYaw = false;
+	GetCharacterMovement()->bUseControllerDesiredRotation = true;
+}
+
 void AEnemyBase::Die()
 {
 	SetLifeSpan(5.f);
 	Super::Die();
+}
+
+void AEnemyBase::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+
+	UE_LOG(LogTemp,Warning,TEXT("CharacterMovement MaxWalkSpeed: %f"), GetCharacterMovement()->MaxWalkSpeed);
+	UE_LOG(LogTemp,Warning,TEXT("BaseWalkSpeed: %f"), BaseWalkSpeed);
+
 }
 
 void AEnemyBase::BeginPlay()
