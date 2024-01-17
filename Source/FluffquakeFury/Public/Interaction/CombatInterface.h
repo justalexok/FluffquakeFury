@@ -70,4 +70,7 @@ public:
 	AActor* GetAvatar();
 
 	virtual void KnockbackCharacter(float Pitch, float Magnitude);
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void SetMaxWalkSpeed(bool bShouldImmobiliseCharacter);
 };

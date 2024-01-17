@@ -33,7 +33,7 @@ public:
 	virtual AActor* GetAvatar_Implementation() override;
 	virtual UAnimMontage* GetHitReactMontage_Implementation() override;
 	virtual void Die() override;
-
+	virtual void SetMaxWalkSpeed_Implementation(bool bShouldImmobiliseCharacter) override;
 	UFUNCTION()
 	void HandleDeath();
 

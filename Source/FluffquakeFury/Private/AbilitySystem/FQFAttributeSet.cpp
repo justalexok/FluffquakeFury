@@ -89,12 +89,15 @@ void UFQFAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbac
 			
 			const bool bBlocked = UFQFBlueprintFunctionLibrary::IsBlockedHit(Props.EffectContextHandle);
 			ShowFloatingText(Props, LocalIncomingDamage, bBlocked, false);
-			SpawnNiagara(Props.SourceCharacter, bBlocked, false, LocalIncomingDamage);
+			SpawnNiagara(Props.SourceCharacter, false, LocalIncomingDamage);
 
 			
 		}
 		if (UFQFBlueprintFunctionLibrary::HasPillowExploded(Props.EffectContextHandle))
 		{
+			FGameplayTagContainer TagContainer;
+			TagContainer.AddTag(FFQFGameplayTags::Get().Effects_HitReact);
+			Props.SourceASC->TryActivateAbilitiesByTag(TagContainer);
 			HandleExplosion(Props,LocalIncomingDamage);
 		}
 		
@@ -146,7 +149,7 @@ void UFQFAttributeSet::ShowFloatingText(const FEffectProperties& Props, float Da
 	}
 }
 
-void UFQFAttributeSet::SpawnNiagara(ACharacter* SourceCharacter,bool bBlockedHit, bool bPillowExploded, float Damage) const
+void UFQFAttributeSet::SpawnNiagara(ACharacter* SourceCharacter, bool bPillowExploded, float Damage) const
 {
 	
 	if (AFQFCharacterBase* FQFCharacterBase = Cast<AFQFCharacterBase>(SourceCharacter))
@@ -166,7 +169,7 @@ void UFQFAttributeSet::SpawnNiagara(ACharacter* SourceCharacter,bool bBlockedHit
 
 void UFQFAttributeSet::HandleExplosion(const FEffectProperties& Props, float LocalIncomingDamage) const
 {
-	SpawnNiagara(Props.SourceCharacter, false, true, 100);
+	SpawnNiagara(Props.SourceCharacter, true, 100);
 
 	if (UFQFAttributeSet* SourceAS = UFQFBlueprintFunctionLibrary::GetAttributeSet(Props.SourceAvatarActor))
 	{

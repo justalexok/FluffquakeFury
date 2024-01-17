@@ -50,6 +50,11 @@ void AFQFCharacterBase::Die()
 	HandleDeath();
 }
 
+void AFQFCharacterBase::SetMaxWalkSpeed_Implementation(bool bShouldImmobiliseCharacter)
+{
+	GetCharacterMovement()->MaxWalkSpeed = bShouldImmobiliseCharacter ? 0.f : BaseWalkSpeed;
+}
+
 FVector AFQFCharacterBase::GetCombatSocketLocation_Implementation()
 {
 	check(Weapon);
