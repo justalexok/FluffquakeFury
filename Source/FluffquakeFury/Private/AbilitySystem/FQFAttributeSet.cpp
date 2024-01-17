@@ -14,7 +14,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Player/PippaPlayerController.h"
 #include "NiagaraFunctionLibrary.h"
-
+#include "NiagaraComponent.h"
 
 UFQFAttributeSet::UFQFAttributeSet()
 {
@@ -85,9 +85,11 @@ void UFQFAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbac
 				TagContainer.AddTag(FFQFGameplayTags::Get().Effects_HitReact);
 				Props.TargetASC->TryActivateAbilitiesByTag(TagContainer);
 			}
+			const float FluffLost = GetAndSetFluffLost(Props, LocalIncomingDamage);
+			
 			const bool bBlocked = UFQFBlueprintFunctionLibrary::IsBlockedHit(Props.EffectContextHandle);
 			ShowFloatingText(Props, LocalIncomingDamage, bBlocked, false);
-			SpawnNiagara(Props.SourceCharacter, bBlocked, false);
+			SpawnNiagara(Props.SourceCharacter, bBlocked, false, LocalIncomingDamage);
 
 			
 		}
@@ -144,7 +146,7 @@ void UFQFAttributeSet::ShowFloatingText(const FEffectProperties& Props, float Da
 	}
 }
 
-void UFQFAttributeSet::SpawnNiagara(ACharacter* SourceCharacter,bool bBlockedHit, bool bPillowExploded) const
+void UFQFAttributeSet::SpawnNiagara(ACharacter* SourceCharacter,bool bBlockedHit, bool bPillowExploded, float Damage) const
 {
 	
 	if (AFQFCharacterBase* FQFCharacterBase = Cast<AFQFCharacterBase>(SourceCharacter))
@@ -153,17 +155,18 @@ void UFQFAttributeSet::SpawnNiagara(ACharacter* SourceCharacter,bool bBlockedHit
 
 		TObjectPtr<UNiagaraSystem> Effect;
 		if (bPillowExploded) Effect = FQFCharacterBase->Pillow->ExplosionEffect;
-		else if (!bBlockedHit) Effect = FQFCharacterBase->Pillow->RegularPillowImpactEffect;
-		else if (bBlockedHit) Effect = FQFCharacterBase->Pillow->BlockedPillowImpactEffect;
-	
-		UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, Effect, SpawnLocation);
+		else Effect = FQFCharacterBase->Pillow->DynamicImpactEffect;
+
+		const float ScaledSpawnRate = FQFCharacterBase->Pillow->SpawnRate.GetValueAtLevel(Damage);
+		UNiagaraComponent* NiagaraComponent = UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, Effect, SpawnLocation);
+		NiagaraComponent->SetNiagaraVariableFloat(FString("CustomSpawnRate"),ScaledSpawnRate);
 	}
 	
 }
 
 void UFQFAttributeSet::HandleExplosion(const FEffectProperties& Props, float LocalIncomingDamage) const
 {
-	SpawnNiagara(Props.SourceCharacter, false, true);
+	SpawnNiagara(Props.SourceCharacter, false, true, 100);
 
 	if (UFQFAttributeSet* SourceAS = UFQFBlueprintFunctionLibrary::GetAttributeSet(Props.SourceAvatarActor))
 	{
@@ -173,7 +176,6 @@ void UFQFAttributeSet::HandleExplosion(const FEffectProperties& Props, float Loc
 				
 	}
 	ShowFloatingText(Props, LocalIncomingDamage, false, true);
-	// if (APippaCharacter* PippaCharacter = Cast<APippaCharacter>(Props.SourceCharacter))
 	if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(Props.SourceCharacter))
 	{
 		CombatInterface->KnockbackCharacter(25,1100);
@@ -181,6 +183,19 @@ void UFQFAttributeSet::HandleExplosion(const FEffectProperties& Props, float Loc
 		TagContainer.AddTag(FFQFGameplayTags::Get().Effects_HitReact);
 		Props.TargetASC->TryActivateAbilitiesByTag(TagContainer);
 	}
+}
+
+float UFQFAttributeSet::GetAndSetFluffLost(const FEffectProperties& Props, float LocalIncomingDamage) const
+{
+	if (UFQFAttributeSet* SourceAS = UFQFBlueprintFunctionLibrary::GetAttributeSet(Props.SourceAvatarActor))
+	{
+		float DamageToFluffLostCoeff = 0.1;
+		float FluffLost = LocalIncomingDamage * DamageToFluffLostCoeff;
+		SourceAS->SetFluff(SourceAS->GetFluff() - FluffLost);
+		SourceAS->SetLoadedFluff(SourceAS->GetLoadedFluff() - FluffLost);
+		return FluffLost;
+	}
+	return 0.f;
 }
 
 void UFQFAttributeSet::OnRep_Health(const FGameplayAttributeData& OldHealth) const

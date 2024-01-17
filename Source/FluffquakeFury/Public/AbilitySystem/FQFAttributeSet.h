@@ -130,8 +130,9 @@ public:
 private:
 	static void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Props);
 	static void ShowFloatingText(const FEffectProperties& Props, float Damage, bool bBlockedHit, bool bPillowExploded);
-	void SpawnNiagara(ACharacter* SourceCharacter, bool bBlockedHit, bool bPillowExploded) const;
+	void SpawnNiagara(ACharacter* SourceCharacter, bool bBlockedHit, bool bPillowExploded, float Damage) const;
 	void HandleExplosion(const FEffectProperties& Props, float LocalIncomingDamage) const;
+	float GetAndSetFluffLost(const FEffectProperties& Props, float LocalIncomingDamage) const;
 	
 };
 

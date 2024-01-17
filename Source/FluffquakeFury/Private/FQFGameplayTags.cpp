@@ -29,6 +29,10 @@ void FFQFGameplayTags::InitializeNativeGameplayTags(){
 	GameplayTags.Damage = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage"),FString("Tag for Damage"));
 	GameplayTags.ExplosionChance = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("ExplosionChance"),FString("Tag for Explosion Chance"));
 
+	GameplayTags.PillowType_Regular = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("PillowType_Regular"),FString("Tag for the regular Pillow"));
+	GameplayTags.PillowType_Poison = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("PillowType_Poison"),FString("Tag for the Poison Pillow"));
+
+
 	GameplayTags.Effects_HitReact = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Effects.HitReact"),FString("Tag granted when Hit Reacting"));
 
 }

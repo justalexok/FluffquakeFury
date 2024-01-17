@@ -38,6 +38,9 @@ public:
 	FGameplayTag Damage;
 	FGameplayTag ExplosionChance;
 
+	FGameplayTag PillowType_Regular;
+	FGameplayTag PillowType_Poison;
+
 	FGameplayTag Effects_HitReact;
 protected:
 
