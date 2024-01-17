@@ -26,6 +26,8 @@ AEnemyBase::AEnemyBase()
 
 	HealthBar = CreateDefaultSubobject<UWidgetComponent>("HealthBar");
 	HealthBar->SetupAttachment(GetRootComponent());
+
+	BaseWalkSpeed = 250.f;
 }
 
 void AEnemyBase::PossessedBy(AController* NewController)
@@ -36,6 +38,8 @@ void AEnemyBase::PossessedBy(AController* NewController)
 	FQFAIController = Cast<AFQFAIController>(NewController);
 	FQFAIController->GetBlackboardComponent()->InitializeBlackboard(*BehaviorTree->BlackboardAsset);
 	FQFAIController->RunBehaviorTree(BehaviorTree);
+	FQFAIController->GetBlackboardComponent()->SetValueAsBool(FName("HitReacting"), false);
+	FQFAIController->GetBlackboardComponent()->SetValueAsBool(FName("RangedAttacker"), CharacterClass != ECharacterClass::Warrior);
 	
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationRoll = false;
@@ -102,6 +106,7 @@ void AEnemyBase::HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCou
 	
 	bHitReacting = NewCount > 0;
 	GetCharacterMovement()->MaxWalkSpeed = bHitReacting ? 0.f : BaseWalkSpeed;
+	FQFAIController->GetBlackboardComponent()->SetValueAsBool(FName("HitReacting"), bHitReacting);
 }
 
 void AEnemyBase::InitAbilityActorInfo()
