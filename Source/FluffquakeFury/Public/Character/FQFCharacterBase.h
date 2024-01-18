@@ -34,6 +34,11 @@ public:
 	virtual UAnimMontage* GetHitReactMontage_Implementation() override;
 	virtual void Die() override;
 	virtual void SetMaxWalkSpeed_Implementation(bool bShouldImmobiliseCharacter) override;
+	virtual TArray<FTaggedMontage> GetAttackMontages_Implementation() override;
+
+	UPROPERTY(EditAnywhere, Category="Combat")
+	TArray<FTaggedMontage> AttackMontages;
+	
 	UFUNCTION()
 	void HandleDeath();
 
@@ -97,7 +102,7 @@ protected:
 
 private:
 
-	UPROPERTY(EditAnywhere, Category = "Abilities")
+	UPROPERTY(EditAnywhere, Category = "Abilities") //Only Pippa's Startup Abilities
 	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
 
 	UPROPERTY(EditAnywhere, Category = "Combat")

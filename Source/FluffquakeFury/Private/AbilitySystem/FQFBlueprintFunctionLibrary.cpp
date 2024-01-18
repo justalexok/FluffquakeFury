@@ -55,16 +55,27 @@ void UFQFBlueprintFunctionLibrary::InitializeDefaultAttributes(const UObject* Wo
 
 }
 
-void UFQFBlueprintFunctionLibrary::GiveStartupAbilities(const UObject* WorldContextObject, UAbilitySystemComponent* ASC)
+void UFQFBlueprintFunctionLibrary::GiveStartupAbilities(const UObject* WorldContextObject, UAbilitySystemComponent* ASC, ECharacterClass CharacterClass)
 {
 	AFQFGameModeBase* FQFGameMode = Cast<AFQFGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
 	if (FQFGameMode == nullptr) return;
 
 	UCharacterClassInfo* CharacterClassInfo = FQFGameMode->CharacterClassInfo;
+	if (CharacterClassInfo == nullptr) return;
+
 	for (TSubclassOf<UGameplayAbility> AbilityClass : CharacterClassInfo->CommonAbilities)
 	{
 		FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass, 1);
 		ASC->GiveAbility(AbilitySpec);
+	}
+	const FCharacterClassDefaultInfo& DefaultInfo = CharacterClassInfo->GetClassDefaultInfo(CharacterClass);
+	for (TSubclassOf<UGameplayAbility> AbilityClass : DefaultInfo.StartupAbilities)
+	{
+		if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(ASC->GetAvatarActor()))
+		{
+			FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass, CombatInterface->GetPlayerLevel());
+			ASC->GiveAbility(AbilitySpec);
+		}
 	}
 }
 

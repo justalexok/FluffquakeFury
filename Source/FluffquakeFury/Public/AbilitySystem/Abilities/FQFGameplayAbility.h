@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Abilities/GameplayAbility.h"
+#include "Interaction/CombatInterface.h"
 #include "FQFGameplayAbility.generated.h"
 
 /**
@@ -37,5 +38,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void ApplyDamageToTargetActor(AActor* TargetActor);
 
+	UFUNCTION(BlueprintPure)
+	static FTaggedMontage GetRandomTaggedMontage(TArray<FTaggedMontage> TaggedMontages);
 	
 };

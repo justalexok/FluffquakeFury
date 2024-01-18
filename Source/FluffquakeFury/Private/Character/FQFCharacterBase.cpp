@@ -56,6 +56,11 @@ void AFQFCharacterBase::SetMaxWalkSpeed_Implementation(bool bShouldImmobiliseCha
 	GetCharacterMovement()->MaxWalkSpeed = bShouldImmobiliseCharacter ? 0.f : BaseWalkSpeed;
 }
 
+TArray<FTaggedMontage> AFQFCharacterBase::GetAttackMontages_Implementation()
+{
+	return AttackMontages;
+}
+
 FVector AFQFCharacterBase::GetCombatSocketLocation_Implementation()
 {
 	check(Weapon);
@@ -92,7 +97,7 @@ void AFQFCharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayE
 	GetAbilitySystemComponent()->ApplyGameplayEffectSpecToTarget(*SpecHandle.Data.Get(), GetAbilitySystemComponent());
 }
 
-void AFQFCharacterBase::AddCharacterAbilities()
+void AFQFCharacterBase::AddCharacterAbilities() //Only gets called by Pippa.
 {
 	UFQFAbilitySystemComponent* FQFASC = CastChecked<UFQFAbilitySystemComponent>(AbilitySystemComponent);
 	if (!HasAuthority()) return;

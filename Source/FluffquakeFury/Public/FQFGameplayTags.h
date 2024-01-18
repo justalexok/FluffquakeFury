@@ -41,7 +41,14 @@ public:
 	FGameplayTag PillowType_Regular;
 	FGameplayTag PillowType_Poison;
 
+	FGameplayTag Abilities_Attack;
+
 	FGameplayTag Effects_HitReact;
+
+	FGameplayTag Montage_Attack_1;
+	FGameplayTag Montage_Attack_2;
+	FGameplayTag Montage_Attack_3;
+	FGameplayTag Montage_Attack_4;
 protected:
 
 private:

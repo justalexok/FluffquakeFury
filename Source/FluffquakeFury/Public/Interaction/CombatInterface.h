@@ -73,4 +73,5 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void SetMaxWalkSpeed(bool bShouldImmobiliseCharacter);
+
 };

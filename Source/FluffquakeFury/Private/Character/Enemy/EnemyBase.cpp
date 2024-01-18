@@ -68,7 +68,7 @@ void AEnemyBase::BeginPlay()
 	GetCharacterMovement()->MaxWalkSpeed = BaseWalkSpeed;
 
 	InitAbilityActorInfo();
-	UFQFBlueprintFunctionLibrary::GiveStartupAbilities(this, AbilitySystemComponent);
+	UFQFBlueprintFunctionLibrary::GiveStartupAbilities(this, AbilitySystemComponent, CharacterClass);
 
 
 	if (UFQFUserWidget* FQFUserWidget = Cast<UFQFUserWidget>(HealthBar->GetUserWidgetObject()))
@@ -124,12 +124,23 @@ void AEnemyBase::HighlightActor()
 	GetMesh()->SetCustomDepthStencilValue(CUSTOM_DEPTH_RED);
 	Weapon->SetRenderCustomDepth(true);
 	Weapon->SetCustomDepthStencilValue(CUSTOM_DEPTH_RED);
+
 }
 
 void AEnemyBase::UnHighlightActor()
 {
 	GetMesh()->SetRenderCustomDepth(false);
 	Weapon->SetRenderCustomDepth(false);
+}
+
+AActor* AEnemyBase::GetCombatTarget_Implementation() const
+{
+	return CombatTarget;
+}
+
+void AEnemyBase::SetCombatTarget_Implementation(AActor* InCombatTarget)
+{
+	CombatTarget = InCombatTarget;
 }
 
 int32 AEnemyBase::GetPlayerLevel()
