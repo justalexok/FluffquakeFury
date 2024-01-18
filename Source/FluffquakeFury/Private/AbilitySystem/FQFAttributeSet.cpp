@@ -161,8 +161,11 @@ void UFQFAttributeSet::SpawnNiagara(ACharacter* SourceCharacter, bool bPillowExp
 		else Effect = FQFCharacterBase->Pillow->DynamicImpactEffect;
 
 		const float ScaledSpawnRate = FQFCharacterBase->Pillow->SpawnRate.GetValueAtLevel(Damage);
+		const FLinearColor FluffColor = FQFCharacterBase->Pillow->FluffColor;
 		UNiagaraComponent* NiagaraComponent = UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, Effect, SpawnLocation);
 		NiagaraComponent->SetNiagaraVariableFloat(FString("CustomSpawnRate"),ScaledSpawnRate);
+		NiagaraComponent->SetNiagaraVariableLinearColor(FString("CustomColor"),FluffColor);
+
 	}
 	
 }

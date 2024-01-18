@@ -23,17 +23,20 @@ public:
 	// UPROPERTY(EditAnywhere)
 	// TObjectPtr<USkeletalMeshComponent> TestPillowMesh;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category="Pillow Properties")
 	TObjectPtr<UNiagaraSystem> DynamicImpactEffect;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category="Pillow Properties")
 	TObjectPtr<UNiagaraSystem> ExplosionEffect;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category="Pillow Properties")
 	FGameplayTag PillowType;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category="Pillow Properties")
 	FScalableFloat SpawnRate;
+
+	UPROPERTY(EditAnywhere, Category="Pillow Properties")
+	FLinearColor FluffColor;
 	
 protected:
 	virtual void BeginPlay() override;
