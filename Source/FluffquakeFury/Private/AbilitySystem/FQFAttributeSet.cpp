@@ -61,6 +61,9 @@ void UFQFAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbac
 	
 	if (Data.EvaluatedData.Attribute == GetIncomingDamageAttribute())
 	{
+
+		const bool bPippaPillowAttack = Props.AttackTag == FFQFGameplayTags::Get().Montage_Attack_PillowWhack;
+		
 		const float LocalIncomingDamage = GetIncomingDamage();
 		SetIncomingDamage(0.f);
 
@@ -85,15 +88,19 @@ void UFQFAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbac
 				TagContainer.AddTag(FFQFGameplayTags::Get().Effects_HitReact);
 				Props.TargetASC->TryActivateAbilitiesByTag(TagContainer);
 			}
-			const float FluffLost = GetAndSetFluffLost(Props, LocalIncomingDamage);
+			if (bPippaPillowAttack)
+			{
+				const float FluffLost = GetAndSetFluffLost(Props, LocalIncomingDamage);
 			
-			const bool bBlocked = UFQFBlueprintFunctionLibrary::IsBlockedHit(Props.EffectContextHandle);
-			ShowFloatingText(Props, LocalIncomingDamage, bBlocked, false);
-			SpawnNiagara(Props.SourceCharacter, false, LocalIncomingDamage);
+				const bool bBlocked = UFQFBlueprintFunctionLibrary::IsBlockedHit(Props.EffectContextHandle);
+				ShowFloatingText(Props, LocalIncomingDamage, bBlocked, false);
+				SpawnNiagara(Props.SourceCharacter, false, LocalIncomingDamage);
+			}
+			
 
 			
 		}
-		if (UFQFBlueprintFunctionLibrary::HasPillowExploded(Props.EffectContextHandle))
+		if (bPippaPillowAttack && UFQFBlueprintFunctionLibrary::HasPillowExploded(Props.EffectContextHandle))
 		{
 			FGameplayTagContainer TagContainer;
 			TagContainer.AddTag(FFQFGameplayTags::Get().Effects_HitReact);
@@ -136,6 +143,12 @@ void UFQFAttributeSet::SetEffectProperties(const FGameplayEffectModCallbackData&
 		Props.TargetCharacter = Cast<ACharacter>(Props.TargetAvatarActor);
 		Props.TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(Props.TargetAvatarActor);
 	}
+
+	//TODO Get Attack type from Data?
+	if (Props.SourceCharacter->ActorHasTag("Player"))
+	{
+		Props.AttackTag = FFQFGameplayTags::Get().Montage_Attack_PillowWhack;
+	}
 }
 
 void UFQFAttributeSet::ShowFloatingText(const FEffectProperties& Props, float Damage, bool bBlockedHit, bool bPillowExploded)
@@ -154,7 +167,7 @@ void UFQFAttributeSet::SpawnNiagara(ACharacter* SourceCharacter, bool bPillowExp
 	
 	if (AFQFCharacterBase* FQFCharacterBase = Cast<AFQFCharacterBase>(SourceCharacter))
 	{
-		const FVector SpawnLocation = FQFCharacterBase->GetCombatSocketLocation_Implementation();
+		const FVector SpawnLocation = FQFCharacterBase->GetCombatSocketLocation_Implementation(FFQFGameplayTags::Get().Montage_Attack_PillowWhack);
 
 		TObjectPtr<UNiagaraSystem> Effect;
 		if (bPillowExploded) Effect = FQFCharacterBase->Pillow->ExplosionEffect;

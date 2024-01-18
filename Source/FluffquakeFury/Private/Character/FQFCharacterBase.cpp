@@ -4,6 +4,7 @@
 #include "Character/FQFCharacterBase.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "AbilitySystemComponent.h"
+#include "FQFGameplayTags.h"
 #include "AbilitySystem/FQFAbilitySystemComponent.h"
 #include "Components/CapsuleComponent.h"
 
@@ -61,10 +62,18 @@ TArray<FTaggedMontage> AFQFCharacterBase::GetAttackMontages_Implementation()
 	return AttackMontages;
 }
 
-FVector AFQFCharacterBase::GetCombatSocketLocation_Implementation()
+FVector AFQFCharacterBase::GetCombatSocketLocation_Implementation(const FGameplayTag& MontageTag)
 {
-	check(Weapon);
-	return Weapon->GetSocketLocation(WeaponTipSocketName);
+	const FFQFGameplayTags& GameplayTags = FFQFGameplayTags::Get();
+	if (MontageTag.MatchesTagExact(GameplayTags.Montage_Attack_Jump))
+	{
+		return GetMesh()->GetSocketLocation(CenterChesterSocketName);
+	}
+	if (MontageTag.MatchesTagExact(GameplayTags.Montage_Attack_PillowWhack) && IsValid(Weapon))
+	{
+		return Weapon->GetSocketLocation(WeaponTipSocketName); 
+	}
+	return FVector();
 }
 
 bool AFQFCharacterBase::IsDead_Implementation() const

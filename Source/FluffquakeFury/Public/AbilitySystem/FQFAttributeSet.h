@@ -47,6 +47,9 @@ struct FEffectProperties
 
 	UPROPERTY()
 	ACharacter* TargetCharacter = nullptr;
+
+	UPROPERTY()
+	FGameplayTag AttackTag = FGameplayTag();
 };
 
 /**

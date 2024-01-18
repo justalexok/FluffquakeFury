@@ -45,6 +45,10 @@ public:
 
 	FGameplayTag Effects_HitReact;
 
+	FGameplayTag CombatSocket_CenterChest;
+
+	FGameplayTag Montage_Attack_PillowWhack;
+	FGameplayTag Montage_Attack_Jump;
 	FGameplayTag Montage_Attack_1;
 	FGameplayTag Montage_Attack_2;
 	FGameplayTag Montage_Attack_3;
