@@ -27,6 +27,9 @@ void FFQFGameplayTags::InitializeNativeGameplayTags(){
 	GameplayTags.InputTag_4 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.4"),FString("Input Tag for 4 key"));
 
 	GameplayTags.Damage = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage"),FString("Tag for Damage"));
+	GameplayTags.DamageType_Fluff = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("DamageType.Fluff"),FString("Fluff Damage Type Tag"));
+	GameplayTags.DamageType_Physical = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("DamageType.Physical"),FString("Physical Damage Type Tag"));
+
 	GameplayTags.ExplosionChance = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("ExplosionChance"),FString("Tag for Explosion Chance"));
 
 	//Pillow Types
@@ -49,4 +52,7 @@ void FFQFGameplayTags::InitializeNativeGameplayTags(){
 
 	GameplayTags.Effects_HitReact = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Effects.HitReact"),FString("Tag granted when Hit Reacting"));
 
+	//Add to Damage Types TArray
+	GameplayTags.DamageTypes.Add(GameplayTags.DamageType_Fluff);
+	GameplayTags.DamageTypes.Add(GameplayTags.DamageType_Physical);
 }

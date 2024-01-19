@@ -90,12 +90,11 @@ void UFQFAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbac
 			}
 			if (bPippaPillowAttack)
 			{
-				const float FluffLost = GetAndSetFluffLost(Props, LocalIncomingDamage);
-			
-				const bool bBlocked = UFQFBlueprintFunctionLibrary::IsBlockedHit(Props.EffectContextHandle);
-				ShowFloatingText(Props, LocalIncomingDamage, bBlocked, false);
+				SetFluffLost(Props, LocalIncomingDamage);			
 				SpawnNiagara(Props.SourceCharacter, false, LocalIncomingDamage);
 			}
+			const bool bBlocked = UFQFBlueprintFunctionLibrary::IsBlockedHit(Props.EffectContextHandle);	
+			ShowFloatingText(Props, LocalIncomingDamage, bBlocked, false);
 			
 
 			
@@ -155,10 +154,18 @@ void UFQFAttributeSet::ShowFloatingText(const FEffectProperties& Props, float Da
 {
 	if (Props.SourceCharacter != Props.TargetCharacter)
 	{
+		//Pippa causing damage
 		if(APippaPlayerController* PC = Cast<APippaPlayerController>(UGameplayStatics::GetPlayerController(Props.SourceCharacter, 0)))
 		{
 			PC->ShowDamageNumber(Damage, Props.TargetCharacter, bBlockedHit, bPillowExploded);
+			return;
 		}
+		//Enemy causing damage
+		if(APippaPlayerController* PC = Cast<APippaPlayerController>(UGameplayStatics::GetPlayerController(Props.TargetCharacter, 0)))
+		{
+			PC->ShowDamageNumber(Damage, Props.TargetCharacter, bBlockedHit, bPillowExploded);
+		}
+	
 	}
 }
 
@@ -204,17 +211,15 @@ void UFQFAttributeSet::HandleExplosion(const FEffectProperties& Props, float Loc
 	}
 }
 
-float UFQFAttributeSet::GetAndSetFluffLost(const FEffectProperties& Props, float LocalIncomingDamage) const
+void UFQFAttributeSet::SetFluffLost(const FEffectProperties& Props, float LocalIncomingDamage) const
 {
 	if (UFQFAttributeSet* SourceAS = UFQFBlueprintFunctionLibrary::GetAttributeSet(Props.SourceAvatarActor))
 	{
 		float DamageToFluffLostCoeff = 0.1;
-		float FluffLost = LocalIncomingDamage * DamageToFluffLostCoeff;
+		const float FluffLost = LocalIncomingDamage * DamageToFluffLostCoeff;
 		SourceAS->SetFluff(SourceAS->GetFluff() - FluffLost);
 		SourceAS->SetLoadedFluff(SourceAS->GetLoadedFluff() - FluffLost);
-		return FluffLost;
 	}
-	return 0.f;
 }
 
 void UFQFAttributeSet::OnRep_Health(const FGameplayAttributeData& OldHealth) const

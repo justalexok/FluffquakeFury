@@ -14,6 +14,7 @@ struct FQFDamageStatics
 	DECLARE_ATTRIBUTE_CAPTUREDEF(BlockChance);
 	DECLARE_ATTRIBUTE_CAPTUREDEF(LoadedFluff);
 
+
 	FQFDamageStatics()
 	{
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UFQFAttributeSet, Resilience, Target, false);
@@ -55,7 +56,17 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	EvaluationParameters.TargetTags = TargetTags;
 
 	//Get Damage Set By Caller Magnitude
-	float Damage = Spec.GetSetByCallerMagnitude(FFQFGameplayTags::Get().Damage);
+	float Damage = 0.f;
+	TArray<FGameplayTag> DamageTypes = FFQFGameplayTags::Get().DamageTypes;
+
+	for (const FGameplayTag DamageTypeTag : DamageTypes)
+	{
+		Damage += Spec.GetSetByCallerMagnitude(DamageTypeTag, false);
+		//Will find zero for all damage types other than the type that this damage is
+		//i.e. Only one type tag will have its magnitude set.
+	}
+	
+	// float Damage = Spec.GetSetByCallerMagnitude(FFQFGameplayTags::Get().Damage);
 
 	//Capture BlockChance on Target and determine if successful block
 	float TargetBlockChance = 0.f;
@@ -65,13 +76,14 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	
 	FGameplayEffectContextHandle EffectContextHandle = Spec.GetContext();
 	UFQFBlueprintFunctionLibrary::SetIsBlockedHit(EffectContextHandle, bBlocked);
+
 	
 	//Capture LoadedFluff on Source 
 	float SourceLoadedFluff = 0.f;
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().LoadedFluffDef, EvaluationParameters, SourceLoadedFluff);
 
 	//Get ExplosionChance Set By Caller Magnitude and determine if explosion
-	const float ExplosionChance = Spec.GetSetByCallerMagnitude(FFQFGameplayTags::Get().ExplosionChance);
+	const float ExplosionChance = Spec.GetSetByCallerMagnitude(FFQFGameplayTags::Get().ExplosionChance, false);
 	UE_LOG(LogTemp, Warning, TEXT("Explosion Chance : %f"), ExplosionChance);
 	const bool bExploded = FMath::RandRange(1, 100) < ExplosionChance;
 
@@ -80,13 +92,11 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	//Alter Damage
 	Damage *= SourceLoadedFluff / 100;
 	
-	Damage = bBlocked ? Damage / 2.f : Damage;	
+	Damage = bBlocked ? Damage / 2.f : Damage;
+	Damage = bExploded ? 0 : Damage;
 
-	if (bExploded)
-	{
-		Damage = 0;
-		UE_LOG(LogTemp, Error, TEXT("PILLOW EXPLODED!"));
-	}
+	if (bExploded) UE_LOG(LogTemp, Error, TEXT("PILLOW EXPLODED!"));
+	
 
 	Damage = round(Damage);
 	

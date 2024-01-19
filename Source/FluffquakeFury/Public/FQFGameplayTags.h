@@ -35,7 +35,10 @@ public:
 	FGameplayTag InputTag_3;
 	FGameplayTag InputTag_4;
 
+	//DamageTypes
 	FGameplayTag Damage;
+	FGameplayTag DamageType_Fluff;
+	FGameplayTag DamageType_Physical;
 	FGameplayTag ExplosionChance;
 
 	FGameplayTag PillowType_Regular;
@@ -53,6 +56,8 @@ public:
 	FGameplayTag Montage_Attack_2;
 	FGameplayTag Montage_Attack_3;
 	FGameplayTag Montage_Attack_4;
+
+	TArray<FGameplayTag> DamageTypes;
 protected:
 
 private:

@@ -20,19 +20,23 @@ void UFQFGameplayAbility::ApplyDamageToTargetActor(AActor* TargetActor)
 		HitResult.Location = DamageImpactLocation;
 		EffectContextHandle.AddHitResult(HitResult);
 		
-		const FGameplayEffectSpecHandle SpecHandle = SourceASC->MakeOutgoingSpec(DamageEffectClass, GetAbilityLevel(), EffectContextHandle);
+		const FGameplayEffectSpecHandle SpecHandle = SourceASC->MakeOutgoingSpec(DamageEffectClass, 1, EffectContextHandle);
 
 		const FFQFGameplayTags GameplayTags = FFQFGameplayTags::Get();
 
 		const float ScaledDamage = Damage.GetValueAtLevel(GetAbilityLevel());
-		UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, GameplayTags.Damage, ScaledDamage);
+		// UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, GameplayTags.Damage, ScaledDamage);
+		UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, DamageType, ScaledDamage);
 
-		if (const UFQFAttributeSet* AttributeSet = UFQFBlueprintFunctionLibrary::GetAttributeSet(this))
+
+		if (DamageType == GameplayTags.DamageType_Fluff)
 		{
-			const float ScaledExplosionChance = ExplosionChance.GetValueAtLevel(AttributeSet->GetLoadedFluff());
-			UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, GameplayTags.ExplosionChance, ScaledExplosionChance);
-		}
-		
+			if (const UFQFAttributeSet* AttributeSet = UFQFBlueprintFunctionLibrary::GetAttributeSet(this))
+			{
+				const float ScaledExplosionChance = ExplosionChance.GetValueAtLevel(AttributeSet->GetLoadedFluff());
+				UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, GameplayTags.ExplosionChance, ScaledExplosionChance);
+			}
+		}		
 
 		TargetASC->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data.Get());
 		
