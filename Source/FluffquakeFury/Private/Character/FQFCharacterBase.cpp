@@ -22,6 +22,7 @@ AFQFCharacterBase::AFQFCharacterBase()
 
 }
 
+
 void AFQFCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
@@ -104,15 +105,6 @@ void AFQFCharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayE
 	ContextHandle.AddSourceObject(this);
 	const FGameplayEffectSpecHandle SpecHandle = GetAbilitySystemComponent()->MakeOutgoingSpec(GameplayEffectClass, Level, ContextHandle);
 	GetAbilitySystemComponent()->ApplyGameplayEffectSpecToTarget(*SpecHandle.Data.Get(), GetAbilitySystemComponent());
-}
-
-void AFQFCharacterBase::AddCharacterAbilities() //Only gets called by Pippa.
-{
-	UFQFAbilitySystemComponent* FQFASC = CastChecked<UFQFAbilitySystemComponent>(AbilitySystemComponent);
-	if (!HasAuthority()) return;
-
-	FQFASC->AddCharacterAbilities(StartupAbilities);
-	
 }
 
 void AFQFCharacterBase::InitializeDefaultAttributes() const

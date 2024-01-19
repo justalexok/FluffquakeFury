@@ -47,6 +47,9 @@ public:
 
 	APillowBase* Pillow;
 
+	UPROPERTY(BlueprintReadOnly, Category = "Combat")
+	bool bHitReacting = false;
+
 protected:
 	virtual void BeginPlay() override;
 	
@@ -83,7 +86,6 @@ protected:
 
 	void ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level) const;
 	
-	virtual void AddCharacterAbilities();
 	virtual void InitializeDefaultAttributes() const;
 
 	/* Dissolve Effects */
@@ -102,10 +104,7 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TObjectPtr<UMaterialInstance> WeaponDissolveMaterialInstance;
 
-private:
-
-	UPROPERTY(EditAnywhere, Category = "Abilities") //Only Pippa's Startup Abilities
-	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
+private:	
 
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	TObjectPtr<UAnimMontage> HitReactMontage;

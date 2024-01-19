@@ -34,6 +34,8 @@ public:
 
 	//CombatInterface
 	virtual int32 GetPlayerLevel() override;
+
+	void HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
 	
 	UPROPERTY(BlueprintAssignable)
 	FOnAttributeChangedSignature OnHealthChanged;
@@ -41,10 +43,6 @@ public:
 	UPROPERTY(BlueprintAssignable)
 	FOnAttributeChangedSignature OnMaxHealthChanged;
 
-	void HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
-
-	UPROPERTY(BlueprintReadOnly, Category = "Combat")
-	bool bHitReacting = false;
 
 	virtual void Die() override;
 

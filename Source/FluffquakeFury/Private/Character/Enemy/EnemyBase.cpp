@@ -101,14 +101,6 @@ void AEnemyBase::BeginPlay()
 	
 }
 
-void AEnemyBase::HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
-{
-	
-	bHitReacting = NewCount > 0;
-	GetCharacterMovement()->MaxWalkSpeed = bHitReacting ? 0.f : BaseWalkSpeed;
-	FQFAIController->GetBlackboardComponent()->SetValueAsBool(FName("HitReacting"), bHitReacting);
-}
-
 void AEnemyBase::InitAbilityActorInfo()
 {
 	AbilitySystemComponent->InitAbilityActorInfo(this, this);
@@ -146,4 +138,12 @@ void AEnemyBase::SetCombatTarget_Implementation(AActor* InCombatTarget)
 int32 AEnemyBase::GetPlayerLevel()
 {
 	return Level;
+}
+
+void AEnemyBase::HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
+{
+	bHitReacting = NewCount > 0;
+	GetCharacterMovement()->MaxWalkSpeed = bHitReacting ? 0.f : BaseWalkSpeed;
+	FQFAIController->GetBlackboardComponent()->SetValueAsBool(FName("HitReacting"), bHitReacting);
+
 }

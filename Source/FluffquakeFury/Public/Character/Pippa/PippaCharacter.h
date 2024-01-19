@@ -29,6 +29,9 @@ public:
 private:
 	virtual void InitAbilityActorInfo() override;
 
+	UPROPERTY(EditAnywhere, Category = "Abilities") 
+	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
+
 protected:
 	UPROPERTY(EditDefaultsOnly)
 	USpringArmComponent* SpringArm;
@@ -42,4 +45,6 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 	float SpringArmAngle = -45.f;	
 	
+	void AddCharacterAbilities();
+
 };

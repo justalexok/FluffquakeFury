@@ -106,3 +106,11 @@ void APippaCharacter::InitAbilityActorInfo()
 	}
 	
 }
+
+void APippaCharacter::AddCharacterAbilities()
+{
+	UFQFAbilitySystemComponent* FQFASC = CastChecked<UFQFAbilitySystemComponent>(AbilitySystemComponent);
+	if (!HasAuthority()) return;
+
+	FQFASC->AddCharacterAbilities(StartupAbilities);
+}
