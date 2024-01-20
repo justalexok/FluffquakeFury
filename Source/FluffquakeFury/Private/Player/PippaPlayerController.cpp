@@ -51,6 +51,7 @@ void APippaPlayerController::SetupInputComponent()
 	FQFInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &APippaPlayerController::Move);
 	FQFInputComponent->BindAction(ShiftAction, ETriggerEvent::Started, this, &APippaPlayerController::ShiftPressed);
 	FQFInputComponent->BindAction(ShiftAction, ETriggerEvent::Completed, this, &APippaPlayerController::ShiftReleased);
+	FQFInputComponent->BindAction(JumpAction, ETriggerEvent::Triggered, this, &APippaPlayerController::Jump);
 	FQFInputComponent->BindAbilityActions(InputConfig, this, &ThisClass::AbilityInputTagPressed, &ThisClass::AbilityInputTagReleased, &ThisClass::AbilityInputTagHeld);
 }
 
@@ -101,6 +102,14 @@ void APippaPlayerController::Move(const FInputActionValue& InputActionValue)
 	{
 		ControlledPawn->AddMovementInput(ForwardDirection, InputAxisVector.Y);
 		ControlledPawn->AddMovementInput(RightDirection, InputAxisVector.X);
+	}
+}
+
+void APippaPlayerController::Jump(const FInputActionValue& InputActionValue)
+{
+	if (ACharacter* PippaCharacter = Cast<ACharacter>(GetPawn<APawn>()))
+	{
+		PippaCharacter->Jump();		
 	}
 }
 
@@ -189,7 +198,6 @@ void APippaPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 				for (const FVector& PointLoc : NavPath->PathPoints)
 				{
 					Spline->AddSplinePoint(PointLoc, ESplineCoordinateSpace::World);
-					DrawDebugSphere(GetWorld(), PointLoc, 8.f, 8, FColor::Green, false, 5.f);
 				}
 				if (NavPath->PathPoints.Num() >0 )
 				{

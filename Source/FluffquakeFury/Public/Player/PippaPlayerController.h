@@ -8,6 +8,7 @@
 #include "UI/PickupTextComponent.h"
 #include "PippaPlayerController.generated.h"
 
+class AEffectActor;
 class UDamageTextComponent;
 struct FGameplayTag;
 class IEnemyInterface;
@@ -52,11 +53,16 @@ private:
 	UPROPERTY(EditAnywhere, Category="Input")
 	TObjectPtr<UInputAction> ShiftAction;
 
+	UPROPERTY(EditAnywhere, Category="Input")
+	TObjectPtr<UInputAction> JumpAction;
+	
 	void ShiftPressed() { bShiftKeyDown = true; };
 	void ShiftReleased() { bShiftKeyDown = false; };
 	bool bShiftKeyDown = false;
 	
 	void Move(const FInputActionValue& InputActionValue);
+	void Jump (const FInputActionValue& InputActionValue);
+
 
 	void CursorTrace();
 	IEnemyInterface* LastActor;
