@@ -25,10 +25,19 @@ AEffectActor::AEffectActor()
 	RootStaticMesh->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
 
 	CollisionBox = CreateDefaultSubobject<UBoxComponent>(TEXT("CollisionBox"));
-	CollisionBox->SetupAttachment(RootComponent);	
+	CollisionBox->SetupAttachment(RootStaticMesh);	
 	CollisionBox->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	CollisionBox->SetCollisionObjectType(ECollisionChannel::ECC_WorldStatic);
 	CollisionBox->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Overlap);
+
+	if (bHasTriggerBox)
+	{
+		TriggerBox = CreateDefaultSubobject<UBoxComponent>(TEXT("TriggerBox"));
+		TriggerBox->SetupAttachment(RootComponent);	
+		TriggerBox->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+		TriggerBox->SetCollisionObjectType(ECollisionChannel::ECC_WorldStatic);
+		TriggerBox->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Overlap);
+	}
 }
 
 

@@ -33,12 +33,27 @@ protected:
 
 	void ShowPickupText(float ChangeAmount, AActor* Target, FGameplayTag AttributeTag);
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Applied Effects")
 	UStaticMeshComponent* RootStaticMesh;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Applied Effects")
 	UBoxComponent* CollisionBox;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Applied Effects")
+	UBoxComponent* TriggerBox;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Applied Effects")
+	bool bHasTriggerBox = true;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Applied Effects")
+	float DelayBeforeDestroy;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Applied Effects")
+	TObjectPtr<UAnimMontage> ImpactAnim;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Applied Effects")
+	TObjectPtr<UAnimMontage> DestroyAnim;
+	
 	UFUNCTION(BlueprintCallable)
 	void RotateActor(float DeltaTime, float Speed);
 
