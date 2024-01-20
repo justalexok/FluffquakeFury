@@ -38,6 +38,7 @@ AEffectActor::AEffectActor()
 		TriggerBox->SetCollisionObjectType(ECollisionChannel::ECC_WorldStatic);
 		TriggerBox->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Overlap);
 	}
+	else if (TriggerBox) TriggerBox->DestroyComponent();
 }
 
 
@@ -63,15 +64,21 @@ bool AEffectActor::ApplyEffectToTarget(AActor* Target, TSubclassOf<UGameplayEffe
 	const FGameplayEffectSpecHandle EffectSpecHandle = TargetASC->MakeOutgoingSpec(GameplayEffectClass, 1.f, EffectContextHandle);
 	TargetASC->ApplyGameplayEffectSpecToSelf(*EffectSpecHandle.Data.Get());
 
-	if (EffectedAttribute.MatchesTagExact(FFQFGameplayTags::Get().Attributes_Vital_Health))
-	{
-		const float ModifiedMagnitude = GetModifiedMagnitude(GameplayEffectClass);
-		ShowPickupText(ModifiedMagnitude, Target,FFQFGameplayTags::Get().Attributes_Vital_Health);
-	}
-	if (EffectedAttribute.MatchesTagExact(FFQFGameplayTags::Get().Attributes_Vital_Fluff))
-	{
-		ShowPickupText(0.f, Target,FFQFGameplayTags::Get().Attributes_Vital_Fluff);
-	}
+	const float ModifiedMagnitude = GetModifiedMagnitude(GameplayEffectClass);
+	
+
+	if (!bIsDamageCauser) ShowPickupText(ModifiedMagnitude, Target,EffectedAttribute);
+	
+
+	// if (EffectedAttribute.MatchesTagExact(FFQFGameplayTags::Get().Attributes_Vital_Health))
+	// {
+	// 	const float ModifiedMagnitude = GetModifiedMagnitude(GameplayEffectClass);
+	// 	ShowPickupText(ModifiedMagnitude, Target,FFQFGameplayTags::Get().Attributes_Vital_Health);
+	// }
+	// if (EffectedAttribute.MatchesTagExact(FFQFGameplayTags::Get().Attributes_Vital_Fluff))
+	// {
+	// 	ShowPickupText(0.f, Target,FFQFGameplayTags::Get().Attributes_Vital_Fluff);
+	// }
 
 	
 	return  true;

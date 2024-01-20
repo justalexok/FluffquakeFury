@@ -97,7 +97,6 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 
 	if (bExploded) UE_LOG(LogTemp, Error, TEXT("PILLOW EXPLODED!"));
 	
-
 	Damage = round(Damage);
 	
 	const FGameplayModifierEvaluatedData IncomingDamageEvaluatedData(UFQFAttributeSet::GetIncomingDamageAttribute(), EGameplayModOp::Additive, Damage);

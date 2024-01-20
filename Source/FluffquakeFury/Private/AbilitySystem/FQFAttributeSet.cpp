@@ -167,6 +167,15 @@ void UFQFAttributeSet::ShowFloatingText(const FEffectProperties& Props, float Da
 		}
 	
 	}
+	else
+	{
+		//Source and Target the same - must be Effect actor causing Damage to Pippa? 
+		if(APippaPlayerController* PC = Cast<APippaPlayerController>(UGameplayStatics::GetPlayerController(Props.SourceCharacter, 0)))
+		{
+			PC->ShowDamageNumber(Damage, Props.TargetCharacter, bBlockedHit, bPillowExploded);
+			
+		}
+	}
 }
 
 void UFQFAttributeSet::SpawnNiagara(ACharacter* SourceCharacter, bool bPillowExploded, float Damage) const

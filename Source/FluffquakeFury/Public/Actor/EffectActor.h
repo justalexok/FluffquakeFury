@@ -46,6 +46,9 @@ protected:
 	bool bHasTriggerBox = true;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Applied Effects")
+	bool bIsDamageCauser = true;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Applied Effects")
 	float DelayBeforeDestroy;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Applied Effects")
