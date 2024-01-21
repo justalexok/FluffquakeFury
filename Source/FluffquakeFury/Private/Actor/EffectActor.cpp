@@ -17,7 +17,6 @@ AEffectActor::AEffectActor()
 	PrimaryActorTick.bCanEverTick = false;
 	SetRootComponent(CreateDefaultSubobject<USceneComponent>("SceneRoot"));
 	
-	//Root Mesh = The Box itself. Ignores all. Switch if attribute full following overlap with collision box 
 	RootStaticMesh = CreateDefaultSubobject<UStaticMeshComponent>("Root Static Mesh");
 	RootStaticMesh->SetupAttachment(RootComponent);
 	RootStaticMesh->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
@@ -30,15 +29,12 @@ AEffectActor::AEffectActor()
 	CollisionBox->SetCollisionObjectType(ECollisionChannel::ECC_WorldStatic);
 	CollisionBox->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Overlap);
 
-	if (bHasTriggerBox)
-	{
-		TriggerBox = CreateDefaultSubobject<UBoxComponent>(TEXT("TriggerBox"));
-		TriggerBox->SetupAttachment(RootComponent);	
-		TriggerBox->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-		TriggerBox->SetCollisionObjectType(ECollisionChannel::ECC_WorldStatic);
-		TriggerBox->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Overlap);
-	}
-	else if (TriggerBox) TriggerBox->DestroyComponent();
+	TriggerBox = CreateDefaultSubobject<UBoxComponent>(TEXT("TriggerBox"));
+	TriggerBox->SetupAttachment(RootStaticMesh);	
+	TriggerBox->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	TriggerBox->SetCollisionObjectType(ECollisionChannel::ECC_WorldStatic);
+	TriggerBox->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Overlap);
+	
 }
 
 
@@ -47,6 +43,7 @@ AEffectActor::AEffectActor()
 void AEffectActor::BeginPlay()
 {
 	Super::BeginPlay();
+
 	
 }
 
