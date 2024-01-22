@@ -14,6 +14,7 @@
 #include "BehaviorTree/BehaviorTree.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "GameplayEffect.h"
 
 AEnemyBase::AEnemyBase()
 {
@@ -55,8 +56,25 @@ void AEnemyBase::Die()
 {
 	SetLifeSpan(5.f);
 	FQFAIController->GetBlackboardComponent()->SetValueAsBool(FName("IsDead"), true);
-
+	RemoveInfiniteGameplayEffects();
 	Super::Die();
+}
+
+void AEnemyBase::RemoveInfiniteGameplayEffects()
+{
+	TArray<FActiveGameplayEffectHandle> HandlesToRemove;
+	// Remove all active infinite effects owned (sourced) by this character
+	for (TTuple<FActiveGameplayEffectHandle, UAbilitySystemComponent*> HandlePair : ActiveInfiniteEffectHandles)
+	{
+		
+		HandlePair.Value->RemoveActiveGameplayEffect(HandlePair.Key, 1);
+		HandlesToRemove.Add(HandlePair.Key);	
+	}
+	//Must separately remove from the map
+	for (auto& Handle : HandlesToRemove)
+	{
+		ActiveInfiniteEffectHandles.FindAndRemoveChecked(Handle);
+	}
 }
 
 void AEnemyBase::Tick(float DeltaSeconds)

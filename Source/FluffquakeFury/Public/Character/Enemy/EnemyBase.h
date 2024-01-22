@@ -45,6 +45,7 @@ public:
 
 
 	virtual void Die() override;
+	void RemoveInfiniteGameplayEffects();
 
 	virtual void Tick(float DeltaSeconds) override;
 

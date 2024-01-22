@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystemInterface.h"
+#include "ActiveGameplayEffectHandle.h"
 #include "Actor/PillowBase.h"
 #include "GameFramework/Character.h"
 #include "Interaction/CombatInterface.h"
@@ -55,6 +56,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FGameplayTag RecentlyReceivedDamageType = FGameplayTag();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TMap<FActiveGameplayEffectHandle, UAbilitySystemComponent*> ActiveInfiniteEffectHandles;
 
 protected:
 	virtual void BeginPlay() override;

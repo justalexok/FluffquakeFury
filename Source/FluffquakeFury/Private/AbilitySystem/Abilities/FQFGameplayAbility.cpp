@@ -8,6 +8,9 @@
 #include "AbilitySystem/FQFAttributeSet.h"
 #include "AbilitySystem/FQFBlueprintFunctionLibrary.h"
 #include "Character/FQFCharacterBase.h"
+#include "GameplayEffect.h"
+#include "ActiveGameplayEffectHandle.h"
+
 
 void UFQFGameplayAbility::ApplyDamageToTargetActor(AActor* TargetActor)
 {
@@ -46,7 +49,17 @@ void UFQFGameplayAbility::ApplyDamageToTargetActor(AActor* TargetActor)
 			}
 		}		
 
-		TargetASC->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data.Get());
+		const FActiveGameplayEffectHandle ActiveEffectHandle = TargetASC->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data.Get());
+
+		//For infinite effects, add the active effect handle and targetASC to a map on the Sources Character.
+		//To be removed on Source Death. 
+		if (SpecHandle.Data.Get()->Def.Get()->DurationPolicy == EGameplayEffectDurationType::Infinite)
+		{
+			if (AFQFCharacterBase* FQFCharacter = Cast<AFQFCharacterBase>(SourceASC->GetAvatarActor()))
+			{
+				FQFCharacter->ActiveInfiniteEffectHandles.Add(ActiveEffectHandle, TargetASC);
+			}
+		}
 		
 	}
 }
