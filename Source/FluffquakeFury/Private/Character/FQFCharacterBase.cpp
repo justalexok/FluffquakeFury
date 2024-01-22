@@ -99,13 +99,11 @@ AActor* AFQFCharacterBase::GetAvatar_Implementation()
 
 UAnimMontage* AFQFCharacterBase::GetHitReactMontage_Implementation()
 {
-	UAnimMontage* Montage = nullptr;
-
 	if (DamageTypesToHitReactMontages.FindRef(RecentlyReceivedDamageType))
 	{
-		Montage = DamageTypesToHitReactMontages[RecentlyReceivedDamageType];
+		return DamageTypesToHitReactMontages[RecentlyReceivedDamageType];
 	}	
-	return Montage;
+	return nullptr;
 	
 }
 

@@ -10,6 +10,9 @@
 #include "Character/FQFCharacterBase.h"
 #include "GameplayEffect.h"
 #include "ActiveGameplayEffectHandle.h"
+#include "Character/Enemy/EnemyBase.h"
+#include "Game/FQFGameModeBase.h"
+#include "Kismet/GameplayStatics.h"
 
 
 void UFQFGameplayAbility::ApplyDamageToTargetActor(AActor* TargetActor)
@@ -20,7 +23,9 @@ void UFQFGameplayAbility::ApplyDamageToTargetActor(AActor* TargetActor)
 		const UAbilitySystemComponent* SourceASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetAvatarActorFromActorInfo());
 
 		if (!IsValid(TargetActor)) return;
-		if (!UFQFBlueprintFunctionLibrary::IsNotFriend(SourceASC->GetAvatarActor(), TargetActor)) return;	
+		if (!UFQFBlueprintFunctionLibrary::IsNotFriend(SourceASC->GetAvatarActor(), TargetActor)) return;
+
+		if (IsTargetImmuneToDamageType(TargetActor)) return;
 
 		SetRecentlyReceivedDamageTag(TargetActor);
 		
@@ -62,6 +67,17 @@ void UFQFGameplayAbility::ApplyDamageToTargetActor(AActor* TargetActor)
 		}
 		
 	}
+}
+
+
+
+bool UFQFGameplayAbility::IsTargetImmuneToDamageType(AActor* TargetActor) const
+{
+	if (AEnemyBase* Enemy = Cast<AEnemyBase>(TargetActor))
+	{
+		if (Enemy->Immunities.Contains(DamageType)) return true;			
+	}
+	return false;
 }
 
 FTaggedMontage UFQFGameplayAbility::GetRandomTaggedMontage(TArray<FTaggedMontage> TaggedMontages)

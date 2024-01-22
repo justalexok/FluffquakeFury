@@ -28,7 +28,7 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Damage")
 	FGameplayTag DamageType;
-	
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Damage")
 	FScalableFloat ExplosionChance;
 	
@@ -37,7 +37,8 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Damage")
 	FVector DamageImpactLocation;
-	
+
+	bool IsTargetImmuneToDamageType(AActor* TargetActor) const;
 	UFUNCTION(BlueprintCallable)
 	void ApplyDamageToTargetActor(AActor* TargetActor);
 

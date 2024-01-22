@@ -4,9 +4,13 @@
 #include "Character/Pippa/PippaCharacter.h"
 #include "AbilitySystemComponent.h"
 #include "AbilitySystem/FQFAbilitySystemComponent.h"
+#include "AI/FQFAIController.h"
+#include "BehaviorTree/BlackboardComponent.h"
+#include "Character/Enemy/EnemyBase.h"
 #include "Player/PippaPlayerController.h"
 #include "UI/HUD/FQFHUD.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Kismet/GameplayStatics.h"
 #include "Player/FQFPlayerState.h"
 
 
@@ -76,6 +80,25 @@ void APippaCharacter::KnockbackCharacter(float Pitch, float Magnitude)
 	const FVector KnockbackForce = ToTarget * Magnitude;
 	LaunchCharacter(KnockbackForce, true, true);
 	
+}
+
+void APippaCharacter::Die()
+{
+	Super::Die();
+
+	//Tell each enemy behavior tree player is Dead.
+	TArray<AActor*> EnemiesInWorld;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AEnemyBase::StaticClass(), EnemiesInWorld);
+
+	for (AActor* EnemyInWorld : EnemiesInWorld)
+	{
+		AEnemyBase* Enemy = Cast<AEnemyBase>(EnemyInWorld);
+		if (Enemy)
+		{
+			Enemy->FQFAIController->GetBlackboardComponent()->SetValueAsBool(FName("IsPlayerDead"), true);
+			Enemy->RemoveInfiniteGameplayEffects();
+		}
+	}
 }
 
 void APippaCharacter::InitAbilityActorInfo()

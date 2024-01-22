@@ -50,6 +50,13 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = "Combat")
 	TObjectPtr<AActor> CombatTarget;
 	
+	UPROPERTY()
+	TObjectPtr<AFQFAIController> FQFAIController;
+
+	UPROPERTY(EditAnywhere, Category = "Character Class Defaults")
+	TArray<FGameplayTag>Immunities;
+		
+	
 protected:
 	virtual void BeginPlay() override;
 	virtual void InitAbilityActorInfo() override;
@@ -62,10 +69,7 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Class Defaults")
 	ECharacterClass CharacterClass = ECharacterClass::Warrior;
-
+	
 	UPROPERTY(EditAnywhere, Category = "AI")
 	TObjectPtr<UBehaviorTree> BehaviorTree;
-
-	UPROPERTY()
-	TObjectPtr<AFQFAIController> FQFAIController;
 };

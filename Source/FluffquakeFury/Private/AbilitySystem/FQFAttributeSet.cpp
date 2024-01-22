@@ -15,6 +15,7 @@
 #include "Player/PippaPlayerController.h"
 #include "NiagaraFunctionLibrary.h"
 #include "NiagaraComponent.h"
+#include "Character/Pippa/PippaCharacter.h"
 
 UFQFAttributeSet::UFQFAttributeSet()
 {
@@ -42,6 +43,8 @@ void UFQFAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbac
 {
 	Super::PostGameplayEffectExecute(Data);
 
+	
+
 	FEffectProperties Props;
 	SetEffectProperties(Data, Props);
 
@@ -62,7 +65,16 @@ void UFQFAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbac
 	if (Data.EvaluatedData.Attribute == GetIncomingDamageAttribute())
 	{
 
-		const bool bPippaPillowAttack = Props.AttackTag == FFQFGameplayTags::Get().Montage_Attack_PillowWhack;
+		if (Props.SourceCharacter == nullptr)
+		{
+			UE_LOG(LogTemp, Error, TEXT("SOURCE CHARACTER NULL IN POSTGAMEPLAY EFFECT EXECUTE!!!"))
+			return;
+		}
+		bool bPippaPillowAttack = false;
+		if (APippaCharacter* PippaCharacter = Cast<APippaCharacter>(Props.SourceCharacter))
+		{
+			bPippaPillowAttack = true;
+		}
 		
 		const float LocalIncomingDamage = GetIncomingDamage();
 		SetIncomingDamage(0.f);
@@ -74,7 +86,7 @@ void UFQFAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbac
 			UE_LOG(LogTemp,Warning,TEXT("Incoming Damage on %s, Damage: %f, New Health %f"), *Props.TargetAvatarActor->GetName(),LocalIncomingDamage, GetHealth());
 
 			const bool bFatal = GetHealth() <= 0.f;
-
+			const bool bBlocked = UFQFBlueprintFunctionLibrary::IsBlockedHit(Props.EffectContextHandle);
 			if (bFatal)
 			{
 				if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(Props.TargetAvatarActor))
@@ -82,7 +94,8 @@ void UFQFAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbac
 					CombatInterface->Die();
 				}
 			}
-			else
+			
+			else if (!bBlocked)
 			{
 				FGameplayTagContainer TagContainer;
 				TagContainer.AddTag(FFQFGameplayTags::Get().Effects_HitReact);
@@ -93,7 +106,7 @@ void UFQFAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbac
 				SetFluffLost(Props, LocalIncomingDamage);			
 				SpawnNiagara(Props.SourceCharacter, false, LocalIncomingDamage);
 			}
-			const bool bBlocked = UFQFBlueprintFunctionLibrary::IsBlockedHit(Props.EffectContextHandle);	
+				
 			ShowFloatingText(Props, LocalIncomingDamage, bBlocked, false);
 			
 
@@ -145,10 +158,8 @@ void UFQFAttributeSet::SetEffectProperties(const FGameplayEffectModCallbackData&
 	}
 
 	//TODO Get Attack type from Data?
-	if (Props.SourceCharacter->ActorHasTag("Player"))
-	{
-		Props.AttackTag = FFQFGameplayTags::Get().Montage_Attack_PillowWhack;
-	}
+	// Props.AttackTag = FFQFGameplayTags::Get().Montage_Attack_PillowWhack;
+	
 }
 
 void UFQFAttributeSet::ShowFloatingText(const FEffectProperties& Props, float Damage, bool bBlockedHit, bool bPillowExploded)
