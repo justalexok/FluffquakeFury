@@ -50,41 +50,15 @@ void AEnemyBase::PossessedBy(AController* NewController)
 	bUseControllerRotationRoll = false;
 	bUseControllerRotationYaw = false;
 	GetCharacterMovement()->bUseControllerDesiredRotation = true;
-}
 
-void AEnemyBase::Die()
-{
-	SetLifeSpan(5.f);
-	FQFAIController->GetBlackboardComponent()->SetValueAsBool(FName("IsDead"), true);
-	RemoveInfiniteGameplayEffects();
-	Super::Die();
-}
-
-void AEnemyBase::RemoveInfiniteGameplayEffects()
-{
-	TArray<FActiveGameplayEffectHandle> HandlesToRemove;
-	// Remove all active infinite effects owned (sourced) by this character
-	for (TTuple<FActiveGameplayEffectHandle, UAbilitySystemComponent*> HandlePair : ActiveInfiniteEffectHandles)
+	
+	if (CharacterClass == ECharacterClass::Insect)
 	{
-		
-		HandlePair.Value->RemoveActiveGameplayEffect(HandlePair.Key, 1);
-		HandlesToRemove.Add(HandlePair.Key);	
-	}
-	//Must separately remove from the map
-	for (auto& Handle : HandlesToRemove)
-	{
-		ActiveInfiniteEffectHandles.FindAndRemoveChecked(Handle);
+		GetMesh()->SetCollisionObjectType(ECC_Insect);
 	}
 }
 
-void AEnemyBase::Tick(float DeltaSeconds)
-{
-	Super::Tick(DeltaSeconds);
 
-	UE_LOG(LogTemp,Warning,TEXT("CharacterMovement MaxWalkSpeed: %f"), GetCharacterMovement()->MaxWalkSpeed);
-	UE_LOG(LogTemp,Warning,TEXT("BaseWalkSpeed: %f"), BaseWalkSpeed);
-
-}
 
 void AEnemyBase::BeginPlay()
 {
@@ -135,6 +109,31 @@ void AEnemyBase::InitAbilityActorInfo()
 
 }
 
+void AEnemyBase::Die()
+{
+	SetLifeSpan(5.f);
+	FQFAIController->GetBlackboardComponent()->SetValueAsBool(FName("IsDead"), true);
+	RemoveInfiniteGameplayEffects();
+	Super::Die();
+}
+
+void AEnemyBase::RemoveInfiniteGameplayEffects()
+{
+	TArray<FActiveGameplayEffectHandle> HandlesToRemove;
+	// Remove all active infinite effects owned (sourced) by this character
+	for (TTuple<FActiveGameplayEffectHandle, UAbilitySystemComponent*> HandlePair : ActiveInfiniteEffectHandles)
+	{
+		
+		HandlePair.Value->RemoveActiveGameplayEffect(HandlePair.Key, 1);
+		HandlesToRemove.Add(HandlePair.Key);	
+	}
+	//Must separately remove from the map
+	for (auto& Handle : HandlesToRemove)
+	{
+		ActiveInfiniteEffectHandles.FindAndRemoveChecked(Handle);
+	}
+}
+
 void AEnemyBase::HighlightActor()
 {
 	GetMesh()->SetRenderCustomDepth(true);
@@ -170,5 +169,7 @@ void AEnemyBase::HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCou
 	bHitReacting = NewCount > 0;
 	GetCharacterMovement()->MaxWalkSpeed = bHitReacting ? 0.f : BaseWalkSpeed;
 	FQFAIController->GetBlackboardComponent()->SetValueAsBool(FName("HitReacting"), bHitReacting);
+
+	UE_LOG(LogTemp,Error,TEXT("Hit React Tag New Count: %d"),NewCount);
 
 }

@@ -47,8 +47,6 @@ public:
 	virtual void Die() override;
 	void RemoveInfiniteGameplayEffects();
 
-	virtual void Tick(float DeltaSeconds) override;
-
 	UPROPERTY(BlueprintReadWrite, Category = "Combat")
 	TObjectPtr<AActor> CombatTarget;
 	

@@ -33,6 +33,7 @@ void AFQFCharacterBase::BeginPlay()
 
 void AFQFCharacterBase::HandleDeath()
 {
+	
 	Weapon->SetSimulatePhysics(true);
 	Weapon->SetEnableGravity(true);
 	Weapon->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);

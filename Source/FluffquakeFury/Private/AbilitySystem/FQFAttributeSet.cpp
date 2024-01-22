@@ -86,7 +86,7 @@ void UFQFAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbac
 			{
 				FGameplayTagContainer TagContainer;
 				TagContainer.AddTag(FFQFGameplayTags::Get().Effects_HitReact);
-				Props.TargetASC->TryActivateAbilitiesByTag(TagContainer);
+				Props.TargetASC->TryActivateAbilitiesByTag(TagContainer); //Try and activate an Ability with the hit react tag
 			}
 			if (bPippaPillowAttack)
 			{

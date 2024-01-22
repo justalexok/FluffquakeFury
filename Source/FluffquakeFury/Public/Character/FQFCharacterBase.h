@@ -116,10 +116,7 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TObjectPtr<UMaterialInstance> WeaponDissolveMaterialInstance;
 
-private:	
-
-	UPROPERTY(EditAnywhere, Category = "Combat")
-	TObjectPtr<UAnimMontage> HitReactMontage;
+private:
 
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	TMap<FGameplayTag,UAnimMontage*> DamageTypesToHitReactMontages;
