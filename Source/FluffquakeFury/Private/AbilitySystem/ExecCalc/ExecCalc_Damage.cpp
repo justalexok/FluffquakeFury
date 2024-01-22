@@ -66,8 +66,6 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 		//i.e. Only one type tag will have its magnitude set.
 	}
 	
-	// float Damage = Spec.GetSetByCallerMagnitude(FFQFGameplayTags::Get().Damage);
-
 	//Capture BlockChance on Target and determine if successful block
 	float TargetBlockChance = 0.f;
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().BlockChanceDef, EvaluationParameters, TargetBlockChance);

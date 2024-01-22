@@ -61,7 +61,8 @@ private:
 	bool bShiftKeyDown = false;
 	
 	void Move(const FInputActionValue& InputActionValue);
-	void Jump (const FInputActionValue& InputActionValue);
+	void Jump(const FInputActionValue& InputActionValue);
+	void Jump (const FInputActionValue& InputActionValue) const;
 
 
 	void CursorTrace();

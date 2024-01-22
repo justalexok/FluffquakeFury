@@ -10,10 +10,13 @@
 #include "NavigationSystem.h"
 #include "AbilitySystem/FQFAbilitySystemComponent.h"
 #include "Actor/EffectActor.h"
+#include "Character/FQFCharacterBase.h"
+#include "Character/Pippa/PippaCharacter.h"
 #include "Components/SplineComponent.h"
 #include "Input/FQFInputComponent.h"
 #include "Interaction/EnemyInterface.h"
 #include "GameFramework/Character.h"
+#include "Interaction/CombatInterface.h"
 #include "UI/DamageTextComponent.h"
 
 
@@ -107,10 +110,17 @@ void APippaPlayerController::Move(const FInputActionValue& InputActionValue)
 
 void APippaPlayerController::Jump(const FInputActionValue& InputActionValue)
 {
-	if (ACharacter* PippaCharacter = Cast<ACharacter>(GetPawn<APawn>()))
+	if (APippaCharacter* PippaCharacter = Cast<APippaCharacter>(GetPawn<APawn>()))
 	{
-		PippaCharacter->Jump();		
+		PippaCharacter->Jump();
+		// FGameplayTagContainer TagContainer;
+		// TagContainer.AddTag(FFQFGameplayTags::Get().Abilities_Jump);
+		// if (!PippaCharacter->GetAbilitySystemComponent()->TryActivateAbilitiesByTag(TagContainer))
+		// {
+		// 	UE_LOG(LogTemp,Error,TEXT("Error activating ability"));
+		// }
 	}
+
 }
 
 void APippaPlayerController::CursorTrace()

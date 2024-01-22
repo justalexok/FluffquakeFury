@@ -3,6 +3,8 @@
 #include "GameplayEffectTypes.h"
 #include "FQFAbilityTypes.generated.h"
 
+class UGameplayEffect;
+
 USTRUCT(BlueprintType)
 struct FFQFGameplayEffectContext : public FGameplayEffectContext
 {
@@ -61,4 +63,34 @@ protected:
 			WithNetSerializer = true,
 			WithCopy = true
 		};
+};
+
+USTRUCT(BlueprintType)
+struct FDamageEffectParams
+{
+	GENERATED_BODY()
+
+	FDamageEffectParams(){}
+
+	UPROPERTY()
+	TObjectPtr<UObject> WorldContextObject = nullptr;
+
+	UPROPERTY()
+	TSubclassOf<UGameplayEffect> DamageGameplayEffectClass = nullptr;
+
+	UPROPERTY()
+	TObjectPtr<UAbilitySystemComponent> SourceAbilitySystemComponent;
+
+	UPROPERTY()
+	TObjectPtr<UAbilitySystemComponent> TargetAbilitySystemComponent;
+
+	UPROPERTY()
+	float BaseDamage = 0.f;
+
+	UPROPERTY()
+	float AbilityLevel = 1.f;
+
+	UPROPERTY()
+	FGameplayTag DamageType = FGameplayTag();
+
 };

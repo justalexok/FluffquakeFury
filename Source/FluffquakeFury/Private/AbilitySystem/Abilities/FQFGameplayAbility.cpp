@@ -11,14 +11,13 @@
 #include "GameplayEffect.h"
 #include "ActiveGameplayEffectHandle.h"
 #include "Character/Enemy/EnemyBase.h"
-#include "Game/FQFGameModeBase.h"
-#include "Kismet/GameplayStatics.h"
+
 
 
 void UFQFGameplayAbility::ApplyDamageToTargetActor(AActor* TargetActor)
 {
 
-	if (UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor))
+ 	if (UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor))
 	{
 		const UAbilitySystemComponent* SourceASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetAvatarActorFromActorInfo());
 

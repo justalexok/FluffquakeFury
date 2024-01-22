@@ -47,6 +47,7 @@ public:
 	FGameplayTag PillowType_Poison;
 
 	FGameplayTag Abilities_Attack;
+	FGameplayTag Abilities_Jump;
 
 	FGameplayTag Effects_HitReact;
 
