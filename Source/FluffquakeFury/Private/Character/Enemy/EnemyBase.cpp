@@ -170,6 +170,4 @@ void AEnemyBase::HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCou
 	GetCharacterMovement()->MaxWalkSpeed = bHitReacting ? 0.f : BaseWalkSpeed;
 	FQFAIController->GetBlackboardComponent()->SetValueAsBool(FName("HitReacting"), bHitReacting);
 
-	UE_LOG(LogTemp,Error,TEXT("Hit React Tag New Count: %d"),NewCount);
-
 }

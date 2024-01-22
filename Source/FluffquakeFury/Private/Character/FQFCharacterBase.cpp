@@ -73,6 +73,11 @@ FOnDeathSignature& AFQFCharacterBase::GetOnDeathDelegate()
 	return OnDeathDelegate;
 }
 
+void AFQFCharacterBase::ResetRecentlyReceivedDamageType_Implementation()
+{
+	RecentlyReceivedDamageType = FGameplayTag();
+}
+
 FVector AFQFCharacterBase::GetCombatSocketLocation_Implementation(const FGameplayTag& MontageTag)
 {
 	const FFQFGameplayTags& GameplayTags = FFQFGameplayTags::Get();
@@ -101,6 +106,7 @@ UAnimMontage* AFQFCharacterBase::GetHitReactMontage_Implementation()
 {
 	if (DamageTypesToHitReactMontages.FindRef(RecentlyReceivedDamageType))
 	{
+		UE_LOG(LogTemp, Display, TEXT("Recently Received Damage Type: %s"), *RecentlyReceivedDamageType.ToString());
 		return DamageTypesToHitReactMontages[RecentlyReceivedDamageType];
 	}	
 	return nullptr;

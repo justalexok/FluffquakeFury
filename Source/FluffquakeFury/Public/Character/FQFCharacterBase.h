@@ -37,6 +37,7 @@ public:
 	virtual void SetMaxWalkSpeed_Implementation(bool bShouldImmobiliseCharacter) override;
 	virtual TArray<FTaggedMontage> GetAttackMontages_Implementation() override;
 	virtual FOnDeathSignature& GetOnDeathDelegate() override;
+	virtual void ResetRecentlyReceivedDamageType_Implementation() override;
 
 	UPROPERTY(EditAnywhere, Category="Combat")
 	TArray<FTaggedMontage> AttackMontages;

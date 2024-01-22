@@ -64,6 +64,9 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	TArray<FTaggedMontage> GetAttackMontages();
 
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void ResetRecentlyReceivedDamageType();
+	
 	virtual void Die() = 0;
 	
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
