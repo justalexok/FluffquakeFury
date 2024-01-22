@@ -104,6 +104,7 @@ void UFQFAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbac
 			FGameplayTagContainer TagContainer;
 			TagContainer.AddTag(FFQFGameplayTags::Get().Effects_HitReact);
 			Props.SourceASC->TryActivateAbilitiesByTag(TagContainer);
+			
 			HandleExplosion(Props,LocalIncomingDamage);
 		}
 		

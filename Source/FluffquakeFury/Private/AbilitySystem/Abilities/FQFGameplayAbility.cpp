@@ -7,11 +7,16 @@
 #include "AbilitySystemComponent.h"
 #include "AbilitySystem/FQFAttributeSet.h"
 #include "AbilitySystem/FQFBlueprintFunctionLibrary.h"
+#include "Character/FQFCharacterBase.h"
 
 void UFQFGameplayAbility::ApplyDamageToTargetActor(AActor* TargetActor)
 {
 	if (UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor))
 	{
+		if (!IsValid(TargetActor)) return;
+		
+		SetRecentlyReceivedDamageTag(TargetActor);
+		
 		const UAbilitySystemComponent* SourceASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetAvatarActorFromActorInfo());
 		FGameplayEffectContextHandle EffectContextHandle = SourceASC->MakeEffectContext();
 		EffectContextHandle.SetAbility(this);
@@ -52,4 +57,12 @@ FTaggedMontage UFQFGameplayAbility::GetRandomTaggedMontage(TArray<FTaggedMontage
 	}
 	
 	return FTaggedMontage(); 
+}
+
+void UFQFGameplayAbility::SetRecentlyReceivedDamageTag(AActor* TargetActor)
+{
+	if (AFQFCharacterBase* TargetCharacter = Cast<AFQFCharacterBase>(TargetActor))
+	{
+		TargetCharacter->RecentlyReceivedDamageType = DamageType;
+	}
 }

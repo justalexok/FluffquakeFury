@@ -39,6 +39,8 @@ public:
 	FGameplayTag Damage;
 	FGameplayTag DamageType_Fluff;
 	FGameplayTag DamageType_Physical;
+	FGameplayTag DamageType_Insect;
+
 	FGameplayTag ExplosionChance;
 
 	FGameplayTag PillowType_Regular;

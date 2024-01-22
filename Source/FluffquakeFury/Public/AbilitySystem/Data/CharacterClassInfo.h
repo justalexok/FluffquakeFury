@@ -13,7 +13,9 @@ UENUM(BlueprintType)
 enum class ECharacterClass : uint8
 {
 	Warrior,
-	Ranger
+	Ranger,
+	Elementalist,
+	Insect
 };
 
 USTRUCT(BlueprintType)

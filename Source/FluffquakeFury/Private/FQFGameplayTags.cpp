@@ -29,6 +29,7 @@ void FFQFGameplayTags::InitializeNativeGameplayTags(){
 	GameplayTags.Damage = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage"),FString("Tag for Damage"));
 	GameplayTags.DamageType_Fluff = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("DamageType.Fluff"),FString("Fluff Damage Type Tag"));
 	GameplayTags.DamageType_Physical = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("DamageType.Physical"),FString("Physical Damage Type Tag"));
+	GameplayTags.DamageType_Insect = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("DamageType.Insect"),FString("Insect Damage Type Tag"));
 
 	GameplayTags.ExplosionChance = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("ExplosionChance"),FString("Tag for Explosion Chance"));
 

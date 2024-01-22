@@ -26,7 +26,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Damage")
 	FScalableFloat Damage;
 
-	UPROPERTY(EditDefaultsOnly, Category="Damage")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Damage")
 	FGameplayTag DamageType;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Damage")
@@ -43,5 +43,8 @@ public:
 
 	UFUNCTION(BlueprintPure)
 	static FTaggedMontage GetRandomTaggedMontage(TArray<FTaggedMontage> TaggedMontages);
+
+	UFUNCTION(BlueprintCallable)
+	void SetRecentlyReceivedDamageTag(AActor* TargetActor);
 	
 };

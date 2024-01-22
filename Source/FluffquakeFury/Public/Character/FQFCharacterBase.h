@@ -35,12 +35,15 @@ public:
 	virtual void Die() override;
 	virtual void SetMaxWalkSpeed_Implementation(bool bShouldImmobiliseCharacter) override;
 	virtual TArray<FTaggedMontage> GetAttackMontages_Implementation() override;
+	virtual FOnDeathSignature& GetOnDeathDelegate() override;
 
 	UPROPERTY(EditAnywhere, Category="Combat")
 	TArray<FTaggedMontage> AttackMontages;
 	
 	UFUNCTION()
 	void HandleDeath();
+
+	FOnDeathSignature OnDeathDelegate;
 
 	UPROPERTY(EditDefaultsOnly, Category="Combat")
 	TSubclassOf<APillowBase> PillowClass;
@@ -49,6 +52,9 @@ public:
 
 	UPROPERTY(BlueprintReadOnly, Category = "Combat")
 	bool bHitReacting = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FGameplayTag RecentlyReceivedDamageType = FGameplayTag();
 
 protected:
 	virtual void BeginPlay() override;
@@ -72,8 +78,11 @@ protected:
 	UPROPERTY()
 	TObjectPtr<UAttributeSet> AttributeSet;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float BaseWalkSpeed = 500.f;
+
+	
+
 
 	virtual void InitAbilityActorInfo();
 
@@ -108,4 +117,6 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	TObjectPtr<UAnimMontage> HitReactMontage;
 
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	TMap<FGameplayTag,UAnimMontage*> DamageTypesToHitReactMontages;
 };

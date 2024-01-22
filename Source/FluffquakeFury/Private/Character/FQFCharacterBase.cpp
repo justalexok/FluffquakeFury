@@ -46,6 +46,10 @@ void AFQFCharacterBase::HandleDeath()
 
 	Dissolve();
 
+	bDead = true;
+
+	OnDeathDelegate.Broadcast(this); //Currently nobody listening
+
 }
 void AFQFCharacterBase::Die()
 {
@@ -61,6 +65,11 @@ void AFQFCharacterBase::SetMaxWalkSpeed_Implementation(bool bShouldImmobiliseCha
 TArray<FTaggedMontage> AFQFCharacterBase::GetAttackMontages_Implementation()
 {
 	return AttackMontages;
+}
+
+FOnDeathSignature& AFQFCharacterBase::GetOnDeathDelegate()
+{
+	return OnDeathDelegate;
 }
 
 FVector AFQFCharacterBase::GetCombatSocketLocation_Implementation(const FGameplayTag& MontageTag)
@@ -89,7 +98,14 @@ AActor* AFQFCharacterBase::GetAvatar_Implementation()
 
 UAnimMontage* AFQFCharacterBase::GetHitReactMontage_Implementation()
 {
-	return HitReactMontage;
+	UAnimMontage* Montage = nullptr;
+
+	if (DamageTypesToHitReactMontages.FindRef(RecentlyReceivedDamageType))
+	{
+		Montage = DamageTypesToHitReactMontages[RecentlyReceivedDamageType];
+	}	
+	return Montage;
+	
 }
 
 
