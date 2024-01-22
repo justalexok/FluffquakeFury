@@ -11,13 +11,16 @@
 
 void UFQFGameplayAbility::ApplyDamageToTargetActor(AActor* TargetActor)
 {
+
 	if (UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor))
 	{
+		const UAbilitySystemComponent* SourceASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetAvatarActorFromActorInfo());
+
 		if (!IsValid(TargetActor)) return;
-		
+		if (!UFQFBlueprintFunctionLibrary::IsNotFriend(SourceASC->GetAvatarActor(), TargetActor)) return;	
+
 		SetRecentlyReceivedDamageTag(TargetActor);
 		
-		const UAbilitySystemComponent* SourceASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetAvatarActorFromActorInfo());
 		FGameplayEffectContextHandle EffectContextHandle = SourceASC->MakeEffectContext();
 		EffectContextHandle.SetAbility(this);
 		EffectContextHandle.AddSourceObject(SourceWeapon);

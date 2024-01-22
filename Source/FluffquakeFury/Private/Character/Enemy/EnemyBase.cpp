@@ -54,6 +54,8 @@ void AEnemyBase::PossessedBy(AController* NewController)
 void AEnemyBase::Die()
 {
 	SetLifeSpan(5.f);
+	FQFAIController->GetBlackboardComponent()->SetValueAsBool(FName("IsDead"), true);
+
 	Super::Die();
 }
 

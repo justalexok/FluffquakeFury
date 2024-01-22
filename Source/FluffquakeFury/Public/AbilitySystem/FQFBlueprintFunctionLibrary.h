@@ -47,4 +47,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "FQFBlueprintFunctionLibrary|GameplayEffects")
 	static void SetHasPillowExploded(UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle, bool bInHasPillowExploded);
 
+	UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|GameplayMechanics")
+	static bool IsNotFriend(const AActor* FirstActor, const AActor* SecondActor);
 };
