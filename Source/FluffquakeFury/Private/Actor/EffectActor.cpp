@@ -65,19 +65,7 @@ bool AEffectActor::ApplyEffectToTarget(AActor* Target, TSubclassOf<UGameplayEffe
 	
 
 	if (!bIsDamageCauser) ShowPickupText(ModifiedMagnitude, Target,EffectedAttribute);
-	
 
-	// if (EffectedAttribute.MatchesTagExact(FFQFGameplayTags::Get().Attributes_Vital_Health))
-	// {
-	// 	const float ModifiedMagnitude = GetModifiedMagnitude(GameplayEffectClass);
-	// 	ShowPickupText(ModifiedMagnitude, Target,FFQFGameplayTags::Get().Attributes_Vital_Health);
-	// }
-	// if (EffectedAttribute.MatchesTagExact(FFQFGameplayTags::Get().Attributes_Vital_Fluff))
-	// {
-	// 	ShowPickupText(0.f, Target,FFQFGameplayTags::Get().Attributes_Vital_Fluff);
-	// }
-
-	
 	return  true;
 	
 }
@@ -107,6 +95,20 @@ float AEffectActor::GetModifiedMagnitude(TSubclassOf<UGameplayEffect> GameplayEf
 		Mod.ModifierMagnitude.GetStaticMagnitudeIfPossible(1,ModifiedMagnitude);
 	}
 	return  ModifiedMagnitude;
+}
+
+void AEffectActor::Dissolve()
+{
+	if (IsValid(DissolveMaterialInstance))
+	{
+		UMaterialInstanceDynamic* DynamicMatInst = UMaterialInstanceDynamic::Create(DissolveMaterialInstance, this);
+		//Loop over each Material in the SKM and swap for DynamicMatInst
+		for (int32 i = 0; i < RootStaticMesh->GetMaterials().Num(); ++i)
+		{
+			RootStaticMesh->SetMaterial(i, DynamicMatInst);
+		}	
+		StartDissolveTimeline(DynamicMatInst);
+	}
 }
 
 //

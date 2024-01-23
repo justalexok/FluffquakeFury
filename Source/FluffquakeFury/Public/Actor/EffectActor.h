@@ -61,14 +61,15 @@ protected:
 	void RotateActor(float DeltaTime, float Speed);
 
 	float GetModifiedMagnitude(TSubclassOf<UGameplayEffect> GameplayEffectClass);
-	
-	// UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Applied Effects")
-	// FGameplayTag ErrorInPickupTag;
-	
-	// void NotifyPlayerOfFullAttribute() const;
-	// void EnableStaticMeshBlocking(bool bEnabled) const;
-	
-	
+
+	UFUNCTION(BlueprintCallable)
+	void Dissolve();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void StartDissolveTimeline(UMaterialInstanceDynamic* DynamicMaterialInstance);
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TObjectPtr<UMaterialInstance> DissolveMaterialInstance;
 
 
 };
