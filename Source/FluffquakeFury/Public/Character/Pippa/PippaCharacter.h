@@ -27,6 +27,8 @@ public:
 	virtual int32 GetPlayerLevel() override;
 	virtual void KnockbackCharacter(float Pitch, float Magnitude) override;
 	virtual void Die() override;
+
+	virtual void Landed(const FHitResult& Hit) override;
 private:
 	virtual void InitAbilityActorInfo() override;
 

@@ -113,12 +113,7 @@ void APippaPlayerController::Jump(const FInputActionValue& InputActionValue)
 	if (APippaCharacter* PippaCharacter = Cast<APippaCharacter>(GetPawn<APawn>()))
 	{
 		PippaCharacter->Jump();
-		// FGameplayTagContainer TagContainer;
-		// TagContainer.AddTag(FFQFGameplayTags::Get().Abilities_Jump);
-		// if (!PippaCharacter->GetAbilitySystemComponent()->TryActivateAbilitiesByTag(TagContainer))
-		// {
-		// 	UE_LOG(LogTemp,Error,TEXT("Error activating ability"));
-		// }
+		
 	}
 
 }

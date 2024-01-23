@@ -3,6 +3,7 @@
 
 #include "Character/Pippa/PippaCharacter.h"
 #include "AbilitySystemComponent.h"
+#include "FQFGameplayTags.h"
 #include "AbilitySystem/FQFAbilitySystemComponent.h"
 #include "AI/FQFAIController.h"
 #include "BehaviorTree/BlackboardComponent.h"
@@ -99,6 +100,17 @@ void APippaCharacter::Die()
 			Enemy->RemoveInfiniteGameplayEffects();
 		}
 	}
+}
+
+void APippaCharacter::Landed(const FHitResult& Hit)
+{
+	Super::Landed(Hit);
+
+	//Activate Jump Ability
+	FGameplayTagContainer TagContainer;
+	TagContainer.AddTag(FFQFGameplayTags::Get().Abilities_Jump);
+	GetAbilitySystemComponent()->TryActivateAbilitiesByTag(TagContainer);
+
 }
 
 void APippaCharacter::InitAbilityActorInfo()

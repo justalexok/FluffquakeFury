@@ -57,4 +57,5 @@ void FFQFGameplayTags::InitializeNativeGameplayTags(){
 	//Add to Damage Types TArray
 	GameplayTags.DamageTypes.Add(GameplayTags.DamageType_Fluff);
 	GameplayTags.DamageTypes.Add(GameplayTags.DamageType_Physical);
+	GameplayTags.DamageTypes.Add(GameplayTags.DamageType_Insect);
 }
