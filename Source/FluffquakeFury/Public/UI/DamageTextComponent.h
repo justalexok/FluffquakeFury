@@ -16,7 +16,7 @@ class FLUFFQUAKEFURY_API UDamageTextComponent : public UWidgetComponent
 
 public:
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
-	void SetDamageText(float Damage, bool bBlockedHit, bool bPillowExploded);
+	void SetDamageText(float DamageAmount, ACharacter* TargetCharacter, bool bBlockedHit, bool bPillowExploded, bool bFatalHit);
 
 
 };

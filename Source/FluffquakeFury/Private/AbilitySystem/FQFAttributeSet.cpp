@@ -107,7 +107,7 @@ void UFQFAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbac
 				SpawnNiagara(Props.SourceCharacter, false, LocalIncomingDamage);
 			}
 				
-			ShowFloatingText(Props, LocalIncomingDamage, bBlocked, false);
+			ShowFloatingText(Props, LocalIncomingDamage, bBlocked, false, bFatal);
 			
 
 			
@@ -162,20 +162,20 @@ void UFQFAttributeSet::SetEffectProperties(const FGameplayEffectModCallbackData&
 	
 }
 
-void UFQFAttributeSet::ShowFloatingText(const FEffectProperties& Props, float Damage, bool bBlockedHit, bool bPillowExploded)
+void UFQFAttributeSet::ShowFloatingText(const FEffectProperties& Props, float Damage, bool bBlockedHit, bool bPillowExploded, bool bFatalHit)
 {
 	if (Props.SourceCharacter != Props.TargetCharacter)
 	{
 		//Pippa causing damage
 		if(APippaPlayerController* PC = Cast<APippaPlayerController>(UGameplayStatics::GetPlayerController(Props.SourceCharacter, 0)))
 		{
-			PC->ShowDamageNumber(Damage, Props.TargetCharacter, bBlockedHit, bPillowExploded);
+			PC->ShowDamageNumber(Damage, Props.TargetCharacter, bBlockedHit, bPillowExploded, bFatalHit);
 			return;
 		}
 		//Enemy causing damage
 		if(APippaPlayerController* PC = Cast<APippaPlayerController>(UGameplayStatics::GetPlayerController(Props.TargetCharacter, 0)))
 		{
-			PC->ShowDamageNumber(Damage, Props.TargetCharacter, bBlockedHit, bPillowExploded);
+			PC->ShowDamageNumber(Damage, Props.TargetCharacter, bBlockedHit, bPillowExploded, bFatalHit);
 		}
 	
 	}
@@ -184,7 +184,7 @@ void UFQFAttributeSet::ShowFloatingText(const FEffectProperties& Props, float Da
 		//Source and Target the same - must be Effect actor causing Damage to Pippa? 
 		if(APippaPlayerController* PC = Cast<APippaPlayerController>(UGameplayStatics::GetPlayerController(Props.SourceCharacter, 0)))
 		{
-			PC->ShowDamageNumber(Damage, Props.TargetCharacter, bBlockedHit, bPillowExploded);
+			PC->ShowDamageNumber(Damage, Props.TargetCharacter, bBlockedHit, bPillowExploded, bFatalHit);
 			
 		}
 	}
@@ -222,7 +222,7 @@ void UFQFAttributeSet::HandleExplosion(const FEffectProperties& Props, float Loc
 		SourceAS->SetLoadedFluff(0);		
 				
 	}
-	ShowFloatingText(Props, LocalIncomingDamage, false, true);
+	ShowFloatingText(Props, LocalIncomingDamage, false, true, false);
 	if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(Props.SourceCharacter))
 	{
 		CombatInterface->KnockbackCharacter(25,1100);

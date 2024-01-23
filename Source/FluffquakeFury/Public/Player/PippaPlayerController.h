@@ -34,7 +34,7 @@ public:
 	virtual void PlayerTick(float DeltaTime) override;
 
 	UFUNCTION(Client, Reliable)
-	void ShowDamageNumber(float DamageAmount, ACharacter* TargetCharacter, bool bBlockedHit, bool bPillowExploded);
+	void ShowDamageNumber(float DamageAmount, ACharacter* TargetCharacter, bool bBlockedHit, bool bPillowExploded, bool bFatalHit);
 
 	UFUNCTION(Client, Reliable)
 	void ShowPickupWidget(float ChangeAmount, FGameplayTag AttributeTag, AEffectActor* EffectActor);
