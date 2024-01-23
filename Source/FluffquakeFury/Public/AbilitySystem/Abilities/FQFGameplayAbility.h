@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "FQFAbilityTypes.h"
 #include "Abilities/GameplayAbility.h"
 #include "Interaction/CombatInterface.h"
 #include "FQFGameplayAbility.generated.h"
@@ -38,14 +39,20 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Damage")
 	FVector DamageImpactLocation;
 
-	bool IsTargetImmuneToDamageType(AActor* TargetActor) const;
-	UFUNCTION(BlueprintCallable)
-	void ApplyDamageToTargetActor(AActor* TargetActor);
+	
+	// bool IsTargetImmuneToDamageType(AActor* TargetActor) const;
+	
+	// UFUNCTION(BlueprintCallable)
+	// void ApplyDamageToTargetActor(AActor* TargetActor);
 
 	UFUNCTION(BlueprintPure)
 	static FTaggedMontage GetRandomTaggedMontage(TArray<FTaggedMontage> TaggedMontages);
 
+	// UFUNCTION(BlueprintCallable)
+	// void SetRecentlyReceivedDamageTag(AActor* TargetActor);
+
 	UFUNCTION(BlueprintCallable)
-	void SetRecentlyReceivedDamageTag(AActor* TargetActor);
+	FDamageEffectParams MakeDamageEffectParamsFromClassDefaults(AActor* TargetActor = nullptr) const;
+
 	
 };

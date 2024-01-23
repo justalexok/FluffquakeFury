@@ -3,6 +3,7 @@
 
 #include "AbilitySystem/FQFBlueprintFunctionLibrary.h"
 
+#include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystem/FQFAttributeSet.h"
 #include "Game/FQFGameModeBase.h"
 #include "Interaction/CombatInterface.h"
@@ -11,7 +12,8 @@
 #include "UI/FQFWidgetController.h"
 #include "UI/HUD/FQFHUD.h"
 #include "FQFAbilityTypes.h"
-
+#include "FQFGameplayTags.h"
+#include "Character/Enemy/EnemyBase.h"
 
 
 UOverlayWidgetController* UFQFBlueprintFunctionLibrary::GetOverlayWidgetController(const UObject* WorldContextObject)
@@ -157,4 +159,63 @@ bool UFQFBlueprintFunctionLibrary::IsNotFriend(const AActor* FirstActor, const A
 	const bool bBothAreEnemies = FirstActor->ActorHasTag(FName("Enemy")) && SecondActor->ActorHasTag(FName("Enemy"));
 	const bool bFriends = bBothArePlayers || bBothAreEnemies;
 	return !bFriends;
+}
+
+bool UFQFBlueprintFunctionLibrary::IsTargetImmuneToDamageType(AActor* TargetActor, const FGameplayTag DamageType) 
+{
+	if (const AEnemyBase* Enemy = Cast<AEnemyBase>(TargetActor))
+	{
+		if (Enemy->Immunities.Contains(DamageType)) return true;			
+	}
+	return false;
+}
+
+void UFQFBlueprintFunctionLibrary::SetRecentlyReceivedDamageTag(AActor* TargetActor, const FGameplayTag DamageType)
+{
+	if (AFQFCharacterBase* TargetCharacter = Cast<AFQFCharacterBase>(TargetActor))
+	{
+		TargetCharacter->RecentlyReceivedDamageType = DamageType;
+	}
+}
+
+FGameplayEffectContextHandle UFQFBlueprintFunctionLibrary::ApplyDamageEffect(
+	const FDamageEffectParams& DamageEffectParams)
+{
+	if (DamageEffectParams.TargetAbilitySystemComponent == nullptr || DamageEffectParams.SourceAbilitySystemComponent == nullptr) return FGameplayEffectContextHandle();
+
+	AActor* SourceAvatarActor = DamageEffectParams.SourceAbilitySystemComponent->GetAvatarActor();
+	AActor* TargetAvatarActor = DamageEffectParams.TargetAbilitySystemComponent->GetAvatarActor();
+
+	if (!IsNotFriend(SourceAvatarActor,TargetAvatarActor)) return FGameplayEffectContextHandle();
+	if (IsTargetImmuneToDamageType(TargetAvatarActor, DamageEffectParams.DamageType)) return FGameplayEffectContextHandle();
+
+	FGameplayEffectContextHandle EffectContextHandle = DamageEffectParams.SourceAbilitySystemComponent->MakeEffectContext();
+	// EffectContextHandle.SetAbility(DamageEffectParams.)
+	EffectContextHandle.AddSourceObject(SourceAvatarActor);
+	const FGameplayEffectSpecHandle SpecHandle = DamageEffectParams.SourceAbilitySystemComponent->MakeOutgoingSpec(DamageEffectParams.DamageGameplayEffectClass, DamageEffectParams.AbilityLevel, EffectContextHandle);
+
+	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, DamageEffectParams.DamageType, DamageEffectParams.BaseDamage);
+
+	const FFQFGameplayTags GameplayTags = FFQFGameplayTags::Get();
+
+	if (DamageEffectParams.DamageType == GameplayTags.DamageType_Fluff)
+	{
+		UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, GameplayTags.ExplosionChance, DamageEffectParams.ExplosionChance);
+	}
+
+	SetRecentlyReceivedDamageTag(TargetAvatarActor, DamageEffectParams.DamageType);
+
+	const FActiveGameplayEffectHandle ActiveEffectHandle = DamageEffectParams.TargetAbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data);
+
+	if (SpecHandle.Data.Get()->Def.Get()->DurationPolicy == EGameplayEffectDurationType::Infinite)
+	{
+		if (AFQFCharacterBase* FQFCharacter = Cast<AFQFCharacterBase>(SourceAvatarActor))
+		{
+			FQFCharacter->ActiveInfiniteEffectHandles.Add(ActiveEffectHandle, DamageEffectParams.TargetAbilitySystemComponent);
+		}
+	}
+
+	return EffectContextHandle;
+	
+	
 }

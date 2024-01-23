@@ -88,6 +88,12 @@ struct FDamageEffectParams
 	float BaseDamage = 0.f;
 
 	UPROPERTY()
+	float ExplosionChance = 0.f;
+
+	// UPROPERTY()
+	// AActor* SourceWeapon
+
+	UPROPERTY()
 	float AbilityLevel = 1.f;
 
 	UPROPERTY()
