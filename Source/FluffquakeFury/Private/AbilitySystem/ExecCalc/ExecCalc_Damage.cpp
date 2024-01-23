@@ -84,6 +84,7 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	
 	FGameplayEffectContextHandle EffectContextHandle = Spec.GetContext();
 	UFQFBlueprintFunctionLibrary::SetIsBlockedHit(EffectContextHandle, bBlocked);
+	UFQFBlueprintFunctionLibrary::SetDamageType(EffectContextHandle, LocalDamageType);
 
 	if (LocalDamageType == GameplayTags.DamageType_Fluff)
 	{

@@ -15,12 +15,14 @@ public:
 
 	bool IsBlockedHit () const { return bIsBlockedHit; }
 	bool HasPillowExploded () const { return bHasPillowExploded; }
-	// bool IsCriticalHit() const { return bIsCriticalHit; }
 
 	void SetIsBlockedHit(bool bInIsBlockedHit) { bIsBlockedHit = bInIsBlockedHit; }
 	void SetHasPillowExploded(bool bInHasPillowExploded) { bHasPillowExploded = bInHasPillowExploded; }
-	// void SetIsCriticalHit(bool bInIsCriticalHit) { bIsCriticalHit = bInIsCriticalHit; }
 
+	TSharedPtr<FGameplayTag> GetDamageType() const { return DamageType; }
+	void SetDamageType(TSharedPtr<FGameplayTag> InDamageType) { DamageType = InDamageType; }
+
+	
 	/** Returns the actual struct used for serialization, subclasses must override this! */
 	virtual UScriptStruct* GetScriptStruct() const
 	{
@@ -51,9 +53,8 @@ protected:
 	
 	UPROPERTY()
 	bool bHasPillowExploded = false;
-
-	// UPROPERTY()
-	// bool bIsCriticalHit = false;
+	
+	TSharedPtr<FGameplayTag> DamageType;
 };
 	template<>
 	struct TStructOpsTypeTraits<FFQFGameplayEffectContext> : public TStructOpsTypeTraitsBase2<FFQFGameplayEffectContext>
@@ -98,5 +99,6 @@ struct FDamageEffectParams
 
 	UPROPERTY()
 	FGameplayTag DamageType = FGameplayTag();
+
 
 };

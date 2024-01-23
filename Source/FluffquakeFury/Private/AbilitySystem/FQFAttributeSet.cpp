@@ -70,11 +70,7 @@ void UFQFAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbac
 			UE_LOG(LogTemp, Error, TEXT("SOURCE CHARACTER NULL IN POSTGAMEPLAY EFFECT EXECUTE!!!"))
 			return;
 		}
-		bool bPippaPillowAttack = false;
-		if (APippaCharacter* PippaCharacter = Cast<APippaCharacter>(Props.SourceCharacter))
-		{
-			bPippaPillowAttack = true;
-		}
+		FGameplayTag DamageType = UFQFBlueprintFunctionLibrary::GetDamageType(Props.EffectContextHandle);
 		
 		const float LocalIncomingDamage = GetIncomingDamage();
 		SetIncomingDamage(0.f);
@@ -101,7 +97,7 @@ void UFQFAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbac
 				TagContainer.AddTag(FFQFGameplayTags::Get().Effects_HitReact);
 				Props.TargetASC->TryActivateAbilitiesByTag(TagContainer); //Try and activate an Ability with the hit react tag
 			}
-			if (bPippaPillowAttack)
+			if (DamageType == FFQFGameplayTags::Get().DamageType_Fluff)
 			{
 				SetFluffLost(Props, LocalIncomingDamage);			
 				SpawnNiagara(Props.SourceCharacter, false, LocalIncomingDamage);
@@ -112,7 +108,7 @@ void UFQFAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbac
 
 			
 		}
-		if (bPippaPillowAttack && UFQFBlueprintFunctionLibrary::HasPillowExploded(Props.EffectContextHandle))
+		if (DamageType == FFQFGameplayTags::Get().DamageType_Fluff && UFQFBlueprintFunctionLibrary::HasPillowExploded(Props.EffectContextHandle))
 		{
 			FGameplayTagContainer TagContainer;
 			TagContainer.AddTag(FFQFGameplayTags::Get().Effects_HitReact);

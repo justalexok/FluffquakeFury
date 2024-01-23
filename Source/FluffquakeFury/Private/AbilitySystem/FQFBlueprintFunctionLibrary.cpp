@@ -153,6 +153,28 @@ void UFQFBlueprintFunctionLibrary::SetHasPillowExploded(FGameplayEffectContextHa
 	}
 }
 
+FGameplayTag UFQFBlueprintFunctionLibrary::GetDamageType(const FGameplayEffectContextHandle& EffectContextHandle)
+{
+	if (const FFQFGameplayEffectContext* FQFEffectContext = static_cast<const FFQFGameplayEffectContext*>(EffectContextHandle.Get()))
+	{
+		if (FQFEffectContext->GetDamageType().IsValid())
+		{
+			return *FQFEffectContext->GetDamageType();
+		}
+	}
+	return FGameplayTag();
+}
+
+void UFQFBlueprintFunctionLibrary::SetDamageType(FGameplayEffectContextHandle& EffectContextHandle,
+	const FGameplayTag& InDamageType)
+{
+	if (FFQFGameplayEffectContext* FQFEffectContext = static_cast<FFQFGameplayEffectContext*>(EffectContextHandle.Get()))
+	{
+		const TSharedPtr<FGameplayTag> DamageType = MakeShared<FGameplayTag>(InDamageType);
+		FQFEffectContext->SetDamageType(DamageType);
+	}
+}
+
 bool UFQFBlueprintFunctionLibrary::IsNotFriend(const AActor* FirstActor, const AActor* SecondActor)
 {
 	const bool bBothArePlayers = FirstActor->ActorHasTag(FName("Player")) && SecondActor->ActorHasTag(FName("Player"));
