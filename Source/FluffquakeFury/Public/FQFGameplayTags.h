@@ -48,6 +48,7 @@ public:
 
 	FGameplayTag Abilities_Attack;
 	FGameplayTag Abilities_Jump;
+	FGameplayTag Abilities_CastSpell;
 
 	FGameplayTag Effects_HitReact;
 
@@ -55,6 +56,8 @@ public:
 
 	FGameplayTag Montage_Attack_PillowWhack;
 	FGameplayTag Montage_Attack_Jump;
+	FGameplayTag Montage_Attack_CastSpell;
+
 	FGameplayTag Montage_Attack_1;
 	FGameplayTag Montage_Attack_2;
 	FGameplayTag Montage_Attack_3;

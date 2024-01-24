@@ -43,6 +43,7 @@ void FFQFGameplayTags::InitializeNativeGameplayTags(){
 	//Montage Tags
 	GameplayTags.Montage_Attack_PillowWhack = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Montage.Attack.PillowWhack"),FString("Tag for PillowWhack Attack"));
 	GameplayTags.Montage_Attack_Jump = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Montage.Attack.Jump"),FString("Tag for Jump Attack"));
+	GameplayTags.Montage_Attack_CastSpell = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Montage.Attack.CastSpell"),FString("Tag for Cast Spell Attack"));
 
 	GameplayTags.Montage_Attack_1 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Montage.Attack.1"),FString("Attack 1"));
 	GameplayTags.Montage_Attack_2 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Montage.Attack.2"),FString("Attack 2"));
@@ -51,6 +52,7 @@ void FFQFGameplayTags::InitializeNativeGameplayTags(){
 
 	GameplayTags.Abilities_Attack = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Attack"),FString("Attack Ability Tag"));
 	GameplayTags.Abilities_Jump = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Jump"),FString("Jump Ability Tag"));
+	GameplayTags.Abilities_CastSpell = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.CastSpell"),FString("Cast Spell Ability Tag"));
 
 	GameplayTags.Effects_HitReact = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Effects.HitReact"),FString("Tag granted when Hit Reacting"));
 

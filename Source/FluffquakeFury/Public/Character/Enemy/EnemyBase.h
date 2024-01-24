@@ -50,7 +50,7 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = "Combat")
 	TObjectPtr<AActor> CombatTarget;
 	
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite)
 	TObjectPtr<AFQFAIController> FQFAIController;
 
 	UPROPERTY(EditAnywhere, Category = "Character Class Defaults")
@@ -72,4 +72,6 @@ protected:
 	
 	UPROPERTY(EditAnywhere, Category = "AI")
 	TObjectPtr<UBehaviorTree> BehaviorTree;
+
+	
 };
