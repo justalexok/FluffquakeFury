@@ -59,10 +59,12 @@ bool AEffectActor::ApplyEffectToTarget(AActor* Target, TSubclassOf<UGameplayEffe
 	FGameplayEffectContextHandle EffectContextHandle = TargetASC->MakeEffectContext();
 	EffectContextHandle.AddSourceObject(this);
 	const FGameplayEffectSpecHandle EffectSpecHandle = TargetASC->MakeOutgoingSpec(GameplayEffectClass, 1.f, EffectContextHandle);
-	TargetASC->ApplyGameplayEffectSpecToSelf(*EffectSpecHandle.Data.Get());
+	
 
 	const float ModifiedMagnitude = GetModifiedMagnitude(GameplayEffectClass);
-	
+
+	// UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(EffectSpecHandle,EffectedAttribute,ModifiedMagnitude);
+	TargetASC->ApplyGameplayEffectSpecToSelf(*EffectSpecHandle.Data.Get());
 
 	if (!bIsDamageCauser) ShowPickupText(ModifiedMagnitude, Target,EffectedAttribute);
 
