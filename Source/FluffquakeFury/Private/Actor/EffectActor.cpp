@@ -63,7 +63,6 @@ bool AEffectActor::ApplyEffectToTarget(AActor* Target, TSubclassOf<UGameplayEffe
 
 	const float ModifiedMagnitude = GetModifiedMagnitude(GameplayEffectClass);
 
-	// UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(EffectSpecHandle,EffectedAttribute,ModifiedMagnitude);
 	TargetASC->ApplyGameplayEffectSpecToSelf(*EffectSpecHandle.Data.Get());
 
 	if (!bIsDamageCauser) ShowPickupText(ModifiedMagnitude, Target,EffectedAttribute);
@@ -86,17 +85,6 @@ void AEffectActor::RotateActor(float DeltaTime, float Speed)
 {
 	FRotator NewRotation = GetActorRotation() + FRotator(0.0f, Speed * DeltaTime, 0.0f);
 	SetActorRotation(NewRotation);
-}
-
-void AEffectActor::SpinActorAroundLocation(float DistanceAbove, float Radius, FVector Location)
-{
-
-
-	// Calculate new location based on rotation and radius
-	FVector NewLocation = Location + FVector(Radius, 0.0f, DistanceAbove).RotateAngleAxis(GetActorRotation().Yaw, FVector::UpVector);
-
-	// Set the new rotation and location
-	SetActorLocation(NewLocation);
 }
 
 float AEffectActor::GetModifiedMagnitude(TSubclassOf<UGameplayEffect> GameplayEffectClass)

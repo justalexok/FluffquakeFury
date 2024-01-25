@@ -63,9 +63,6 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void RotateActor(float DeltaTime, float Speed);
 
-	UFUNCTION(BlueprintCallable)
-	void SpinActorAroundLocation(float DistanceAbove, float Radius, FVector Location);
-
 	float GetModifiedMagnitude(TSubclassOf<UGameplayEffect> GameplayEffectClass);
 
 	UFUNCTION(BlueprintCallable)
