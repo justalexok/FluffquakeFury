@@ -59,6 +59,10 @@ void AEnemyBase::PossessedBy(AController* NewController)
 }
 
 
+void AEnemyBase::SetIsCastingBlackboard(bool bIsCasting)
+{
+	FQFAIController->GetBlackboardComponent()->SetValueAsBool(FName("AmICasting"),bIsCasting);
+}
 
 void AEnemyBase::BeginPlay()
 {

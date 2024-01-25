@@ -55,8 +55,9 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = "Character Class Defaults")
 	TArray<FGameplayTag>Immunities;
-		
-	
+
+	UFUNCTION(BlueprintCallable)
+	void SetIsCastingBlackboard(bool bIsCasting);
 protected:
 	virtual void BeginPlay() override;
 	virtual void InitAbilityActorInfo() override;
