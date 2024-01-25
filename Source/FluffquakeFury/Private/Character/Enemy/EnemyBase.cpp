@@ -14,7 +14,6 @@
 #include "BehaviorTree/BehaviorTree.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
-#include "GameplayEffect.h"
 
 AEnemyBase::AEnemyBase()
 {
@@ -173,5 +172,10 @@ void AEnemyBase::HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCou
 	bHitReacting = NewCount > 0;
 	GetCharacterMovement()->MaxWalkSpeed = bHitReacting ? 0.f : BaseWalkSpeed;
 	FQFAIController->GetBlackboardComponent()->SetValueAsBool(FName("HitReacting"), bHitReacting);
+
+	if (CharacterClass == ECharacterClass::Elementalist)
+	{
+		FQFAIController->GetBlackboardComponent()->SetValueAsBool(FName("AmICasting"), false); 
+	}
 
 }
