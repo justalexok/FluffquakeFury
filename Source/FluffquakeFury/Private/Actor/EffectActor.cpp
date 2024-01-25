@@ -88,6 +88,17 @@ void AEffectActor::RotateActor(float DeltaTime, float Speed)
 	SetActorRotation(NewRotation);
 }
 
+void AEffectActor::SpinActorAroundLocation(float DistanceAbove, float Radius, FVector Location)
+{
+
+
+	// Calculate new location based on rotation and radius
+	FVector NewLocation = Location + FVector(Radius, 0.0f, DistanceAbove).RotateAngleAxis(GetActorRotation().Yaw, FVector::UpVector);
+
+	// Set the new rotation and location
+	SetActorLocation(NewLocation);
+}
+
 float AEffectActor::GetModifiedMagnitude(TSubclassOf<UGameplayEffect> GameplayEffectClass)
 {
 	float ModifiedMagnitude = 0.f;	
