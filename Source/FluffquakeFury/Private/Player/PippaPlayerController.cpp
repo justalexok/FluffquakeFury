@@ -10,13 +10,11 @@
 #include "NavigationSystem.h"
 #include "AbilitySystem/FQFAbilitySystemComponent.h"
 #include "Actor/EffectActor.h"
-#include "Character/FQFCharacterBase.h"
 #include "Character/Pippa/PippaCharacter.h"
 #include "Components/SplineComponent.h"
 #include "Input/FQFInputComponent.h"
 #include "Interaction/EnemyInterface.h"
 #include "GameFramework/Character.h"
-#include "Interaction/CombatInterface.h"
 #include "UI/DamageTextComponent.h"
 
 
@@ -164,19 +162,19 @@ void APippaPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 		if (GetASC()) GetASC()->AbilityInputTagHeld(InputTag);
 	}
 	//LMB and not targeting. 
-	else
-	{
-		FollowTime += GetWorld()->GetDeltaSeconds();
-
-		if (CursorHit.bBlockingHit) CachedDestination = CursorHit.ImpactPoint;
-
-
-		if (APawn* ControlledPawn = GetPawn())
-		{
-			const FVector WorldDirection = (CachedDestination - ControlledPawn->GetActorLocation()).GetSafeNormal();
-			ControlledPawn->AddMovementInput(WorldDirection);
-		}
-	}
+	// else
+	// {
+	// 	FollowTime += GetWorld()->GetDeltaSeconds();
+	//
+	// 	if (CursorHit.bBlockingHit) CachedDestination = CursorHit.ImpactPoint;
+	//
+	//
+	// 	if (APawn* ControlledPawn = GetPawn())
+	// 	{
+	// 		const FVector WorldDirection = (CachedDestination - ControlledPawn->GetActorLocation()).GetSafeNormal();
+	// 		ControlledPawn->AddMovementInput(WorldDirection);
+	// 	}
+	// }
 
 }
 
@@ -191,30 +189,30 @@ void APippaPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 
 	if (GetASC()) GetASC()->AbilityInputTagReleased(InputTag);
 
-	if (!bTargeting && !bShiftKeyDown)
-	{
-		APawn* ControlledPawn = GetPawn();
-		if (FollowTime <= ShortPressThreshold && ControlledPawn)
-		{
-			UE_LOG(LogTemp, Display, TEXT("CachedDestination: %s"), *CachedDestination.ToString());
-			if (UNavigationPath* NavPath = UNavigationSystemV1::FindPathToLocationSynchronously(this, ControlledPawn->GetActorLocation(), CachedDestination))
-			{
-				Spline->ClearSplinePoints();
-				for (const FVector& PointLoc : NavPath->PathPoints)
-				{
-					Spline->AddSplinePoint(PointLoc, ESplineCoordinateSpace::World);
-				}
-				if (NavPath->PathPoints.Num() >0 )
-				{
-					CachedDestination = NavPath->PathPoints.Last();
-					//Sets off in Tick
-					bAutoRunning = true;
-				}
-			}
-		}
-		FollowTime = 0.f;
-		bTargeting = false;
-	}
+	// if (!bTargeting && !bShiftKeyDown)
+	// {
+	// 	APawn* ControlledPawn = GetPawn();
+	// 	if (FollowTime <= ShortPressThreshold && ControlledPawn)
+	// 	{
+	// 		UE_LOG(LogTemp, Display, TEXT("CachedDestination: %s"), *CachedDestination.ToString());
+	// 		if (UNavigationPath* NavPath = UNavigationSystemV1::FindPathToLocationSynchronously(this, ControlledPawn->GetActorLocation(), CachedDestination))
+	// 		{
+	// 			Spline->ClearSplinePoints();
+	// 			for (const FVector& PointLoc : NavPath->PathPoints)
+	// 			{
+	// 				Spline->AddSplinePoint(PointLoc, ESplineCoordinateSpace::World);
+	// 			}
+	// 			if (NavPath->PathPoints.Num() >0 )
+	// 			{
+	// 				CachedDestination = NavPath->PathPoints.Last();
+	// 				//Sets off in Tick
+	// 				bAutoRunning = true;
+	// 			}
+	// 		}
+	// 	}
+	// 	FollowTime = 0.f;
+	// 	bTargeting = false;
+	// }
 }
 
 UFQFAbilitySystemComponent* APippaPlayerController::GetASC()
