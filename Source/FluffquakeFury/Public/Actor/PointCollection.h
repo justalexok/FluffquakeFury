@@ -15,7 +15,7 @@ public:
 	APointCollection();
 
 	UFUNCTION(BlueprintPure)
-	TArray<USceneComponent*> GetGroundPoints(const FVector& GroundLocation, int32 NumPoints, float YawOverride = 0.f);
+	TArray<USceneComponent*> GetGroundPoints(const FVector& GroundLocation, float YawOverride);
 
 protected:
 	virtual void BeginPlay() override;
@@ -37,5 +37,14 @@ protected:
 
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
 	TObjectPtr<USceneComponent> Pt_4;
+
+	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
+	TObjectPtr<USceneComponent> Pt_5;
+
+	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
+	TObjectPtr<USceneComponent> Pt_6;
+
+	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
+	TObjectPtr<USceneComponent> Pt_7;
 
 };

@@ -17,4 +17,5 @@ class FLUFFQUAKEFURY_API AFQFGameModeBase : public AGameModeBase
 public:
 	UPROPERTY(EditDefaultsOnly, Category = "Character Class Defaults")
 	TObjectPtr<UCharacterClassInfo> CharacterClassInfo;
+
 };

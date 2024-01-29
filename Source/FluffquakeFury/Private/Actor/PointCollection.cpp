@@ -30,43 +30,40 @@ APointCollection::APointCollection()
 	ImmutablePts.Add(Pt_4);
 	Pt_4->SetupAttachment(GetRootComponent());
 }
-
-TArray<USceneComponent*> APointCollection::GetGroundPoints(const FVector& GroundLocation, int32 NumPoints,
+TArray<USceneComponent*> APointCollection::GetGroundPoints(const FVector& GroundLocation, 
 	float YawOverride)
 {
-	checkf(ImmutablePts.Num() >= NumPoints, TEXT("Attempted to access ImmutablePts out of bounds."));
+	// checkf(ImmutablePts.Num() >= NumPoints, TEXT("Attempted to access ImmutablePts out of bounds."));
 
 	TArray<USceneComponent*> ArrayCopy;
 
 	for (USceneComponent* Pt : ImmutablePts)
 	{
-		if (ArrayCopy.Num() >= NumPoints) return ArrayCopy;
+		// if (ArrayCopy.Num() >= NumPoints) return ArrayCopy;
 
-		if (Pt != Pt_0)
-		{
-			FVector ToPoint = Pt->GetComponentLocation() - Pt_0->GetComponentLocation();
-			ToPoint = ToPoint.RotateAngleAxis(YawOverride, FVector::UpVector);
-			Pt->SetWorldLocation(Pt_0->GetComponentLocation() + ToPoint);
+		FVector ToPoint = Pt->GetComponentLocation() - Pt_0->GetComponentLocation();
+		ToPoint = ToPoint.RotateAngleAxis(YawOverride, FVector::UpVector);
+		Pt->SetWorldLocation(Pt_0->GetComponentLocation() + ToPoint);
 
-			const FVector RaisedLocation = FVector(Pt->GetComponentLocation().X, Pt->GetComponentLocation().Y, Pt->GetComponentLocation().Z + 100.f);
-			const FVector LoweredLocation = FVector(Pt->GetComponentLocation().X, Pt->GetComponentLocation().Y, Pt->GetComponentLocation().Z - 500.f);
+		const FVector RaisedLocation = FVector(Pt->GetComponentLocation().X, Pt->GetComponentLocation().Y, Pt->GetComponentLocation().Z + 100.f);
+		const FVector LoweredLocation = FVector(Pt->GetComponentLocation().X, Pt->GetComponentLocation().Y, Pt->GetComponentLocation().Z - 500.f);
 
-			FHitResult HitResult;
-			TArray<AActor*> IgnoreActors;
-			UFQFBlueprintFunctionLibrary::GetLivePlayersWithinRadius(this, IgnoreActors, TArray<AActor*>(), 1500.f, GetActorLocation());
+		FHitResult HitResult;
+		TArray<AActor*> IgnoreActors;
+		UFQFBlueprintFunctionLibrary::GetLivePlayersWithinRadius(this, IgnoreActors, TArray<AActor*>(), 1500.f, GetActorLocation());
 
-			FCollisionQueryParams QueryParams;
-			QueryParams.AddIgnoredActors(IgnoreActors);
-			GetWorld()->LineTraceSingleByProfile(HitResult, RaisedLocation, LoweredLocation, FName("BlockAll"), QueryParams);
+		FCollisionQueryParams QueryParams;
+		QueryParams.AddIgnoredActors(IgnoreActors);
+		GetWorld()->LineTraceSingleByProfile(HitResult, RaisedLocation, LoweredLocation, FName("BlockAll"), QueryParams);
 
-			const FVector AdjustedLocation = FVector(Pt->GetComponentLocation().X, Pt->GetComponentLocation().Y, HitResult.ImpactPoint.Z);
-			Pt->SetWorldLocation(AdjustedLocation);
-			Pt->SetWorldRotation(UKismetMathLibrary::MakeRotFromZ(HitResult.ImpactNormal));
+		const FVector AdjustedLocation = FVector(Pt->GetComponentLocation().X, Pt->GetComponentLocation().Y, HitResult.ImpactPoint.Z);
+		Pt->SetWorldLocation(AdjustedLocation);
+		Pt->SetWorldRotation(UKismetMathLibrary::MakeRotFromZ(HitResult.ImpactNormal));
 
-			ArrayCopy.Add(Pt);
-		}
+		ArrayCopy.Add(Pt);
 
-		
+
+
 	}
 	return ArrayCopy;
 }
