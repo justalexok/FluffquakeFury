@@ -53,6 +53,7 @@ void FFQFGameplayTags::InitializeNativeGameplayTags(){
 	GameplayTags.Abilities_Attack = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Attack"),FString("Attack Ability Tag"));
 	GameplayTags.Abilities_Jump = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Jump"),FString("Jump Ability Tag"));
 	GameplayTags.Abilities_CastSpell = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.CastSpell"),FString("Cast Spell Ability Tag"));
+	GameplayTags.Abilities_Teleport = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Teleport"),FString("Teleport Ability Tag"));
 
 	GameplayTags.Effects_HitReact = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Effects.HitReact"),FString("Tag granted when Hit Reacting"));
 

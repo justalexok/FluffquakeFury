@@ -82,4 +82,9 @@ public:
 
 	virtual FOnDeathSignature& GetOnDeathDelegate() = 0;
 
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	UAnimInstance* GetAnimInstance(AActor* Actor);
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void SetBlackboardBoolForKey(FName KeyName, bool Bool);
 };

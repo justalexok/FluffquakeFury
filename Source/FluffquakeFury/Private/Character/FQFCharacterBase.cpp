@@ -78,6 +78,11 @@ void AFQFCharacterBase::ResetRecentlyReceivedDamageType_Implementation()
 	RecentlyReceivedDamageType = FGameplayTag();
 }
 
+UAnimInstance* AFQFCharacterBase::GetAnimInstance_Implementation(AActor* Actor)
+{
+	return GetMesh()->GetAnimInstance();
+}
+
 FVector AFQFCharacterBase::GetCombatSocketLocation_Implementation(const FGameplayTag& MontageTag)
 {
 	const FFQFGameplayTags& GameplayTags = FFQFGameplayTags::Get();

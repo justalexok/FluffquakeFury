@@ -34,6 +34,7 @@ public:
 
 	//CombatInterface
 	virtual int32 GetPlayerLevel() override;
+	virtual void SetBlackboardBoolForKey_Implementation(FName KeyName, bool Bool) override;
 
 	void HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
 	
@@ -56,8 +57,6 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Character Class Defaults")
 	TArray<FGameplayTag>Immunities;
 
-	UFUNCTION(BlueprintCallable)
-	void SetIsCastingBlackboard(bool bIsCasting);
 protected:
 	virtual void BeginPlay() override;
 	virtual void InitAbilityActorInfo() override;

@@ -49,6 +49,7 @@ public:
 	FGameplayTag Abilities_Attack;
 	FGameplayTag Abilities_Jump;
 	FGameplayTag Abilities_CastSpell;
+	FGameplayTag Abilities_Teleport;
 
 	FGameplayTag Effects_HitReact;
 

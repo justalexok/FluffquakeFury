@@ -57,10 +57,9 @@ void AEnemyBase::PossessedBy(AController* NewController)
 	}
 }
 
-
-void AEnemyBase::SetIsCastingBlackboard(bool bIsCasting)
+void AEnemyBase::SetBlackboardBoolForKey_Implementation(FName KeyName, bool Bool)
 {
-	FQFAIController->GetBlackboardComponent()->SetValueAsBool(FName("AmICasting"),bIsCasting);
+	FQFAIController->GetBlackboardComponent()->SetValueAsBool(KeyName, Bool);
 }
 
 void AEnemyBase::BeginPlay()
