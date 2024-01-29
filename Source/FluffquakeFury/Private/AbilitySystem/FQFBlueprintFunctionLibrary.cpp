@@ -13,8 +13,8 @@
 #include "UI/HUD/FQFHUD.h"
 #include "FQFAbilityTypes.h"
 #include "FQFGameplayTags.h"
+#include "NavigationSystem.h"
 #include "Character/Enemy/EnemyBase.h"
-
 
 UOverlayWidgetController* UFQFBlueprintFunctionLibrary::GetOverlayWidgetController(const UObject* WorldContextObject)
 {
@@ -241,3 +241,5 @@ FGameplayEffectContextHandle UFQFBlueprintFunctionLibrary::ApplyDamageEffect(
 	
 	
 }
+
+
