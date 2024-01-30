@@ -71,17 +71,16 @@ int32 APippaCharacter::GetPlayerLevel()
 	return FQFPlayerState->GetPlayerLevel();
 }
 
-void APippaCharacter::KnockbackCharacter(float Pitch, float Magnitude)
+void APippaCharacter::KnockbackCharacter()
 {
-	
-	const FVector Direction = GetActorLocation() - GetActorLocation();  
-	FRotator Rotation = Direction.Rotation();
-	Rotation.Pitch = Pitch;
+	const FVector OppositeDirection = GetActorForwardVector() * -1.0f;
+	FRotator Rotation = OppositeDirection.Rotation();
+	Rotation.Pitch = KnockbackPitch;
 	const FVector ToTarget = Rotation.Vector();
-	const FVector KnockbackForce = ToTarget * Magnitude;
+	const FVector KnockbackForce = ToTarget * KnockbackMagnitude;
 	LaunchCharacter(KnockbackForce, true, true);
-	
 }
+
 
 void APippaCharacter::Die()
 {

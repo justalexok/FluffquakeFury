@@ -102,6 +102,11 @@ FVector AFQFCharacterBase::GetActorHaloPoint_Implementation()
 	return GroundLocation;
 }
 
+void AFQFCharacterBase::SetWeaponVisibility_Implementation(bool bVisible)
+{	
+	Weapon->SetVisibility(bVisible);
+}
+
 FVector AFQFCharacterBase::GetCombatSocketLocation_Implementation(const FGameplayTag& MontageTag)
 {
 	const FFQFGameplayTags& GameplayTags = FFQFGameplayTags::Get();

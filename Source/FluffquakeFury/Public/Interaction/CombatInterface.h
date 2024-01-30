@@ -75,7 +75,7 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	AActor* GetAvatar();
 
-	virtual void KnockbackCharacter(float Pitch, float Magnitude);
+	virtual void KnockbackCharacter();
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void SetMaxWalkSpeed(bool bShouldImmobiliseCharacter);
@@ -93,4 +93,7 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	FVector GetActorHaloPoint();
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void SetWeaponVisibility(bool bVisible);
 };

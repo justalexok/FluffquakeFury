@@ -207,6 +207,7 @@ void UFQFAttributeSet::SpawnNiagara(ACharacter* SourceCharacter, bool bPillowExp
 void UFQFAttributeSet::HandleExplosion(const FEffectProperties& Props, float LocalIncomingDamage) const
 {
 	SpawnNiagara(Props.SourceCharacter, true, 100);
+	
 
 	if (UFQFAttributeSet* SourceAS = UFQFBlueprintFunctionLibrary::GetAttributeSet(Props.SourceAvatarActor))
 	{
@@ -218,7 +219,8 @@ void UFQFAttributeSet::HandleExplosion(const FEffectProperties& Props, float Loc
 	ShowFloatingText(Props, LocalIncomingDamage, false, true, false);
 	if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(Props.SourceCharacter))
 	{
-		CombatInterface->KnockbackCharacter(25,1100);
+		CombatInterface->Execute_SetWeaponVisibility(Props.SourceCharacter,false);
+		CombatInterface->KnockbackCharacter();
 		FGameplayTagContainer TagContainer;
 		TagContainer.AddTag(FFQFGameplayTags::Get().Effects_HitReact);
 		Props.TargetASC->TryActivateAbilitiesByTag(TagContainer);

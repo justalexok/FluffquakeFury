@@ -25,7 +25,7 @@ public:
 
 	//CombatInterface
 	virtual int32 GetPlayerLevel() override;
-	virtual void KnockbackCharacter(float Pitch, float Magnitude) override;
+	virtual void KnockbackCharacter() override;
 	virtual void Die() override;
 
 	virtual void Landed(const FHitResult& Hit) override;
@@ -46,7 +46,13 @@ protected:
 	float TargetArmLength = 750.f;
 
 	UPROPERTY(EditDefaultsOnly)
-	float SpringArmAngle = -35.f;	
+	float SpringArmAngle = -35.f;
+
+	UPROPERTY(EditDefaultsOnly)
+	float KnockbackMagnitude = 800.f;
+	
+	UPROPERTY(EditDefaultsOnly)
+	float KnockbackPitch = 25.f;
 	
 	void AddCharacterAbilities();
 
