@@ -87,4 +87,10 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void SetBlackboardBoolForKey(FName KeyName, bool Bool);
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	FVector GetActorGroundPoint();
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	FVector GetActorHaloPoint();
 };

@@ -39,7 +39,10 @@ public:
 	virtual FOnDeathSignature& GetOnDeathDelegate() override;
 	virtual void ResetRecentlyReceivedDamageType_Implementation() override;
 	virtual UAnimInstance* GetAnimInstance_Implementation(AActor* Actor) override;
-
+	virtual FVector GetActorGroundPoint_Implementation() override;
+	virtual FVector GetActorHaloPoint_Implementation() override;
+	
+	
 	UPROPERTY(EditAnywhere, Category="Combat")
 	TArray<FTaggedMontage> AttackMontages;
 	
@@ -87,8 +90,8 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float BaseWalkSpeed = 500.f;
 
-	
-
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UAudioComponent* AudioComponent;
 
 	virtual void InitAbilityActorInfo();
 

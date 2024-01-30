@@ -151,10 +151,7 @@ void UFQFAttributeSet::SetEffectProperties(const FGameplayEffectModCallbackData&
 		Props.TargetController = Data.Target.AbilityActorInfo->PlayerController.Get();
 		Props.TargetCharacter = Cast<ACharacter>(Props.TargetAvatarActor);
 		Props.TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(Props.TargetAvatarActor);
-	}
-
-	//TODO Get Attack type from Data?
-	// Props.AttackTag = FFQFGameplayTags::Get().Montage_Attack_PillowWhack;
+	}	
 	
 }
 

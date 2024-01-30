@@ -29,6 +29,18 @@ APointCollection::APointCollection()
 	Pt_4 = CreateDefaultSubobject<USceneComponent>("Pt_4");
 	ImmutablePts.Add(Pt_4);
 	Pt_4->SetupAttachment(GetRootComponent());
+	
+	Pt_5 = CreateDefaultSubobject<USceneComponent>("Pt_5");
+	ImmutablePts.Add(Pt_5);
+	Pt_5->SetupAttachment(GetRootComponent());
+
+	Pt_6 = CreateDefaultSubobject<USceneComponent>("Pt_6");
+	ImmutablePts.Add(Pt_6);
+	Pt_6->SetupAttachment(GetRootComponent());
+
+	Pt_7 = CreateDefaultSubobject<USceneComponent>("Pt_7");
+	ImmutablePts.Add(Pt_7);
+	Pt_7->SetupAttachment(GetRootComponent());
 }
 TArray<USceneComponent*> APointCollection::GetGroundPoints(const FVector& GroundLocation, 
 	float YawOverride)

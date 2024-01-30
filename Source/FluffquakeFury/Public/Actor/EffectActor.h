@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "FQFAbilityTypes.h"
 #include "GameplayTagContainer.h"
 #include "GameFramework/Actor.h"
 #include "EffectActor.generated.h"
@@ -74,5 +75,6 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TObjectPtr<UMaterialInstance> DissolveMaterialInstance;
 
+	
 
 };

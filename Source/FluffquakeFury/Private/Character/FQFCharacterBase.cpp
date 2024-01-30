@@ -6,6 +6,7 @@
 #include "AbilitySystemComponent.h"
 #include "FQFGameplayTags.h"
 #include "AbilitySystem/FQFAbilitySystemComponent.h"
+#include "Components/AudioComponent.h"
 #include "Components/CapsuleComponent.h"
 
 // Sets default values
@@ -19,7 +20,8 @@ AFQFCharacterBase::AFQFCharacterBase()
 	Weapon->SetupAttachment(GetMesh(), FName("WeaponHandSocket"));
 	Weapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
-
+	AudioComponent = CreateDefaultSubobject<UAudioComponent>(TEXT("CharacterAudioComponent"));
+	AudioComponent->bAutoActivate = false;
 }
 
 
@@ -33,6 +35,8 @@ void AFQFCharacterBase::BeginPlay()
 
 void AFQFCharacterBase::HandleDeath()
 {
+
+	AudioComponent->Deactivate();
 	
 	Weapon->SetSimulatePhysics(true);
 	Weapon->SetEnableGravity(true);
@@ -81,6 +85,21 @@ void AFQFCharacterBase::ResetRecentlyReceivedDamageType_Implementation()
 UAnimInstance* AFQFCharacterBase::GetAnimInstance_Implementation(AActor* Actor)
 {
 	return GetMesh()->GetAnimInstance();
+}
+
+FVector AFQFCharacterBase::GetActorGroundPoint_Implementation()
+{
+	FVector GroundLocation = GetActorLocation();
+	GroundLocation.Z = GetActorLocation().Z - GetCapsuleComponent()->GetScaledCapsuleHalfHeight();
+	return GroundLocation;
+	
+}
+
+FVector AFQFCharacterBase::GetActorHaloPoint_Implementation()
+{
+	FVector GroundLocation = GetActorLocation();
+	GroundLocation.Z = GetActorLocation().Z + GetCapsuleComponent()->GetScaledCapsuleHalfHeight();
+	return GroundLocation;
 }
 
 FVector AFQFCharacterBase::GetCombatSocketLocation_Implementation(const FGameplayTag& MontageTag)
