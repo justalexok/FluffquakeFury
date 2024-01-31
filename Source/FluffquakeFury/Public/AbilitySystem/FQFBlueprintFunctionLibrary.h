@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameplayEffectTypes.h"
+#include "NiagaraSystem.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "Data/CharacterClassInfo.h"
 #include "FQFBlueprintFunctionLibrary.generated.h"
@@ -12,6 +13,14 @@ struct FDamageEffectParams;
 class UFQFAttributeSet;
 class UAbilitySystemComponent;
 class UOverlayWidgetController;
+
+UENUM(BlueprintType)
+enum class ESpawnPoint : uint8
+{
+	Ground,
+	Center,
+	Halo
+};
 /**
  * 
  */
@@ -65,5 +74,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "FQFBlueprintFunctionLibrary|DamageEffect")
 	static FGameplayEffectContextHandle ApplyDamageEffect(const FDamageEffectParams& DamageEffectParams);
 
-	
+	UFUNCTION(BlueprintCallable, Category = "FQFBlueprintFunctionLibrary|GameplayEffects")
+	static UNiagaraComponent* SpawnNiagaraAtLocation(const UObject* WorldContextObject, AActor* Actor, ESpawnPoint SpawnPoint = ESpawnPoint::Ground, FVector Scale = FVector(1,1,1), UNiagaraSystem* NiagaraSystem = nullptr);
+
 };

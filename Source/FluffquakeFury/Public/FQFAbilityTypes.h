@@ -91,14 +91,14 @@ struct FDamageEffectParams
 	UPROPERTY()
 	float ExplosionChance = 0.f;
 
-	// UPROPERTY()
-	// AActor* SourceWeapon
-
 	UPROPERTY()
 	float AbilityLevel = 1.f;
 
 	UPROPERTY()
 	FGameplayTag DamageType = FGameplayTag();
+
+	UPROPERTY()
+	USoundBase* ImpactSound = nullptr;
 
 
 };

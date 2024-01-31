@@ -39,17 +39,11 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Damage")
 	FVector DamageImpactLocation;
 
-	
-	// bool IsTargetImmuneToDamageType(AActor* TargetActor) const;
-	
-	// UFUNCTION(BlueprintCallable)
-	// void ApplyDamageToTargetActor(AActor* TargetActor);
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Damage")
+	USoundBase* DamageImpactSound = nullptr;
 
 	UFUNCTION(BlueprintPure)
 	static FTaggedMontage GetRandomTaggedMontage(TArray<FTaggedMontage> TaggedMontages);
-
-	// UFUNCTION(BlueprintCallable)
-	// void SetRecentlyReceivedDamageTag(AActor* TargetActor);
 
 	UFUNCTION(BlueprintCallable)
 	FDamageEffectParams MakeDamageEffectParamsFromClassDefaults(AActor* TargetActor = nullptr) const;

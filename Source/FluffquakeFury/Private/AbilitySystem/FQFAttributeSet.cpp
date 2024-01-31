@@ -15,7 +15,6 @@
 #include "Player/PippaPlayerController.h"
 #include "NiagaraFunctionLibrary.h"
 #include "NiagaraComponent.h"
-#include "Character/Pippa/PippaCharacter.h"
 
 UFQFAttributeSet::UFQFAttributeSet()
 {

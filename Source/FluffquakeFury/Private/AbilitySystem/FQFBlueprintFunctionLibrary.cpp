@@ -14,6 +14,7 @@
 #include "FQFAbilityTypes.h"
 #include "FQFGameplayTags.h"
 #include "NavigationSystem.h"
+#include "NiagaraFunctionLibrary.h"
 #include "Character/Enemy/EnemyBase.h"
 
 UOverlayWidgetController* UFQFBlueprintFunctionLibrary::GetOverlayWidgetController(const UObject* WorldContextObject)
@@ -240,6 +241,25 @@ FGameplayEffectContextHandle UFQFBlueprintFunctionLibrary::ApplyDamageEffect(
 	return EffectContextHandle;
 	
 	
+}
+
+UNiagaraComponent* UFQFBlueprintFunctionLibrary::SpawnNiagaraAtLocation(const UObject* WorldContextObject,AActor* Actor, ESpawnPoint SpawnPoint,
+	FVector Scale, UNiagaraSystem* NiagaraSystem)
+{
+	if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(Actor))
+	{
+		FVector Location = Actor->GetActorLocation();
+		if (SpawnPoint == ESpawnPoint::Ground)
+		{
+			Location = CombatInterface->Execute_GetActorGroundPoint(Actor);
+		}
+		else if (SpawnPoint == ESpawnPoint::Halo)
+		{
+			Location = CombatInterface->Execute_GetActorHaloPoint(Actor);
+		}
+		return UNiagaraFunctionLibrary::SpawnSystemAtLocation(WorldContextObject, NiagaraSystem,Location,FRotator::ZeroRotator,Scale);
+	}
+	return nullptr;
 }
 
 
