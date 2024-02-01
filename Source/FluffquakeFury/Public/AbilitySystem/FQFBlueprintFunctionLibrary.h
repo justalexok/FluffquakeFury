@@ -75,6 +75,6 @@ public:
 	static FGameplayEffectContextHandle ApplyDamageEffect(const FDamageEffectParams& DamageEffectParams);
 
 	UFUNCTION(BlueprintCallable, Category = "FQFBlueprintFunctionLibrary|GameplayEffects")
-	static UNiagaraComponent* SpawnNiagaraAtLocation(const UObject* WorldContextObject, AActor* Actor, ESpawnPoint SpawnPoint = ESpawnPoint::Ground, FVector Scale = FVector(1,1,1), UNiagaraSystem* NiagaraSystem = nullptr);
+	static UNiagaraComponent* SpawnNiagaraAtPoint(const UObject* WorldContextObject, FVector InLocation, AActor* Actor, ESpawnPoint SpawnPoint = ESpawnPoint::Ground, FVector Scale = FVector(1,1,1), UNiagaraSystem* NiagaraSystem = nullptr);
 
 };

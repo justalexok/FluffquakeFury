@@ -243,23 +243,30 @@ FGameplayEffectContextHandle UFQFBlueprintFunctionLibrary::ApplyDamageEffect(
 	
 }
 
-UNiagaraComponent* UFQFBlueprintFunctionLibrary::SpawnNiagaraAtLocation(const UObject* WorldContextObject,AActor* Actor, ESpawnPoint SpawnPoint,
+UNiagaraComponent* UFQFBlueprintFunctionLibrary::SpawnNiagaraAtPoint(const UObject* WorldContextObject, FVector InLocation, AActor* Actor, ESpawnPoint SpawnPoint,
 	FVector Scale, UNiagaraSystem* NiagaraSystem)
 {
-	if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(Actor))
+		
+	FVector Location = InLocation;
+
+	if (Actor != nullptr)
 	{
-		FVector Location = Actor->GetActorLocation();
-		if (SpawnPoint == ESpawnPoint::Ground)
+		
+		if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(Actor))
 		{
-			Location = CombatInterface->Execute_GetActorGroundPoint(Actor);
+			Location = Actor->GetActorLocation();
+			if (SpawnPoint == ESpawnPoint::Ground)
+			{
+				Location = CombatInterface->Execute_GetActorGroundPoint(Actor);
+			}
+			else if (SpawnPoint == ESpawnPoint::Halo)
+			{
+				Location = CombatInterface->Execute_GetActorHaloPoint(Actor);
+			}
 		}
-		else if (SpawnPoint == ESpawnPoint::Halo)
-		{
-			Location = CombatInterface->Execute_GetActorHaloPoint(Actor);
-		}
-		return UNiagaraFunctionLibrary::SpawnSystemAtLocation(WorldContextObject, NiagaraSystem,Location,FRotator::ZeroRotator,Scale);
 	}
-	return nullptr;
+	return UNiagaraFunctionLibrary::SpawnSystemAtLocation(WorldContextObject, NiagaraSystem,Location,FRotator::ZeroRotator,Scale);
+
 }
 
 

@@ -48,7 +48,7 @@ FVector APointCollection::GetRandomNewGroundPoint(FVector PrevGroundPoint, float
 
 	for (USceneComponent* Pt : ImmutablePts)
 	{
-		if (Pt->GetComponentLocation() != PrevGroundPoint)
+		if (FVector::Dist(Pt->GetComponentLocation(), PrevGroundPoint) > 10.f) //If previous location is at least 10 units away from the new one
 		{
 			FVector ToPoint = Pt->GetComponentLocation() - Pt_0->GetComponentLocation();
 			ToPoint = ToPoint.RotateAngleAxis(YawOverride, FVector::UpVector);
