@@ -130,11 +130,12 @@ void AFQFCharacterBase::SetWeaponVisibility_Implementation(bool bVisible)
 FVector AFQFCharacterBase::GetCombatSocketLocation_Implementation(const FGameplayTag& MontageTag)
 {
 	const FFQFGameplayTags& GameplayTags = FFQFGameplayTags::Get();
+
 	if (MontageTag.MatchesTagExact(GameplayTags.Montage_Attack_Jump))
 	{
-		return GetMesh()->GetSocketLocation(CenterChesterSocketName);
+		return GetMesh()->GetSocketLocation(CenterChestSocketName);
 	}
-	if (MontageTag.MatchesTagExact(GameplayTags.Montage_Attack_PillowWhack) && IsValid(Weapon))
+	if (MontageTag.MatchesTagExact(GameplayTags.Montage_Attack_PillowWhack) || MontageTag.MatchesTagExact(GameplayTags.Montage_Attack_PillowSpin) && IsValid(Weapon))
 	{
 		return Weapon->GetSocketLocation(WeaponTipSocketName); 
 	}

@@ -78,7 +78,7 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	FName WeaponTipSocketName;
 	UPROPERTY(EditAnywhere, Category = "Combat")
-	FName CenterChesterSocketName;
+	FName CenterChestSocketName;
 
 	bool bDead = false;
 	
