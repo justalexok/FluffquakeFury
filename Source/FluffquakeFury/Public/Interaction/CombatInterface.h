@@ -24,23 +24,23 @@ class UCombatInterface : public UInterface
 /**
  * 
  */
-USTRUCT(BlueprintType)
-struct FTaggedMontage
-{
-	GENERATED_BODY()
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	UAnimMontage* AnimMontage = nullptr;
-	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	FGameplayTag MontageTag;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	FGameplayTag SocketTag;
-	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	USoundBase* ImpactSound = nullptr;
-};
+// USTRUCT(BlueprintType)
+// struct FTaggedMontage
+// {
+// 	GENERATED_BODY()
+//
+// 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+// 	UAnimMontage* AnimMontage = nullptr;
+// 	
+// 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+// 	FGameplayTag MontageTag;
+//
+// 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+// 	FGameplayTag SocketTag;
+// 	
+// 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+// 	USoundBase* ImpactSound = nullptr;
+// };
 
 
 class FLUFFQUAKEFURY_API ICombatInterface
@@ -61,11 +61,11 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	UAnimMontage* GetHitReactMontage();
 
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
-	TArray<FTaggedMontage> GetAttackMontages();
-
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
-	FTaggedMontage GetAttackMontageWithTag(FGameplayTag MontageTag);
+	// UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	// TArray<FTaggedMontage> GetAttackMontages();
+	//
+	// UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	// FTaggedMontage GetAttackMontageWithTag(FGameplayTag MontageTag);
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void ResetRecentlyReceivedDamageType();

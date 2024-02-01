@@ -76,22 +76,22 @@ void AFQFCharacterBase::SetMaxWalkSpeed_Implementation(bool bShouldImmobiliseCha
 	GetCharacterMovement()->MaxWalkSpeed = bShouldImmobiliseCharacter ? 0.f : BaseWalkSpeed;
 }
 
-TArray<FTaggedMontage> AFQFCharacterBase::GetAttackMontages_Implementation()
-{
-	return AttackMontages;
-}
-
-FTaggedMontage AFQFCharacterBase::GetAttackMontageWithTag_Implementation(FGameplayTag MontageTag)
-{
-	for (FTaggedMontage TaggedMontage : AttackMontages)
-	{
-		if (TaggedMontage.MontageTag == MontageTag)
-		{
-			return  TaggedMontage;
-		}
-	}
-	return FTaggedMontage();
-}
+// TArray<FTaggedMontage> AFQFCharacterBase::GetAttackMontages_Implementation()
+// {
+// 	return AttackMontages;
+// }
+//
+// FTaggedMontage AFQFCharacterBase::GetAttackMontageWithTag_Implementation(FGameplayTag MontageTag)
+// {
+// 	for (FTaggedMontage TaggedMontage : AttackMontages)
+// 	{
+// 		if (TaggedMontage.MontageTag == MontageTag)
+// 		{
+// 			return  TaggedMontage;
+// 		}
+// 	}
+// 	return FTaggedMontage();
+// }
 
 FOnDeathSignature& AFQFCharacterBase::GetOnDeathDelegate()
 {

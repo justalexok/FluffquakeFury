@@ -35,17 +35,17 @@ public:
 	virtual UAnimMontage* GetHitReactMontage_Implementation() override;
 	virtual void Die() override;
 	virtual void SetMaxWalkSpeed_Implementation(bool bShouldImmobiliseCharacter) override;
-	virtual TArray<FTaggedMontage> GetAttackMontages_Implementation() override;
-	virtual FTaggedMontage GetAttackMontageWithTag_Implementation(FGameplayTag MontageTag) override;
+	// virtual TArray<FTaggedMontage> GetAttackMontages_Implementation() override;
+	// virtual FTaggedMontage GetAttackMontageWithTag_Implementation(FGameplayTag MontageTag) override;
 	virtual FOnDeathSignature& GetOnDeathDelegate() override;
 	virtual void ResetRecentlyReceivedDamageType_Implementation() override;
 	virtual UAnimInstance* GetAnimInstance_Implementation(AActor* Actor) override;
 	virtual FVector GetActorGroundPoint_Implementation() override;
 	virtual FVector GetActorHaloPoint_Implementation() override;
 	virtual void SetWeaponVisibility_Implementation(bool bVisible) override;
-	
-	UPROPERTY(EditAnywhere, Category="Combat")
-	TArray<FTaggedMontage> AttackMontages;
+	//
+	// UPROPERTY(EditAnywhere, Category="Combat")
+	// TArray<FTaggedMontage> AttackMontages;
 	
 	UFUNCTION()
 	void HandleDeath();
@@ -74,11 +74,11 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	TObjectPtr<USkeletalMeshComponent> Weapon;
-	
-	UPROPERTY(EditAnywhere, Category = "Combat")
-	FName WeaponTipSocketName;
-	UPROPERTY(EditAnywhere, Category = "Combat")
-	FName CenterChestSocketName;
+	//
+	// UPROPERTY(EditAnywhere, Category = "Combat")
+	// FName WeaponTipSocketName;
+	// UPROPERTY(EditAnywhere, Category = "Combat")
+	// FName CenterChestSocketName;
 
 	bool bDead = false;
 	
