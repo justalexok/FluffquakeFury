@@ -42,6 +42,8 @@ void FFQFGameplayTags::InitializeNativeGameplayTags(){
 
 	//Montage Tags
 	GameplayTags.Montage_Attack_PillowWhack = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Montage.Attack.PillowWhack"),FString("Tag for PillowWhack Attack"));
+	GameplayTags.Montage_Attack_PillowSpin = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Montage.Attack.PillowSpin"),FString("Tag for PillowSpin Attack"));
+
 	GameplayTags.Montage_Attack_Jump = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Montage.Attack.Jump"),FString("Tag for Jump Attack"));
 	GameplayTags.Montage_Attack_CastSpell = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Montage.Attack.CastSpell"),FString("Tag for Cast Spell Attack"));
 

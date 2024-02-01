@@ -38,10 +38,8 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Damage")
 	FVector DamageImpactLocation;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Damage")
-	USoundBase* DamageImpactSound = nullptr;
-
+	
+	
 	UFUNCTION(BlueprintPure)
 	static FTaggedMontage GetRandomTaggedMontage(TArray<FTaggedMontage> TaggedMontages);
 

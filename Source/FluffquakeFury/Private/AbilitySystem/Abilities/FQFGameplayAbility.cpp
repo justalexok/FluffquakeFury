@@ -35,6 +35,5 @@ FDamageEffectParams UFQFGameplayAbility::MakeDamageEffectParamsFromClassDefaults
 	}
 	Params.AbilityLevel = GetAbilityLevel();
 	Params.DamageType = DamageType;
-	Params.ImpactSound = DamageImpactSound;
 	return  Params;
 }

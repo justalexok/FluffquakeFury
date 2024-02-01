@@ -61,7 +61,7 @@ void APippaPlayerController::PlayerTick(float DeltaTime)
 	Super::PlayerTick(DeltaTime);
 
 	CursorTrace();
-	AutoRun();
+	// AutoRun();
 }
 
 void APippaPlayerController::ShowDamageNumber_Implementation(float DamageAmount, ACharacter* TargetCharacter, bool bBlockedHit, bool bPillowExploded, bool bFatalHit)
@@ -134,10 +134,14 @@ void APippaPlayerController::CursorTrace()
 
 void APippaPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 {
-	if (InputTag.MatchesTagExact(FFQFGameplayTags::Get().InputTag_LMB))
+	// if (InputTag.MatchesTagExact(FFQFGameplayTags::Get().InputTag_LMB))
+	// {
+	// 	bTargeting = ThisActor ? true : false;
+	// 	bAutoRunning = false;
+	// }
+	if (GetASC())
 	{
-		bTargeting = ThisActor ? true : false;
-		bAutoRunning = false;
+		GetASC()->AbilityInputTagHeld(InputTag);
 	}
 
 }
@@ -147,20 +151,20 @@ void APippaPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 void APippaPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 {
 	//Not LMB
-	if (!InputTag.MatchesTagExact(FFQFGameplayTags::Get().InputTag_LMB))
-	{
-		if (GetASC())
-		{
-			GetASC()->AbilityInputTagHeld(InputTag);
-		}
-		
-		return;
-	}
+	// if (!InputTag.MatchesTagExact(FFQFGameplayTags::Get().InputTag_LMB))
+	// {
+	// 	if (GetASC())
+	// 	{
+	// 		GetASC()->AbilityInputTagHeld(InputTag);
+	// 	}
+	// 	
+	// 	return;
+	// }
 	//LMB and Targeting
-	if (bTargeting || bShiftKeyDown) 
-	{
-		if (GetASC()) GetASC()->AbilityInputTagHeld(InputTag);
-	}
+	// if (bTargeting || bShiftKeyDown) 
+	// {
+	// 	if (GetASC()) GetASC()->AbilityInputTagHeld(InputTag);
+	// }
 	//LMB and not targeting. 
 	// else
 	// {
@@ -224,19 +228,19 @@ UFQFAbilitySystemComponent* APippaPlayerController::GetASC()
 	return FQFAbilitySystemComponent;
 }
 
-void APippaPlayerController::AutoRun()
-{
-	if (!bAutoRunning) return;
-	if (APawn* ControlledPawn = GetPawn())
-	{
-		const FVector LocationOnSpline = Spline->FindLocationClosestToWorldLocation(ControlledPawn->GetActorLocation(), ESplineCoordinateSpace::World);
-		const FVector Direction = Spline->FindDirectionClosestToWorldLocation(LocationOnSpline, ESplineCoordinateSpace::World);
-		ControlledPawn->AddMovementInput(Direction);
-
-		const float DistanceToDestination = (LocationOnSpline - CachedDestination).Length();
-		if (DistanceToDestination <= AutoRunAcceptanceRadius)
-		{
-			bAutoRunning = false;
-		}
-	}
-}
+// void APippaPlayerController::AutoRun()
+// {
+// 	if (!bAutoRunning) return;
+// 	if (APawn* ControlledPawn = GetPawn())
+// 	{
+// 		const FVector LocationOnSpline = Spline->FindLocationClosestToWorldLocation(ControlledPawn->GetActorLocation(), ESplineCoordinateSpace::World);
+// 		const FVector Direction = Spline->FindDirectionClosestToWorldLocation(LocationOnSpline, ESplineCoordinateSpace::World);
+// 		ControlledPawn->AddMovementInput(Direction);
+//
+// 		const float DistanceToDestination = (LocationOnSpline - CachedDestination).Length();
+// 		if (DistanceToDestination <= AutoRunAcceptanceRadius)
+// 		{
+// 			bAutoRunning = false;
+// 		}
+// 	}
+// }

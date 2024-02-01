@@ -29,7 +29,15 @@ void AFQFCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
 
-	GetCharacterMovement()->MaxWalkSpeed = BaseWalkSpeed;
+	if (GetCharacterMovement() == nullptr)
+	{
+		
+	}
+	else
+	{
+		GetCharacterMovement()->MaxWalkSpeed = BaseWalkSpeed;
+
+	}
 	
 }
 
@@ -70,6 +78,18 @@ void AFQFCharacterBase::SetMaxWalkSpeed_Implementation(bool bShouldImmobiliseCha
 TArray<FTaggedMontage> AFQFCharacterBase::GetAttackMontages_Implementation()
 {
 	return AttackMontages;
+}
+
+FTaggedMontage AFQFCharacterBase::GetAttackMontageWithTag_Implementation(FGameplayTag MontageTag)
+{
+	for (FTaggedMontage TaggedMontage : AttackMontages)
+	{
+		if (TaggedMontage.MontageTag == MontageTag)
+		{
+			return  TaggedMontage;
+		}
+	}
+	return FTaggedMontage();
 }
 
 FOnDeathSignature& AFQFCharacterBase::GetOnDeathDelegate()

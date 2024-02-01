@@ -97,8 +97,5 @@ struct FDamageEffectParams
 	UPROPERTY()
 	FGameplayTag DamageType = FGameplayTag();
 
-	UPROPERTY()
-	USoundBase* ImpactSound = nullptr;
-
 
 };

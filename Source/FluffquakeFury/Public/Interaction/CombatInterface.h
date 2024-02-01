@@ -65,6 +65,9 @@ public:
 	TArray<FTaggedMontage> GetAttackMontages();
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	FTaggedMontage GetAttackMontageWithTag(FGameplayTag MontageTag);
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void ResetRecentlyReceivedDamageType();
 	
 	virtual void Die() = 0;
@@ -72,6 +75,8 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	bool IsDead() const;
 
+	
+	
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	AActor* GetAvatar();
 

@@ -15,7 +15,7 @@ public:
 	APointCollection();
 
 	UFUNCTION(BlueprintPure)
-	TArray<USceneComponent*> GetGroundPoints(const FVector& GroundLocation, float YawOverride);
+	FVector GetRandomNewGroundPoint(FVector PrevGroundPoint, float YawOverride);
 
 protected:
 	virtual void BeginPlay() override;

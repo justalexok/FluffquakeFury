@@ -36,6 +36,7 @@ public:
 	virtual void Die() override;
 	virtual void SetMaxWalkSpeed_Implementation(bool bShouldImmobiliseCharacter) override;
 	virtual TArray<FTaggedMontage> GetAttackMontages_Implementation() override;
+	virtual FTaggedMontage GetAttackMontageWithTag_Implementation(FGameplayTag MontageTag) override;
 	virtual FOnDeathSignature& GetOnDeathDelegate() override;
 	virtual void ResetRecentlyReceivedDamageType_Implementation() override;
 	virtual UAnimInstance* GetAnimInstance_Implementation(AActor* Actor) override;

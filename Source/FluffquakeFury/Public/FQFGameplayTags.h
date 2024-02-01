@@ -56,6 +56,8 @@ public:
 	FGameplayTag CombatSocket_CenterChest;
 
 	FGameplayTag Montage_Attack_PillowWhack;
+	FGameplayTag Montage_Attack_PillowSpin;
+
 	FGameplayTag Montage_Attack_Jump;
 	FGameplayTag Montage_Attack_CastSpell;
 
