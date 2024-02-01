@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
 #include "FQFGameModeBase.generated.h"
+
+class UAbilityInfo;
 class UCharacterClassInfo;
 /**
  * 
@@ -18,4 +20,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Character Class Defaults")
 	TObjectPtr<UCharacterClassInfo> CharacterClassInfo;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Ability Information")
+	TObjectPtr<UAbilityInfo> AbilityInfo;
+	
 };

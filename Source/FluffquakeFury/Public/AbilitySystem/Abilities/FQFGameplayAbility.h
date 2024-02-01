@@ -22,6 +22,9 @@ public:
 	FGameplayTag StartupInputTag;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Damage")
+	FGameplayTag SpecificAbilityTag;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Damage")
 	AActor* SourceWeapon;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Damage")

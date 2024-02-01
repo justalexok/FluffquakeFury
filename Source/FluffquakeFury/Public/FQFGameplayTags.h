@@ -46,10 +46,13 @@ public:
 	FGameplayTag PillowType_Regular;
 	FGameplayTag PillowType_Poison;
 
-	FGameplayTag Abilities_Attack;
-	FGameplayTag Abilities_Jump;
-	FGameplayTag Abilities_CastSpell;
-	FGameplayTag Abilities_Teleport;
+	FGameplayTag Abilities_Attack; //General attack tag used by enemy's BehaviourTree - they each only have one ability
+	FGameplayTag Abilities_Jump; //Pippa's jump
+	FGameplayTag Abilities_CastSpell; //Unused
+	FGameplayTag Abilities_Teleport; //Activated directly using this tag in HitReact (if Jolleen)
+	FGameplayTag Abilities_PillowWhack; //Used in AbilityInfo DataAsset
+	FGameplayTag Abilities_PillowSpin; //Used in AbilityInfo DataAsset
+	FGameplayTag Abilities_TwoHandedJumpAttack; //Used in AbilityInfo DataAsset
 
 	FGameplayTag Effects_HitReact;
 
@@ -57,14 +60,8 @@ public:
 
 	FGameplayTag Montage_Attack_PillowWhack;
 	FGameplayTag Montage_Attack_PillowSpin;
-
-	FGameplayTag Montage_Attack_Jump;
+	FGameplayTag Montage_Attack_TwoHandedJump;
 	FGameplayTag Montage_Attack_CastSpell;
-
-	FGameplayTag Montage_Attack_1;
-	FGameplayTag Montage_Attack_2;
-	FGameplayTag Montage_Attack_3;
-	FGameplayTag Montage_Attack_4;
 
 	TArray<FGameplayTag> DamageTypes;
 protected:

@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameplayEffectTypes.h"
 #include "NiagaraSystem.h"
+#include "Data/AbilityInfo.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "Data/CharacterClassInfo.h"
 #include "FQFBlueprintFunctionLibrary.generated.h"
@@ -77,4 +78,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "FQFBlueprintFunctionLibrary|GameplayEffects")
 	static UNiagaraComponent* SpawnNiagaraAtPoint(const UObject* WorldContextObject, FVector InLocation, AActor* Actor, ESpawnPoint SpawnPoint = ESpawnPoint::Ground, FVector Scale = FVector(1,1,1), UNiagaraSystem* NiagaraSystem = nullptr);
 
+	UFUNCTION(BlueprintCallable, Category="FQFBlueprintFunctionLibrary/AbilityInformation")
+	static UAbilityInfo* GetAbilityInfo(const UObject* WorldContextObject);
 };

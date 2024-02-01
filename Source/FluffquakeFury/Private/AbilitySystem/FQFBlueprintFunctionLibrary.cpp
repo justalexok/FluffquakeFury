@@ -269,4 +269,12 @@ UNiagaraComponent* UFQFBlueprintFunctionLibrary::SpawnNiagaraAtPoint(const UObje
 
 }
 
+UAbilityInfo* UFQFBlueprintFunctionLibrary::GetAbilityInfo(const UObject* WorldContextObject)
+{
+	const AFQFGameModeBase* AuraGameMode = Cast<AFQFGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
+	if (AuraGameMode == nullptr ) return nullptr;
+
+	return AuraGameMode->AbilityInfo;
+}
+
 

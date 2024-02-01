@@ -40,24 +40,23 @@ void FFQFGameplayTags::InitializeNativeGameplayTags(){
 	//Combat Sockets
 	GameplayTags.CombatSocket_CenterChest = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("CombatSocket.CenterChest"),FString("Socket Tag for the Center of the Chest"));
 
+	
+	//Ability Tags
+	GameplayTags.Abilities_Attack = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Attack"),FString("Attack Ability Tag"));
+	GameplayTags.Abilities_Jump = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Jump"),FString("Pippa's Jump Ability Tag"));
+	GameplayTags.Abilities_CastSpell = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.CastSpell"),FString("Cast Spell Ability Tag"));
+	GameplayTags.Abilities_Teleport = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Teleport"),FString("Teleport Ability Tag"));
+	GameplayTags.Abilities_PillowWhack = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.PillowWhack"),FString("Pillow Whack Ability Tag"));
+	GameplayTags.Abilities_PillowSpin = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.PillowSpin"),FString("Pillow Spin Ability Tag"));
+	GameplayTags.Abilities_TwoHandedJumpAttack = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.TwoHandedJumpAttack"),FString("Two Handed Jump Attack Ability Tag"));
+
+	GameplayTags.Effects_HitReact = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Effects.HitReact"),FString("Tag granted when Hit Reacting"));
+
 	//Montage Tags
 	GameplayTags.Montage_Attack_PillowWhack = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Montage.Attack.PillowWhack"),FString("Tag for PillowWhack Attack"));
 	GameplayTags.Montage_Attack_PillowSpin = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Montage.Attack.PillowSpin"),FString("Tag for PillowSpin Attack"));
-
-	GameplayTags.Montage_Attack_Jump = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Montage.Attack.Jump"),FString("Tag for Jump Attack"));
+	GameplayTags.Montage_Attack_TwoHandedJump = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Montage.Attack.Jump"),FString("Tag for Jump Attack"));
 	GameplayTags.Montage_Attack_CastSpell = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Montage.Attack.CastSpell"),FString("Tag for Cast Spell Attack"));
-
-	GameplayTags.Montage_Attack_1 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Montage.Attack.1"),FString("Attack 1"));
-	GameplayTags.Montage_Attack_2 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Montage.Attack.2"),FString("Attack 2"));
-	GameplayTags.Montage_Attack_3 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Montage.Attack.3"),FString("Attack 3"));
-	GameplayTags.Montage_Attack_4 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Montage.Attack.4"),FString("Attack 4"));
-
-	GameplayTags.Abilities_Attack = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Attack"),FString("Attack Ability Tag"));
-	GameplayTags.Abilities_Jump = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Jump"),FString("Jump Ability Tag"));
-	GameplayTags.Abilities_CastSpell = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.CastSpell"),FString("Cast Spell Ability Tag"));
-	GameplayTags.Abilities_Teleport = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Teleport"),FString("Teleport Ability Tag"));
-
-	GameplayTags.Effects_HitReact = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Effects.HitReact"),FString("Tag granted when Hit Reacting"));
 
 	//Add to Damage Types TArray
 	GameplayTags.DamageTypes.Add(GameplayTags.DamageType_Fluff);

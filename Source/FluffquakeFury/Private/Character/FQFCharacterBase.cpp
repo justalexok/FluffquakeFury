@@ -6,6 +6,7 @@
 #include "AbilitySystemComponent.h"
 #include "FQFGameplayTags.h"
 #include "AbilitySystem/FQFAbilitySystemComponent.h"
+#include "AbilitySystem/FQFBlueprintFunctionLibrary.h"
 #include "Components/AudioComponent.h"
 #include "Components/CapsuleComponent.h"
 
@@ -127,17 +128,24 @@ void AFQFCharacterBase::SetWeaponVisibility_Implementation(bool bVisible)
 	Weapon->SetVisibility(bVisible);
 }
 
-FVector AFQFCharacterBase::GetCombatSocketLocation_Implementation(const FGameplayTag& MontageTag)
+FVector AFQFCharacterBase::GetCombatSocketLocation_Implementation(const FGameplayTag& SpecificAbilityTag)
 {
-	const FFQFGameplayTags& GameplayTags = FFQFGameplayTags::Get();
 
-	if (MontageTag.MatchesTagExact(GameplayTags.Montage_Attack_Jump))
+	// Look up GameplayAbility in AbilityInfo and Retrieve The SocketLocation. 
+	if (UAbilityInfo* AbilityInfo = UFQFBlueprintFunctionLibrary::GetAbilityInfo(this))
 	{
-		return GetMesh()->GetSocketLocation(CenterChestSocketName);
-	}
-	if (MontageTag.MatchesTagExact(GameplayTags.Montage_Attack_PillowWhack) || MontageTag.MatchesTagExact(GameplayTags.Montage_Attack_PillowSpin) && IsValid(Weapon))
-	{
-		return Weapon->GetSocketLocation(WeaponTipSocketName); 
+		for (FFQFAbilityInfo Info : AbilityInfo->AbilityInformation)
+		{
+			if (Info.AbilityTag.MatchesTagExact(SpecificAbilityTag))
+			{
+				if (Info.bUsesWeapon && IsValid(Weapon))
+				{
+					return Weapon->GetSocketLocation(Info.SocketTagName);
+				}
+				//Does not use weapon
+				return GetMesh()->GetSocketLocation(Info.SocketTagName);
+			}
+		}
 	}
 	return FVector();
 }
