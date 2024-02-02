@@ -5,7 +5,6 @@
 #include "CoreMinimal.h"
 #include "FQFAbilityTypes.h"
 #include "Abilities/GameplayAbility.h"
-#include "Interaction/CombatInterface.h"
 #include "FQFGameplayAbility.generated.h"
 
 /**
@@ -42,9 +41,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Damage")
 	FVector DamageImpactLocation;
 	
-	
-	UFUNCTION(BlueprintPure)
-	static FTaggedMontage GetRandomTaggedMontage(TArray<FTaggedMontage> TaggedMontages);
+	//
+	// UFUNCTION(BlueprintPure)
+	// static FTaggedMontage GetRandomTaggedMontage(TArray<FTaggedMontage> TaggedMontages);
 
 	UFUNCTION(BlueprintCallable)
 	FDamageEffectParams MakeDamageEffectParamsFromClassDefaults(AActor* TargetActor = nullptr) const;

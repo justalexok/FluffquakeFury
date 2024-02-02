@@ -9,17 +9,17 @@
 #include "Character/FQFCharacterBase.h"
 
 
-
-FTaggedMontage UFQFGameplayAbility::GetRandomTaggedMontage(TArray<FTaggedMontage> TaggedMontages)
-{
-	if (TaggedMontages.Num() > 0)
-	{
-		const int32 RandomIndex = FMath::RandRange(0,TaggedMontages.Num()-1);
-		return TaggedMontages[RandomIndex];
-	}
-	
-	return FTaggedMontage(); 
-}
+//
+// FTaggedMontage UFQFGameplayAbility::GetRandomTaggedMontage(TArray<FTaggedMontage> TaggedMontages)
+// {
+// 	if (TaggedMontages.Num() > 0)
+// 	{
+// 		const int32 RandomIndex = FMath::RandRange(0,TaggedMontages.Num()-1);
+// 		return TaggedMontages[RandomIndex];
+// 	}
+// 	
+// 	return FTaggedMontage(); 
+// }
 
 FDamageEffectParams UFQFGameplayAbility::MakeDamageEffectParamsFromClassDefaults(AActor* TargetActor) const
 {
