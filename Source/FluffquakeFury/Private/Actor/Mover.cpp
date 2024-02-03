@@ -7,7 +7,7 @@
 UMover::UMover()
 {
 
-	PrimaryComponentTick.IsTickFunctionEnabled() = false;
+	PrimaryComponentTick.bStartWithTickEnabled = false;
 
 }
 
