@@ -53,7 +53,10 @@ public:
 	FGameplayTag Abilities_PillowWhack; //Used in AbilityInfo DataAsset
 	FGameplayTag Abilities_PillowSpin; //Used in AbilityInfo DataAsset
 	FGameplayTag Abilities_TwoHandedJumpAttack; //Used in AbilityInfo DataAsset
+	FGameplayTag Abilities_Squash; //Used in AbilityInfo DataAsset
+	FGameplayTag Abilities_TongueAttack; //Used in AbilityInfo DataAsset
 
+	
 	FGameplayTag Effects_HitReact;
 
 	FGameplayTag CombatSocket_CenterChest;
@@ -62,6 +65,9 @@ public:
 	FGameplayTag Montage_Attack_PillowSpin;
 	FGameplayTag Montage_Attack_TwoHandedJump;
 	FGameplayTag Montage_Attack_CastSpell;
+	FGameplayTag Montage_Attack_Squash;
+	FGameplayTag Montage_Attack_Tongue;
+
 
 	TArray<FGameplayTag> DamageTypes;
 protected:

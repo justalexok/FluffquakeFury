@@ -49,6 +49,8 @@ void FFQFGameplayTags::InitializeNativeGameplayTags(){
 	GameplayTags.Abilities_PillowWhack = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.PillowWhack"),FString("Pillow Whack Ability Tag"));
 	GameplayTags.Abilities_PillowSpin = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.PillowSpin"),FString("Pillow Spin Ability Tag"));
 	GameplayTags.Abilities_TwoHandedJumpAttack = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.TwoHandedJumpAttack"),FString("Two Handed Jump Attack Ability Tag"));
+	GameplayTags.Abilities_Squash = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Squash"),FString("Squash Attack Ability Tag"));
+	GameplayTags.Abilities_TongueAttack = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.TongueAttack"),FString("TongueAttack Ability Tag"));
 
 	GameplayTags.Effects_HitReact = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Effects.HitReact"),FString("Tag granted when Hit Reacting"));
 
@@ -57,6 +59,8 @@ void FFQFGameplayTags::InitializeNativeGameplayTags(){
 	GameplayTags.Montage_Attack_PillowSpin = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Montage.Attack.PillowSpin"),FString("Tag for PillowSpin Attack"));
 	GameplayTags.Montage_Attack_TwoHandedJump = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Montage.Attack.Jump"),FString("Tag for Jump Attack"));
 	GameplayTags.Montage_Attack_CastSpell = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Montage.Attack.CastSpell"),FString("Tag for Cast Spell Attack"));
+	GameplayTags.Montage_Attack_Squash = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Montage.Attack.Squash"),FString("Tag for Squash Attack"));
+	GameplayTags.Montage_Attack_Tongue = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Montage.Attack.Tongue"),FString("Tag for Tongue Attack"));
 
 	//Add to Damage Types TArray
 	GameplayTags.DamageTypes.Add(GameplayTags.DamageType_Fluff);

@@ -73,5 +73,7 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "AI")
 	TObjectPtr<UBehaviorTree> BehaviorTree;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Class Defaults")
+	TArray<FGameplayTag> SpecificAbilityTags;
 	
 };
