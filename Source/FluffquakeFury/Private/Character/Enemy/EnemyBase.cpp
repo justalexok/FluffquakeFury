@@ -121,6 +121,9 @@ void AEnemyBase::Die()
 	SetLifeSpan(5.f);
 	FQFAIController->GetBlackboardComponent()->SetValueAsBool(FName("IsDead"), true);
 	RemoveInfiniteGameplayEffects();
+
+	PlayAnimMontage(DeathMontage);
+	
 	Super::Die();
 }
 
