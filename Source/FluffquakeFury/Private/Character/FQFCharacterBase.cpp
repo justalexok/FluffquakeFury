@@ -103,7 +103,7 @@ void AFQFCharacterBase::ResetRecentlyReceivedDamageType_Implementation()
 	RecentlyReceivedDamageType = FGameplayTag();
 }
 
-UAnimInstance* AFQFCharacterBase::GetAnimInstance_Implementation(AActor* Actor)
+UAnimInstance* AFQFCharacterBase::GetAnimInstance_Implementation()
 {
 	return GetMesh()->GetAnimInstance();
 }

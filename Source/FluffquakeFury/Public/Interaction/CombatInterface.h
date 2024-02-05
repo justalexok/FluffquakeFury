@@ -80,7 +80,8 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	AActor* GetAvatar();
 
-	virtual void KnockbackCharacter();
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void KnockbackCharacter(float Magnitude, float Pitch, FVector Direction);
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void SetMaxWalkSpeed(bool bShouldImmobiliseCharacter);
@@ -88,7 +89,7 @@ public:
 	virtual FOnDeathSignature& GetOnDeathDelegate() = 0;
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
-	UAnimInstance* GetAnimInstance(AActor* Actor);
+	UAnimInstance* GetAnimInstance();
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void SetBlackboardBoolForKey(FName KeyName, bool Bool);

@@ -34,16 +34,19 @@ struct FFQFAbilityInfo
 	bool bUsesWeapon = false;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	USoundBase* ActionSound = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	USoundBase* ImpactSound = nullptr;
 
 	UPROPERTY(BlueprintReadOnly)
 	FGameplayTag InputTag = FGameplayTag();	
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	TObjectPtr<const UTexture2D> Icon = nullptr;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	TObjectPtr<const UMaterialInterface> BackgroundMaterial = nullptr;
+// 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+// 	TObjectPtr<const UTexture2D> Icon = nullptr;
+//
+// 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+// 	TObjectPtr<const UMaterialInterface> BackgroundMaterial = nullptr;
 };
 
 /**

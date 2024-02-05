@@ -39,7 +39,7 @@ public:
 	// virtual FTaggedMontage GetAttackMontageWithTag_Implementation(FGameplayTag MontageTag) override;
 	virtual FOnDeathSignature& GetOnDeathDelegate() override;
 	virtual void ResetRecentlyReceivedDamageType_Implementation() override;
-	virtual UAnimInstance* GetAnimInstance_Implementation(AActor* Actor) override;
+	virtual UAnimInstance* GetAnimInstance_Implementation() override;
 	virtual FVector GetActorGroundPoint_Implementation() override;
 	virtual FVector GetActorHaloPoint_Implementation() override;
 	virtual void SetWeaponVisibility_Implementation(bool bVisible) override;

@@ -219,7 +219,7 @@ void UFQFAttributeSet::HandleExplosion(const FEffectProperties& Props, float Loc
 	if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(Props.SourceCharacter))
 	{
 		CombatInterface->Execute_SetWeaponVisibility(Props.SourceCharacter,false);
-		CombatInterface->KnockbackCharacter();
+		CombatInterface->Execute_KnockbackCharacter(Props.SourceCharacter, 800,25,Props.SourceCharacter->GetActorForwardVector() * -1);
 		FGameplayTagContainer TagContainer;
 		TagContainer.AddTag(FFQFGameplayTags::Get().Effects_HitReact);
 		Props.TargetASC->TryActivateAbilitiesByTag(TagContainer);
