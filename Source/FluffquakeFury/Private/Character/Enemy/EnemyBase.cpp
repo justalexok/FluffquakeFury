@@ -62,6 +62,11 @@ void AEnemyBase::SetBlackboardBoolForKey_Implementation(FName KeyName, bool Bool
 	FQFAIController->GetBlackboardComponent()->SetValueAsBool(KeyName, Bool);
 }
 
+bool AEnemyBase::IsDefending_Implementation()
+{
+	return FQFAIController->GetBlackboardComponent()->GetValueAsBool("AmIDefending");
+}
+
 void AEnemyBase::BeginPlay()
 {
 	Super::BeginPlay();

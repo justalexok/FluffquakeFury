@@ -35,6 +35,7 @@ public:
 	//CombatInterface
 	virtual int32 GetPlayerLevel() override;
 	virtual void SetBlackboardBoolForKey_Implementation(FName KeyName, bool Bool) override;
+	virtual bool IsDefending_Implementation() override;
 
 	void HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
 	

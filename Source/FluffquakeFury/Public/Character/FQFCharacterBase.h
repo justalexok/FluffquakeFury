@@ -43,6 +43,7 @@ public:
 	virtual FVector GetActorGroundPoint_Implementation() override;
 	virtual FVector GetActorHaloPoint_Implementation() override;
 	virtual void SetWeaponVisibility_Implementation(bool bVisible) override;
+	
 	//
 	// UPROPERTY(EditAnywhere, Category="Combat")
 	// TArray<FTaggedMontage> AttackMontages;
