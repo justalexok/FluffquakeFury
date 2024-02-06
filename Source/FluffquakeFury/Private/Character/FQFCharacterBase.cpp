@@ -7,6 +7,7 @@
 #include "AbilitySystem/FQFBlueprintFunctionLibrary.h"
 #include "Components/AudioComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AFQFCharacterBase::AFQFCharacterBase()
@@ -23,6 +24,12 @@ AFQFCharacterBase::AFQFCharacterBase()
 	AudioComponent->bAutoActivate = false;
 }
 
+
+AFQFGameModeBase* AFQFCharacterBase::GetFQFGameMode()
+{
+	return Cast<AFQFGameModeBase>(UGameplayStatics::GetGameMode(this));
+	
+}
 
 void AFQFCharacterBase::BeginPlay()
 {

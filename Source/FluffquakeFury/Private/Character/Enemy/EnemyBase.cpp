@@ -72,6 +72,9 @@ bool AEnemyBase::IsDefending_Implementation()
 void AEnemyBase::BeginPlay()
 {
 	Super::BeginPlay();
+
+	IncrementEnemyCount();
+	
 	GetCharacterMovement()->MaxWalkSpeed = BaseWalkSpeed;
 
 	InitAbilityActorInfo();
@@ -119,6 +122,16 @@ void AEnemyBase::InitAbilityActorInfo()
 
 }
 
+void AEnemyBase::IncrementEnemyCount()
+{
+	GetFQFGameMode()->NumEnemiesInLevel ++;
+}
+
+void AEnemyBase::DecrementEnemyCount()
+{
+	GetFQFGameMode()->NumEnemiesInLevel --;
+}
+
 void AEnemyBase::Die()
 {
 	SetLifeSpan(5.f);
@@ -126,6 +139,16 @@ void AEnemyBase::Die()
 	RemoveInfiniteGameplayEffects();
 
 	PlayAnimMontage(DeathMontage);
+
+	DecrementEnemyCount();
+
+	//Tell GameMode to check if level is complete.
+	if (AFQFGameModeBase* GameMode = GetFQFGameMode())
+	{
+		GameMode->IsLevelComplete();
+	}
+
+
 	
 	Super::Die();
 }

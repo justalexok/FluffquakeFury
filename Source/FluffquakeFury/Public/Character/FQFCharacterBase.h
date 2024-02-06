@@ -6,6 +6,7 @@
 #include "AbilitySystemInterface.h"
 #include "ActiveGameplayEffectHandle.h"
 #include "Actor/PillowBase.h"
+#include "Game/FQFGameModeBase.h"
 #include "GameFramework/Character.h"
 #include "Interaction/CombatInterface.h"
 #include "FQFCharacterBase.generated.h"
@@ -66,6 +67,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TMap<FActiveGameplayEffectHandle, UAbilitySystemComponent*> ActiveInfiniteEffectHandles;
+
+	UFUNCTION(BlueprintCallable)
+	AFQFGameModeBase* GetFQFGameMode();
 
 protected:
 	virtual void BeginPlay() override;

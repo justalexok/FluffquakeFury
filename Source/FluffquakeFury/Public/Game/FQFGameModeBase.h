@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "AbilitySystem/Data/LevelInfo.h"
 #include "GameFramework/GameModeBase.h"
 #include "FQFGameModeBase.generated.h"
 
@@ -28,5 +29,15 @@ public:
 	TObjectPtr<ULevelInfo> LevelInfo;
 
 	UFUNCTION(BlueprintCallable)
+	FFQFLevelInfo GetCurrentLevelInfo();
+	
+	UFUNCTION(BlueprintCallable)
 	FName GetNextLevelName();
+
+	UFUNCTION(BlueprintCallable)
+	bool IsLevelComplete();
+
+	UPROPERTY(EditAnywhere)
+	int32 NumEnemiesInLevel = 0;
+		
 };
