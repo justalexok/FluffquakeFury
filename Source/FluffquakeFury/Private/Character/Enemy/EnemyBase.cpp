@@ -15,6 +15,8 @@
 #include "BehaviorTree/BlackboardComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
+class AFQFPlayerState;
+
 AEnemyBase::AEnemyBase()
 {
 	GetMesh()->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block);
@@ -103,6 +105,7 @@ void AEnemyBase::BeginPlay()
 		OnHealthChanged.Broadcast(FQFAS->GetHealth());
 		OnMaxHealthChanged.Broadcast(FQFAS->GetMaxHealth());
 	}
+
 	
 }
 

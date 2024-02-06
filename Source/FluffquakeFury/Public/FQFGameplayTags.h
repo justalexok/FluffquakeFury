@@ -56,7 +56,10 @@ public:
 	FGameplayTag Abilities_Squash; //Used in AbilityInfo DataAsset
 	FGameplayTag Abilities_TongueAttack; //Used in AbilityInfo DataAsset
 
-	
+
+	FGameplayTag Cooldown_PillowWhack;
+	FGameplayTag Cooldown_PillowSpin;
+
 	FGameplayTag Effects_HitReact;
 
 	FGameplayTag CombatSocket_CenterChest;

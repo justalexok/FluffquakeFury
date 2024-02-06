@@ -6,6 +6,7 @@
 #include "GameFramework/GameModeBase.h"
 #include "FQFGameModeBase.generated.h"
 
+class ULevelInfo;
 class UAbilityInfo;
 class UCharacterClassInfo;
 /**
@@ -22,5 +23,10 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Ability Information")
 	TObjectPtr<UAbilityInfo> AbilityInfo;
-	
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Level Information")
+	TObjectPtr<ULevelInfo> LevelInfo;
+
+	UFUNCTION(BlueprintCallable)
+	FName GetNextLevelName();
 };

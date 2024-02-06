@@ -52,6 +52,10 @@ void FFQFGameplayTags::InitializeNativeGameplayTags(){
 	GameplayTags.Abilities_Squash = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Squash"),FString("Squash Attack Ability Tag"));
 	GameplayTags.Abilities_TongueAttack = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.TongueAttack"),FString("TongueAttack Ability Tag"));
 
+	//CooldownTags
+	GameplayTags.Cooldown_PillowWhack = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Cooldown.PillowWhack"),FString("Pillow Whack Cooldown Tag"));
+	GameplayTags.Cooldown_PillowSpin = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Cooldown.PillowSpin"),FString("Pillow Spin Cooldown Tag"));
+
 	GameplayTags.Effects_HitReact = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Effects.HitReact"),FString("Tag granted when Hit Reacting"));
 
 	//Montage Tags

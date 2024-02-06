@@ -37,11 +37,21 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category="GAS|Attributes")
 	FOnAttributeChangedSignature OnLoadedFluffChanged;
+
+	UPROPERTY(BlueprintAssignable, Category="GAS|XP")
+	FOnAttributeChangedSignature OnXPPercentChangedDelegate;
+
+	UPROPERTY(BlueprintReadOnly)
+	float SumEnemyHealthAtStartOfLevel = 0.f;
+
 	
 protected:
 	
 	UFUNCTION(BlueprintCallable)
 	void ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGameplayEffect> GameplayEffectClass);
+
+	void OnXPChanged(int32 NewXP) const;
+
 };
 
 

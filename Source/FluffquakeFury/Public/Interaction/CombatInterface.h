@@ -61,11 +61,7 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	UAnimMontage* GetHitReactMontage();
 
-	// UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
-	// TArray<FTaggedMontage> GetAttackMontages();
-	//
-	// UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
-	// FTaggedMontage GetAttackMontageWithTag(FGameplayTag MontageTag);
+
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void ResetRecentlyReceivedDamageType();

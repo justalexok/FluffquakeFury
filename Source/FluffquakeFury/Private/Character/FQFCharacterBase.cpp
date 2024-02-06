@@ -4,8 +4,6 @@
 #include "Character/FQFCharacterBase.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "AbilitySystemComponent.h"
-#include "FQFGameplayTags.h"
-#include "AbilitySystem/FQFAbilitySystemComponent.h"
 #include "AbilitySystem/FQFBlueprintFunctionLibrary.h"
 #include "Components/AudioComponent.h"
 #include "Components/CapsuleComponent.h"
@@ -30,15 +28,10 @@ void AFQFCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if (GetCharacterMovement() == nullptr)
-	{
-		
-	}
-	else
+	if (GetCharacterMovement() != nullptr)
 	{
 		GetCharacterMovement()->MaxWalkSpeed = BaseWalkSpeed;
-
-	}
+	}	
 	
 }
 
@@ -75,23 +68,6 @@ void AFQFCharacterBase::SetMaxWalkSpeed_Implementation(bool bShouldImmobiliseCha
 {
 	GetCharacterMovement()->MaxWalkSpeed = bShouldImmobiliseCharacter ? 0.f : BaseWalkSpeed;
 }
-
-// TArray<FTaggedMontage> AFQFCharacterBase::GetAttackMontages_Implementation()
-// {
-// 	return AttackMontages;
-// }
-//
-// FTaggedMontage AFQFCharacterBase::GetAttackMontageWithTag_Implementation(FGameplayTag MontageTag)
-// {
-// 	for (FTaggedMontage TaggedMontage : AttackMontages)
-// 	{
-// 		if (TaggedMontage.MontageTag == MontageTag)
-// 		{
-// 			return  TaggedMontage;
-// 		}
-// 	}
-// 	return FTaggedMontage();
-// }
 
 FOnDeathSignature& AFQFCharacterBase::GetOnDeathDelegate()
 {
@@ -189,7 +165,7 @@ void AFQFCharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayE
 void AFQFCharacterBase::InitializeDefaultAttributes() const
 {
 	ApplyEffectToSelf(DefaultPrimaryAttributes, 1);
-	ApplyEffectToSelf(DefaultVitalAttributes, 1);
+	ApplyEffectToSelf(DefaultVitalAttributes, 1);	
 }
 
 void AFQFCharacterBase::Dissolve()

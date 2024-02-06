@@ -6,6 +6,7 @@
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystem/FQFAbilitySystemComponent.h"
 #include "AbilitySystem/FQFAttributeSet.h"
+#include "Player/FQFPlayerState.h"
 
 void UOverlayWidgetController::BroadcastInitialValues()
 {
@@ -15,6 +16,13 @@ void UOverlayWidgetController::BroadcastInitialValues()
 	OnMaxHealthChanged.Broadcast(FQFAttributeSet->GetMaxHealth());
 	OnFluffChanged.Broadcast(FQFAttributeSet->GetFluff());
 	OnMaxFluffChanged.Broadcast(FQFAttributeSet->GetMaxFluff());
+
+	if (AFQFPlayerState* PS = Cast<AFQFPlayerState>(PlayerState))
+	{
+		PS->SumHealthOfEnemiesAtStartOfLevel = PS->SumHealthOfAllEnemiesRemaining();
+		SumEnemyHealthAtStartOfLevel = PS->SumHealthOfEnemiesAtStartOfLevel;
+		UE_LOG(LogTemp,Warning, TEXT("Sum of All Enemies in Level Health = %f"),PS->SumHealthOfEnemiesAtStartOfLevel);
+	}
 
 }
 
@@ -54,7 +62,11 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 		[this](const FOnAttributeChangeData& Data)
 		{
 			OnLoadedFluffChanged.Broadcast(Data.NewValue);
-		});	
+		});
+
+	AFQFPlayerState* FQFPlayerState = CastChecked<AFQFPlayerState>(PlayerState);
+	FQFPlayerState->OnXPChangedDelegate.AddUObject(this, &UOverlayWidgetController::OnXPChanged);
+
 }
 
 void UOverlayWidgetController::ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGameplayEffect> GameplayEffectClass)
@@ -67,4 +79,20 @@ void UOverlayWidgetController::ApplyEffectToTarget(AActor* TargetActor, TSubclas
 	EffectContextHandle.AddSourceObject(this);
 	const FGameplayEffectSpecHandle EffectSpecHandle = TargetASC->MakeOutgoingSpec(GameplayEffectClass, 1.f, EffectContextHandle);
 	TargetASC->ApplyGameplayEffectSpecToSelf(*EffectSpecHandle.Data.Get());
+}
+
+void UOverlayWidgetController::OnXPChanged(int32 NewXP) const
+{
+	if (NewXP >= SumEnemyHealthAtStartOfLevel)
+	{
+		//LevelUp
+		UE_LOG(LogTemp,Warning,TEXT("LEVEL UP!"))
+	}
+	else
+	{
+		const float XPBarPercent = NewXP / SumEnemyHealthAtStartOfLevel;
+		OnXPPercentChangedDelegate.Broadcast(XPBarPercent);
+		UE_LOG(LogTemp,Warning,TEXT("XP Bar Percent = %f"), XPBarPercent);
+
+	}
 }
