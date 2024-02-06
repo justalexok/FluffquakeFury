@@ -7,9 +7,13 @@
 #include "GameFramework/GameModeBase.h"
 #include "FQFGameModeBase.generated.h"
 
+class AEffectActor;
 class ULevelInfo;
 class UAbilityInfo;
 class UCharacterClassInfo;
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FLevelCompletionDelegate);
+
 /**
  * 
  */
@@ -19,6 +23,10 @@ class FLUFFQUAKEFURY_API AFQFGameModeBase : public AGameModeBase
 	GENERATED_BODY()
 
 public:
+
+	UPROPERTY(BlueprintAssignable, Category = "Events")
+	FLevelCompletionDelegate OnLevelCompletion;
+	
 	UPROPERTY(EditDefaultsOnly, Category = "Character Class Defaults")
 	TObjectPtr<UCharacterClassInfo> CharacterClassInfo;
 
@@ -35,9 +43,12 @@ public:
 	FName GetNextLevelName();
 
 	UFUNCTION(BlueprintCallable)
-	bool IsLevelComplete();
-
+	void CheckIfLevelComplete();
+	
 	UPROPERTY(EditAnywhere)
 	int32 NumEnemiesInLevel = 0;
+
+	UFUNCTION(BlueprintCallable)
+	void GoToNextLevel();
 		
 };

@@ -145,11 +145,8 @@ void AEnemyBase::Die()
 	//Tell GameMode to check if level is complete.
 	if (AFQFGameModeBase* GameMode = GetFQFGameMode())
 	{
-		GameMode->IsLevelComplete();
-	}
-
-
-	
+		GameMode->CheckIfLevelComplete();		
+	}	
 	Super::Die();
 }
 

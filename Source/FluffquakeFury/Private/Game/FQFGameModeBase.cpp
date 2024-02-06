@@ -32,24 +32,21 @@ FName AFQFGameModeBase::GetNextLevelName()
 	return FName("");
 }
 
-bool AFQFGameModeBase::IsLevelComplete()
+void AFQFGameModeBase::CheckIfLevelComplete()
 {
-	//is time elapsed > MinimumSurvivalLength
-	//and are there zero enemies in the level?
-	// GetCurrentLevelInfo().MinimumSurvivalLength
-
-	
-	
 
 	UE_LOG(LogTemp,Warning,TEXT("Number of Enemies in World: %d"),NumEnemiesInLevel);
 	
 	if (NumEnemiesInLevel == 0 && 10 < GetCurrentLevelInfo().MinimumSurvivalLength)
 	{
 		UE_LOG(LogTemp,Warning,TEXT("LEVEL COMPLETE!"))
-		return true;
+		OnLevelCompletion.Broadcast();
 	}
-	UE_LOG(LogTemp,Error,TEXT("LEVEL INCOMPLETE!"))
 
-	return false;
 	
+}
+
+void AFQFGameModeBase::GoToNextLevel()
+{
+	UGameplayStatics::OpenLevel(this,GetNextLevelName());
 }
