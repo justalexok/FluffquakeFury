@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
 #include "GameplayTagContainer.h"
+#include "Game/FQFGameModeBase.h"
 #include "UI/PickupTextComponent.h"
 #include "PippaPlayerController.generated.h"
 
@@ -106,4 +107,9 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UPickupTextComponent> PickupTextComponentClass;
 
+	UPROPERTY()
+	AFQFGameModeBase* GameMode;
+
+	UPROPERTY()
+	bool HasCheckedLevelFinished = false;
 };

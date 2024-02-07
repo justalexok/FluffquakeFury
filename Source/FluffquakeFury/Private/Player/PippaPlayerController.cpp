@@ -45,7 +45,9 @@ void APippaPlayerController::BeginPlay()
 	InputModeData.SetHideCursorDuringCapture(false);
 	SetInputMode(InputModeData);
 
-	if (AFQFGameModeBase* GameMode = UFQFBlueprintFunctionLibrary::GetFQFGameMode(this))
+	GameMode = UFQFBlueprintFunctionLibrary::GetFQFGameMode(this);
+
+	if (GameMode)
 	{
 		LevelSecondsRemaining = GameMode->GetCurrentLevelInfo().LevelLength;
 	}
@@ -73,6 +75,13 @@ void APippaPlayerController::PlayerTick(float DeltaTime)
 	LevelSecondsRemaining = FMath::Clamp(LevelSecondsRemaining,0,LevelSecondsRemaining);
 
 	//If LevelSecondsRemaining == MinSurvival, need to check have completed level
+
+	if (GameMode && !HasCheckedLevelFinished && LevelSecondsRemaining <= GameMode->GetCurrentLevelInfo().MinimumSurvivalLength)
+	{
+		
+		GameMode->CheckIfLevelComplete();
+		HasCheckedLevelFinished = true;
+	}
 	
 }
 
