@@ -50,5 +50,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void GoToNextLevel();
+
+	
 		
 };

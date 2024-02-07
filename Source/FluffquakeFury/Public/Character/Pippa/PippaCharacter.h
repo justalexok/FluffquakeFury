@@ -36,10 +36,10 @@ private:
 	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
 
 protected:
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	USpringArmComponent* SpringArm;
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	UCameraComponent* Camera;
 
 	UPROPERTY(EditDefaultsOnly)

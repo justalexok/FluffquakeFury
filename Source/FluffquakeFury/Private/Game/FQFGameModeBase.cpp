@@ -5,8 +5,9 @@
 
 #include "AbilitySystem/Data/LevelInfo.h"
 #include "Character/FQFCharacterBase.h"
-#include "Character/Enemy/EnemyBase.h"
 #include "Kismet/GameplayStatics.h"
+#include "Player/PippaPlayerController.h"
+
 
 FFQFLevelInfo AFQFGameModeBase::GetCurrentLevelInfo()
 {
@@ -34,10 +35,13 @@ FName AFQFGameModeBase::GetNextLevelName()
 
 void AFQFGameModeBase::CheckIfLevelComplete()
 {
-
-	UE_LOG(LogTemp,Warning,TEXT("Number of Enemies in World: %d"),NumEnemiesInLevel);
 	
-	if (NumEnemiesInLevel == 0 && 10 < GetCurrentLevelInfo().MinimumSurvivalLength)
+	UE_LOG(LogTemp,Warning,TEXT("Number of Enemies in World: %d"),NumEnemiesInLevel);
+
+	APippaPlayerController* PlayerController = CastChecked<APippaPlayerController>(GetWorld()->GetFirstPlayerController());
+
+	//Must be 0 enemies and have made it past the minimum survival length
+	if (NumEnemiesInLevel == 0 && PlayerController->LevelSecondsRemaining < GetCurrentLevelInfo().MinimumSurvivalLength)
 	{
 		UE_LOG(LogTemp,Warning,TEXT("LEVEL COMPLETE!"))
 		OnLevelCompletion.Broadcast();

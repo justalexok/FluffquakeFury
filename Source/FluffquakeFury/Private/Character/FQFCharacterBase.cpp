@@ -25,12 +25,6 @@ AFQFCharacterBase::AFQFCharacterBase()
 }
 
 
-AFQFGameModeBase* AFQFCharacterBase::GetFQFGameMode()
-{
-	return Cast<AFQFGameModeBase>(UGameplayStatics::GetGameMode(this));
-	
-}
-
 void AFQFCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();

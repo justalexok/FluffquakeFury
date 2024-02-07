@@ -277,4 +277,9 @@ UAbilityInfo* UFQFBlueprintFunctionLibrary::GetAbilityInfo(const UObject* WorldC
 	return AuraGameMode->AbilityInfo;
 }
 
+AFQFGameModeBase* UFQFBlueprintFunctionLibrary::GetFQFGameMode(const UObject* WorldContextObject)
+{
+	return Cast<AFQFGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
+}
+
 

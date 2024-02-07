@@ -39,6 +39,9 @@ public:
 	UFUNCTION(Client, Reliable)
 	void ShowPickupWidget(float ChangeAmount, FGameplayTag AttributeTag, AEffectActor* EffectActor);
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	float LevelSecondsRemaining;
+	
 protected:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
@@ -102,4 +105,5 @@ private:
 	
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UPickupTextComponent> PickupTextComponentClass;
+
 };

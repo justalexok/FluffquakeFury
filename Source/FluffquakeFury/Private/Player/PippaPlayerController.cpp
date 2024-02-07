@@ -9,12 +9,14 @@
 #include "NavigationPath.h"
 #include "NavigationSystem.h"
 #include "AbilitySystem/FQFAbilitySystemComponent.h"
+#include "AbilitySystem/FQFBlueprintFunctionLibrary.h"
 #include "Actor/EffectActor.h"
 #include "Character/Pippa/PippaCharacter.h"
 #include "Components/SplineComponent.h"
 #include "Input/FQFInputComponent.h"
 #include "Interaction/EnemyInterface.h"
 #include "GameFramework/Character.h"
+#include "Kismet/GameplayStatics.h"
 #include "UI/DamageTextComponent.h"
 
 
@@ -42,6 +44,11 @@ void APippaPlayerController::BeginPlay()
 	InputModeData.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
 	InputModeData.SetHideCursorDuringCapture(false);
 	SetInputMode(InputModeData);
+
+	if (AFQFGameModeBase* GameMode = UFQFBlueprintFunctionLibrary::GetFQFGameMode(this))
+	{
+		LevelSecondsRemaining = GameMode->GetCurrentLevelInfo().LevelLength;
+	}
 }
 
 void APippaPlayerController::SetupInputComponent()
@@ -62,6 +69,11 @@ void APippaPlayerController::PlayerTick(float DeltaTime)
 
 	CursorTrace();
 	// AutoRun();
+	LevelSecondsRemaining -= DeltaTime;
+	LevelSecondsRemaining = FMath::Clamp(LevelSecondsRemaining,0,LevelSecondsRemaining);
+
+	//If LevelSecondsRemaining == MinSurvival, need to check have completed level
+	
 }
 
 void APippaPlayerController::ShowDamageNumber_Implementation(float DamageAmount, ACharacter* TargetCharacter, bool bBlockedHit, bool bPillowExploded, bool bFatalHit)

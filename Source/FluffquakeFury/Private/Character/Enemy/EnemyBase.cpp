@@ -124,12 +124,12 @@ void AEnemyBase::InitAbilityActorInfo()
 
 void AEnemyBase::IncrementEnemyCount()
 {
-	GetFQFGameMode()->NumEnemiesInLevel ++;
+	UFQFBlueprintFunctionLibrary::GetFQFGameMode(this)->NumEnemiesInLevel ++;
 }
 
 void AEnemyBase::DecrementEnemyCount()
 {
-	GetFQFGameMode()->NumEnemiesInLevel --;
+	UFQFBlueprintFunctionLibrary::GetFQFGameMode(this)->NumEnemiesInLevel --;
 }
 
 void AEnemyBase::Die()
@@ -143,7 +143,7 @@ void AEnemyBase::Die()
 	DecrementEnemyCount();
 
 	//Tell GameMode to check if level is complete.
-	if (AFQFGameModeBase* GameMode = GetFQFGameMode())
+	if (AFQFGameModeBase* GameMode = UFQFBlueprintFunctionLibrary::GetFQFGameMode(this))
 	{
 		GameMode->CheckIfLevelComplete();		
 	}	
