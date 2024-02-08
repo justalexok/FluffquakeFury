@@ -184,11 +184,11 @@ void UFQFAttributeSet::ShowFloatingText(const FEffectProperties& Props, float Da
 
 void UFQFAttributeSet::SpawnNiagara(ACharacter* SourceCharacter, bool bPillowExploded, float Damage) const
 {
-	
 	if (AFQFCharacterBase* FQFCharacterBase = Cast<AFQFCharacterBase>(SourceCharacter))
 	{
-		const FVector SpawnLocation = FQFCharacterBase->GetCombatSocketLocation_Implementation(FFQFGameplayTags::Get().Montage_Attack_PillowWhack);
-
+		const FVector SpawnLocation = FQFCharacterBase->GetCombatSocketLocation_Implementation(FFQFGameplayTags::Get().Abilities_PillowWhack);
+		DrawDebugSphere(GetWorld(),SpawnLocation,12,64,FColor::Red,false,20);
+		
 		TObjectPtr<UNiagaraSystem> Effect;
 		if (bPillowExploded) Effect = FQFCharacterBase->Pillow->ExplosionEffect;
 		else Effect = FQFCharacterBase->Pillow->DynamicImpactEffect;

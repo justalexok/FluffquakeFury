@@ -32,12 +32,12 @@ struct FFQFAbilityInfo
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	bool bUsesWeapon = false;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	USoundBase* ActionSound = nullptr;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	USoundBase* ImpactSound = nullptr;
+	//
+	// UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	// USoundBase* ActionSound = nullptr;
+	//
+	// UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	// USoundBase* ImpactSound = nullptr;
 
 	UPROPERTY(BlueprintReadOnly)
 	FGameplayTag InputTag = FGameplayTag();	
