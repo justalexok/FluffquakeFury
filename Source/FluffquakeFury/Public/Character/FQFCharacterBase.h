@@ -54,6 +54,9 @@ public:
 	TSubclassOf<APillowBase> PillowClass;
 
 	APillowBase* Pillow;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite,  Category = "Default")
+	FLinearColor CharacterColor;
 
 	UPROPERTY(BlueprintReadOnly, Category = "Combat")
 	bool bHitReacting = false;
