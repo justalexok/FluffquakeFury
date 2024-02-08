@@ -117,9 +117,8 @@ FVector AFQFCharacterBase::GetCombatSocketLocation_Implementation(const FGamepla
 			{
 				if (Info.bUsesWeapon && IsValid(Weapon))
 				{
-					FVector SL = Weapon->GetSocketLocation(Info.SocketTagName);
-					DrawDebugSphere(GetWorld(),SL,12,64,FColor::Blue,false,20);
-					return SL;
+					return Weapon->GetSocketLocation(Info.SocketTagName);
+					// DrawDebugSphere(GetWorld(),SL,12,64,FColor::Blue,false,20);
 				}
 				//Does not use weapon
 				return GetMesh()->GetSocketLocation(Info.SocketTagName);

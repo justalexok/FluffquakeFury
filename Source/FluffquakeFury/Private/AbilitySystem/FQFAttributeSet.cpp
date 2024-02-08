@@ -187,7 +187,7 @@ void UFQFAttributeSet::SpawnNiagara(ACharacter* SourceCharacter, bool bPillowExp
 	if (AFQFCharacterBase* FQFCharacterBase = Cast<AFQFCharacterBase>(SourceCharacter))
 	{
 		const FVector SpawnLocation = FQFCharacterBase->GetCombatSocketLocation_Implementation(FFQFGameplayTags::Get().Abilities_PillowWhack);
-		DrawDebugSphere(GetWorld(),SpawnLocation,12,64,FColor::Red,false,20);
+		// DrawDebugSphere(GetWorld(),SpawnLocation,12,64,FColor::Red,false,20);
 		
 		TObjectPtr<UNiagaraSystem> Effect;
 		if (bPillowExploded) Effect = FQFCharacterBase->Pillow->ExplosionEffect;
