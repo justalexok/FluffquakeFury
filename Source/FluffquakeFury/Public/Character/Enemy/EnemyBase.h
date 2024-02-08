@@ -38,6 +38,9 @@ public:
 	virtual bool IsDefending_Implementation() override;
 
 	void HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
+
+	UFUNCTION()
+	virtual void HandleLevelFailure();
 	
 	UPROPERTY(BlueprintAssignable)
 	FOnAttributeChangedSignature OnHealthChanged;

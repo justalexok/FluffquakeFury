@@ -6,7 +6,9 @@
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystem/FQFAbilitySystemComponent.h"
 #include "AbilitySystem/FQFAttributeSet.h"
+#include "AbilitySystem/FQFBlueprintFunctionLibrary.h"
 #include "Player/FQFPlayerState.h"
+#include "Player/PippaPlayerController.h"
 
 void UOverlayWidgetController::BroadcastInitialValues()
 {
@@ -67,6 +69,15 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 	AFQFPlayerState* FQFPlayerState = CastChecked<AFQFPlayerState>(PlayerState);
 	FQFPlayerState->OnXPChangedDelegate.AddUObject(this, &UOverlayWidgetController::OnXPChanged);
 
+	// if (APippaPlayerController* PippaPlayerController = Cast<APippaPlayerController>(PlayerController))
+	// {
+	// 	PippaPlayerController->OnLevelFailureDelegate.AddLambda(
+	// 		[this]()
+	// 		{
+	// 			UE_LOG(LogTemp,Warning,TEXT("OverlayWidgetController Message Received. Telling Widgets!"))
+	// 			OnLevelFailureDelegate.Broadcast();
+	// 		});
+	// }
 }
 
 void UOverlayWidgetController::ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGameplayEffect> GameplayEffectClass)

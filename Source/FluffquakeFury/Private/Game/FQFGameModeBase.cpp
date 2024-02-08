@@ -54,3 +54,8 @@ void AFQFGameModeBase::GoToNextLevel()
 {
 	UGameplayStatics::OpenLevel(this,GetNextLevelName());
 }
+
+void AFQFGameModeBase::RestartCurrentLevel()
+{
+	UGameplayStatics::OpenLevel(this,GetCurrentLevelInfo().LevelName);
+}

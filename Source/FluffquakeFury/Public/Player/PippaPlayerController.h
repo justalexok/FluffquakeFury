@@ -20,6 +20,8 @@ class UFQFAbilitySystemComponent;
 class UFQFInputConfig;
 class USplineComponent;
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnLevelFailed);
+
 /**
  * 
  */
@@ -42,6 +44,12 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	float LevelSecondsRemaining;
+
+	UPROPERTY(BlueprintAssignable, Category = "Events")
+	FOnLevelFailed OnLevelFailureDelegate;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	bool bLevelIsRunning = false;
 	
 protected:
 	virtual void BeginPlay() override;
@@ -66,7 +74,6 @@ private:
 	
 	void Move(const FInputActionValue& InputActionValue);
 	void Jump(const FInputActionValue& InputActionValue);
-	void Jump (const FInputActionValue& InputActionValue) const;
 
 
 	void CursorTrace();

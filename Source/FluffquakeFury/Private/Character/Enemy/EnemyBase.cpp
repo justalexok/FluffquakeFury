@@ -14,6 +14,8 @@
 #include "BehaviorTree/BehaviorTree.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "Player/PippaPlayerController.h"
 
 class AFQFPlayerState;
 
@@ -72,6 +74,13 @@ bool AEnemyBase::IsDefending_Implementation()
 void AEnemyBase::BeginPlay()
 {
 	Super::BeginPlay();
+
+	FQFAIController->GetBlackboardComponent()->SetValueAsBool(FName("IsLevelRunning"), true);
+
+	if(APippaPlayerController* PC = Cast<APippaPlayerController>(UGameplayStatics::GetPlayerController(this, 0)))
+	{
+		PC->OnLevelFailureDelegate.AddDynamic(this,&AEnemyBase::HandleLevelFailure);
+	}	
 
 	IncrementEnemyCount();
 	
@@ -208,4 +217,10 @@ void AEnemyBase::HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCou
 		FQFAIController->GetBlackboardComponent()->SetValueAsBool(FName("AmICasting"), false); 
 	}
 
+}
+
+void AEnemyBase::HandleLevelFailure()
+{
+	UE_LOG(LogTemp,Error,TEXT("LEVEL FAILURE HANDLED!"))
+	FQFAIController->GetBlackboardComponent()->SetValueAsBool(FName("IsLevelRunning"), false); 
 }

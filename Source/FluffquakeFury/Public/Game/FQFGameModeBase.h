@@ -14,6 +14,7 @@ class UCharacterClassInfo;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FLevelCompletionDelegate);
 
+
 /**
  * 
  */
@@ -26,7 +27,7 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category = "Events")
 	FLevelCompletionDelegate OnLevelCompletion;
-	
+
 	UPROPERTY(EditDefaultsOnly, Category = "Character Class Defaults")
 	TObjectPtr<UCharacterClassInfo> CharacterClassInfo;
 
@@ -51,6 +52,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void GoToNextLevel();
 
-	
+	UFUNCTION(BlueprintCallable)
+	void RestartCurrentLevel();
 		
 };

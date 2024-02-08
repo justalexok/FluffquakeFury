@@ -8,6 +8,7 @@
 #include "Components/AudioComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Player/PippaPlayerController.h"
 
 // Sets default values
 AFQFCharacterBase::AFQFCharacterBase()
@@ -32,7 +33,8 @@ void AFQFCharacterBase::BeginPlay()
 	if (GetCharacterMovement() != nullptr)
 	{
 		GetCharacterMovement()->MaxWalkSpeed = BaseWalkSpeed;
-	}	
+	}
+
 	
 }
 

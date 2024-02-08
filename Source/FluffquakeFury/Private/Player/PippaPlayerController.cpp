@@ -16,7 +16,6 @@
 #include "Input/FQFInputComponent.h"
 #include "Interaction/EnemyInterface.h"
 #include "GameFramework/Character.h"
-#include "Kismet/GameplayStatics.h"
 #include "UI/DamageTextComponent.h"
 
 
@@ -50,6 +49,7 @@ void APippaPlayerController::BeginPlay()
 	if (GameMode)
 	{
 		LevelSecondsRemaining = GameMode->GetCurrentLevelInfo().LevelLength;
+		bLevelIsRunning = true;
 	}
 }
 
@@ -71,16 +71,26 @@ void APippaPlayerController::PlayerTick(float DeltaTime)
 
 	CursorTrace();
 	// AutoRun();
+
+	if (!bLevelIsRunning) return;
+	
 	LevelSecondsRemaining -= DeltaTime;
 	LevelSecondsRemaining = FMath::Clamp(LevelSecondsRemaining,0,LevelSecondsRemaining);
 
-	//If LevelSecondsRemaining == MinSurvival, need to check have completed level
 
 	if (GameMode && !HasCheckedLevelFinished && LevelSecondsRemaining <= GameMode->GetCurrentLevelInfo().MinimumSurvivalLength)
 	{
 		
 		GameMode->CheckIfLevelComplete();
 		HasCheckedLevelFinished = true;
+	}
+
+	if (LevelSecondsRemaining == 0.f)
+	{
+		UE_LOG(LogTemp,Warning,TEXT("LEVEL SECONDS 0.0  - Broadcasting!!!"))
+		//Tell Widget Controller To Spawn RetryLevel Widget
+		OnLevelFailureDelegate.Broadcast();
+		bLevelIsRunning = false;
 	}
 	
 }

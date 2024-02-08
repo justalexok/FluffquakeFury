@@ -9,6 +9,8 @@
 class UFQFUserWidget;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAttributeChangedSignature, float, NewValue);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnLevelFailureSignature);
+
 
 
 /**
@@ -40,6 +42,9 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category="GAS|XP")
 	FOnAttributeChangedSignature OnXPPercentChangedDelegate;
+
+	UPROPERTY(BlueprintAssignable, Category="GameplayMechanics")
+	FOnLevelFailureSignature OnLevelFailureDelegate;
 
 	UPROPERTY(BlueprintReadOnly)
 	float SumEnemyHealthAtStartOfLevel = 0.f;
