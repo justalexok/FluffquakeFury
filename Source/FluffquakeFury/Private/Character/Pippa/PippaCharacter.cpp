@@ -5,6 +5,7 @@
 #include "AbilitySystemComponent.h"
 #include "FQFGameplayTags.h"
 #include "AbilitySystem/FQFAbilitySystemComponent.h"
+#include "AbilitySystem/FQFBlueprintFunctionLibrary.h"
 #include "AI/FQFAIController.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Character/Enemy/EnemyBase.h"
@@ -48,6 +49,55 @@ APippaCharacter::APippaCharacter()
 	
 }
 
+void APippaCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+
+	if(APippaPlayerController* PC = Cast<APippaPlayerController>(UGameplayStatics::GetPlayerController(this, 0)))
+	{
+		PC->OnLevelFailureDelegate.AddDynamic(this,&APippaCharacter::PippaHandleLevelFailure);
+	}
+	UFQFBlueprintFunctionLibrary::GetFQFGameMode(this)->OnLevelCompletionDelegate.AddDynamic(this,&APippaCharacter::PippaHandleLevelUp);
+}
+
+void APippaCharacter::AddCharacterAbilities()
+{
+	UFQFAbilitySystemComponent* FQFASC = CastChecked<UFQFAbilitySystemComponent>(AbilitySystemComponent);
+	if (!HasAuthority()) return;
+
+	FQFASC->AddCharacterAbilities(StartupAbilities);
+}
+
+
+void APippaCharacter::InitAbilityActorInfo()
+{
+	AFQFPlayerState* FQFPlayerState = GetPlayerState<AFQFPlayerState>();
+	check(FQFPlayerState);
+	FQFPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(FQFPlayerState, this);
+	AbilitySystemComponent = FQFPlayerState->GetAbilitySystemComponent();
+	Cast<UFQFAbilitySystemComponent>(FQFPlayerState->GetAbilitySystemComponent())->AbilityActorInfoSet();
+	AttributeSet = FQFPlayerState->GetAttributeSet();
+
+	PippaPlayerController = Cast<APippaPlayerController>(GetController());
+	if (PippaPlayerController)
+	{
+		if (AFQFHUD* FQFHUD = Cast<AFQFHUD>(PippaPlayerController->GetHUD()))
+		{
+			FQFHUD->InitOverlay(PippaPlayerController, FQFPlayerState, AbilitySystemComponent, AttributeSet);
+		}
+	}
+	InitializeDefaultAttributes();
+
+	if (PillowClass)
+	{
+		Pillow = GetWorld()->SpawnActor<APillowBase>(PillowClass, FVector::ZeroVector, FRotator::ZeroRotator);
+
+	}
+	
+	
+}
+
+
 void APippaCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
@@ -65,7 +115,7 @@ void APippaCharacter::OnRep_PlayerState()
 }
 
 int32 APippaCharacter::GetPlayerLevel()
-{
+{	
 	const AFQFPlayerState* FQFPlayerState = GetPlayerState<AFQFPlayerState>();
 	check(FQFPlayerState);
 	return FQFPlayerState->GetPlayerLevel();
@@ -108,6 +158,13 @@ void APippaCharacter::PippaHandleLevelFailure()
 	}
 }
 
+void APippaCharacter::PippaHandleLevelUp()
+{
+	AFQFPlayerState* FQFPlayerState = GetPlayerState<AFQFPlayerState>();
+	check(FQFPlayerState);
+	FQFPlayerState->AddToLevel(1);
+}
+
 void APippaCharacter::Landed(const FHitResult& Hit)
 {
 	Super::Landed(Hit);
@@ -119,51 +176,3 @@ void APippaCharacter::Landed(const FHitResult& Hit)
 
 }
 
-void APippaCharacter::InitAbilityActorInfo()
-{
-	AFQFPlayerState* FQFPlayerState = GetPlayerState<AFQFPlayerState>();
-	check(FQFPlayerState);
-	FQFPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(FQFPlayerState, this);
-	AbilitySystemComponent = FQFPlayerState->GetAbilitySystemComponent();
-	Cast<UFQFAbilitySystemComponent>(FQFPlayerState->GetAbilitySystemComponent())->AbilityActorInfoSet();
-	AttributeSet = FQFPlayerState->GetAttributeSet();
-
-	PippaPlayerController = Cast<APippaPlayerController>(GetController());
-	if (PippaPlayerController)
-	{
-		if (AFQFHUD* FQFHUD = Cast<AFQFHUD>(PippaPlayerController->GetHUD()))
-		{
-			FQFHUD->InitOverlay(PippaPlayerController, FQFPlayerState, AbilitySystemComponent, AttributeSet);
-		}
-	}
-	InitializeDefaultAttributes();
-
-	if (PillowClass)
-	{
-		Pillow = GetWorld()->SpawnActor<APillowBase>(PillowClass, FVector::ZeroVector, FRotator::ZeroRotator);
-		// TestPillowMesh = Pillow->TestPillowMesh;
-		// TestPillowMesh = CreateDefaultSubobject<USkeletalMeshComponent>("TestPillowMesh");
-		// TestPillowMesh->SetupAttachment(GetMesh(), FName("WeaponHandSocket"));
-		// TestPillowMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-	}
-	
-	
-}
-
-void APippaCharacter::BeginPlay()
-{
-	Super::BeginPlay();
-
-	if(APippaPlayerController* PC = Cast<APippaPlayerController>(UGameplayStatics::GetPlayerController(this, 0)))
-	{
-		PC->OnLevelFailureDelegate.AddDynamic(this,&APippaCharacter::PippaHandleLevelFailure);
-	}	
-}
-
-void APippaCharacter::AddCharacterAbilities()
-{
-	UFQFAbilitySystemComponent* FQFASC = CastChecked<UFQFAbilitySystemComponent>(AbilitySystemComponent);
-	if (!HasAuthority()) return;
-
-	FQFASC->AddCharacterAbilities(StartupAbilities);
-}

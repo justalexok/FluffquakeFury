@@ -24,7 +24,8 @@ struct FFQFLevelInfo
 	int32 MinimumSurvivalLength = 30;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	FGameplayTag AbilityGrantedOnCompletionTag = FGameplayTag();
+	TSubclassOf<UGameplayAbility>  AbilityGrantedOnCompletion;
+	
 
 
 };
@@ -39,5 +40,7 @@ class FLUFFQUAKEFURY_API ULevelInfo : public UDataAsset
 public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TArray<FFQFLevelInfo> LevelInformation;
-	
+
+	// UFUNCTION()
+	// TArray<FFQFLevelInfo> GetLevelInformation() {return LevelInformation;}
 };

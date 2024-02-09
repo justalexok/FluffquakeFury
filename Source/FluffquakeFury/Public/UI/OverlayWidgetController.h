@@ -40,8 +40,8 @@ public:
 	UPROPERTY(BlueprintAssignable, Category="GAS|Attributes")
 	FOnAttributeChangedSignature OnLoadedFluffChanged;
 
-	UPROPERTY(BlueprintAssignable, Category="GAS|XP")
-	FOnAttributeChangedSignature OnXPPercentChangedDelegate;
+	UPROPERTY(BlueprintAssignable, Category="GameplayMechanics")
+	FOnAttributeChangedSignature OnPlayerLevelChangedDelegate;
 
 	UPROPERTY(BlueprintAssignable, Category="GameplayMechanics")
 	FOnLevelFailureSignature OnLevelFailureDelegate;
@@ -55,7 +55,7 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGameplayEffect> GameplayEffectClass);
 
-	void OnXPChanged(int32 NewXP) const;
+
 
 };
 

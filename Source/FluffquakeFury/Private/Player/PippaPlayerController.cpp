@@ -6,8 +6,6 @@
 #include "AbilitySystemBlueprintLibrary.h"
 #include "EnhancedInputSubsystems.h"
 #include "FQFGameplayTags.h"
-#include "NavigationPath.h"
-#include "NavigationSystem.h"
 #include "AbilitySystem/FQFAbilitySystemComponent.h"
 #include "AbilitySystem/FQFBlueprintFunctionLibrary.h"
 #include "Actor/EffectActor.h"
@@ -16,6 +14,7 @@
 #include "Input/FQFInputComponent.h"
 #include "Interaction/EnemyInterface.h"
 #include "GameFramework/Character.h"
+#include "Player/FQFPlayerState.h"
 #include "UI/DamageTextComponent.h"
 
 
@@ -48,8 +47,17 @@ void APippaPlayerController::BeginPlay()
 
 	if (GameMode)
 	{
+		//Sets Player Level based on index of current map. E.g. if Map index 3, then Level 3
+		if (AFQFPlayerState* PS = Cast<AFQFPlayerState>(PlayerState))
+		{
+			PS->SetLevel(GameMode->GetCurrentMapIndex());
+		}
+		
 		LevelSecondsRemaining = GameMode->GetCurrentLevelInfo().LevelLength;
+		StartingLevelLength = LevelSecondsRemaining;
+		MinimumSurvivalLength = GameMode->GetCurrentLevelInfo().MinimumSurvivalLength;
 		bLevelIsRunning = true;
+		GameMode->AddAnyPreviouslyGrantedAbilities();
 	}
 }
 
@@ -78,14 +86,14 @@ void APippaPlayerController::PlayerTick(float DeltaTime)
 	LevelSecondsRemaining = FMath::Clamp(LevelSecondsRemaining,0,LevelSecondsRemaining);
 
 
-	if (GameMode && !HasCheckedLevelFinished && LevelSecondsRemaining <= (GameMode->GetCurrentLevelInfo().LevelLength - GameMode->GetCurrentLevelInfo().MinimumSurvivalLength))
+	if (GameMode && !HasCheckedLevelFinished && LevelSecondsRemaining <= StartingLevelLength - MinimumSurvivalLength)
 	{
 		
 		GameMode->CheckIfLevelComplete();
 		HasCheckedLevelFinished = true;
 	}
 
-	if (LevelSecondsRemaining == 0.f && !GameMode->bIsLevelComplete)
+	if (LevelSecondsRemaining == 0.f)
 	{
 		UE_LOG(LogTemp,Warning,TEXT("LEVEL SECONDS 0.0  - Broadcasting!!!"))
 		//Tell Widget Controller To Spawn RetryLevel Widget

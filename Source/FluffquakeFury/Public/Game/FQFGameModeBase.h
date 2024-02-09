@@ -7,12 +7,15 @@
 #include "GameFramework/GameModeBase.h"
 #include "FQFGameModeBase.generated.h"
 
+class AFQFCharacterBase;
 class AEffectActor;
 class ULevelInfo;
 class UAbilityInfo;
 class UCharacterClassInfo;
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FLevelCompletionDelegate);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FLevelCompletionSignature);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FLevelCanBeCompletedSignature);
+
 
 
 /**
@@ -23,10 +26,17 @@ class FLUFFQUAKEFURY_API AFQFGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
 
+private:
+	UPROPERTY()
+	AFQFCharacterBase* PippaCharacterBase;
+
 public:
 
 	UPROPERTY(BlueprintAssignable, Category = "Events")
-	FLevelCompletionDelegate OnLevelCompletion;
+	FLevelCompletionSignature OnLevelCompletionDelegate;
+
+	UPROPERTY(BlueprintAssignable, Category = "Events")
+	FLevelCanBeCompletedSignature LevelCanBeCompletedDelegate;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Character Class Defaults")
 	TObjectPtr<UCharacterClassInfo> CharacterClassInfo;
@@ -41,10 +51,10 @@ public:
 	FFQFLevelInfo GetCurrentLevelInfo();
 	
 	UFUNCTION(BlueprintCallable)
-	FName GetNextLevelName();
+	void CheckIfLevelComplete();
 
 	UFUNCTION(BlueprintCallable)
-	void CheckIfLevelComplete();
+	int32 GetCurrentMapIndex();
 	
 	UPROPERTY(EditAnywhere)
 	int32 NumEnemiesInLevel = 0;
@@ -55,7 +65,10 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void RestartCurrentLevel();
 
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	bool bIsLevelComplete = false;
+
+	UFUNCTION(BlueprintCallable)
+	void AddAnyPreviouslyGrantedAbilities();
 		
 };

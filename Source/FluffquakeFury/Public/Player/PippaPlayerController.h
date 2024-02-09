@@ -20,8 +20,7 @@ class UFQFAbilitySystemComponent;
 class UFQFInputConfig;
 class USplineComponent;
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnLevelFailed);
-
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnLevelFailedSignature);
 /**
  * 
  */
@@ -46,7 +45,7 @@ public:
 	float LevelSecondsRemaining;
 
 	UPROPERTY(BlueprintAssignable, Category = "Events")
-	FOnLevelFailed OnLevelFailureDelegate;
+	FOnLevelFailedSignature OnLevelFailureDelegate;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	bool bLevelIsRunning = false;
@@ -119,4 +118,10 @@ private:
 
 	UPROPERTY()
 	bool HasCheckedLevelFinished = false;
+
+	UPROPERTY()
+	int32 StartingLevelLength;
+
+	UPROPERTY()
+	int32 MinimumSurvivalLength;
 };

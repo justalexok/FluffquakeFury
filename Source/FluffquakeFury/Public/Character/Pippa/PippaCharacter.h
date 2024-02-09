@@ -8,6 +8,7 @@
 #include "Character/FQFCharacterBase.h"
 #include "PippaCharacter.generated.h"
 
+class AFQFPlayerState;
 class APippaPlayerController;
 /**
  * 
@@ -19,10 +20,13 @@ class FLUFFQUAKEFURY_API APippaCharacter : public AFQFCharacterBase
 
 public:
 
-	APippaCharacter();
+	APippaCharacter();	
 	
 	virtual void PossessedBy(AController* NewController) override;
 	virtual void OnRep_PlayerState() override;
+
+	UPROPERTY(EditAnywhere, Category = "Abilities") 
+	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
 
 	//CombatInterface
 	virtual int32 GetPlayerLevel() override;
@@ -32,14 +36,17 @@ public:
 	UFUNCTION()
 	void PippaHandleLevelFailure();
 
+	UFUNCTION()
+	void PippaHandleLevelUp();
+
 	virtual void Landed(const FHitResult& Hit) override;
 private:
 	virtual void InitAbilityActorInfo() override;
 
-	UPROPERTY(EditAnywhere, Category = "Abilities") 
-	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
 
 protected:
+
+	
 
 	virtual void BeginPlay() override;
 

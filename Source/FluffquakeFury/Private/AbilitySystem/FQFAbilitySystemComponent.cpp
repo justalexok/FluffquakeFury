@@ -16,12 +16,17 @@ void UFQFAbilitySystemComponent::AddCharacterAbilities(const TArray<TSubclassOf<
 {
 	for (const TSubclassOf<UGameplayAbility> AbilityClass : StartupAbilities)
 	{
-		FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass, 1);
-		if (const UFQFGameplayAbility* FQFAbility = Cast<UFQFGameplayAbility>(AbilitySpec.Ability))
-		{
-			AbilitySpec.DynamicAbilityTags.AddTag(FQFAbility->StartupInputTag);
-			GiveAbility(AbilitySpec);
-		}
+		AddAbility(AbilityClass);
+	}
+}
+
+void UFQFAbilitySystemComponent::AddAbility(TSubclassOf<UGameplayAbility> AbilityClass)
+{
+	FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass, 1);
+	if (const UFQFGameplayAbility* FQFAbility = Cast<UFQFGameplayAbility>(AbilitySpec.Ability))
+	{
+		AbilitySpec.DynamicAbilityTags.AddTag(FQFAbility->StartupInputTag);
+		GiveAbility(AbilitySpec);
 	}
 }
 

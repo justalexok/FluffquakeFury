@@ -67,17 +67,13 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 		});
 
 	AFQFPlayerState* FQFPlayerState = CastChecked<AFQFPlayerState>(PlayerState);
-	FQFPlayerState->OnXPChangedDelegate.AddUObject(this, &UOverlayWidgetController::OnXPChanged);
 
-	// if (APippaPlayerController* PippaPlayerController = Cast<APippaPlayerController>(PlayerController))
-	// {
-	// 	PippaPlayerController->OnLevelFailureDelegate.AddLambda(
-	// 		[this]()
-	// 		{
-	// 			UE_LOG(LogTemp,Warning,TEXT("OverlayWidgetController Message Received. Telling Widgets!"))
-	// 			OnLevelFailureDelegate.Broadcast();
-	// 		});
-	// }
+	FQFPlayerState->OnLevelChangedDelegate.AddLambda(
+		[this](int32 NewLevel)
+		{
+			OnPlayerLevelChangedDelegate.Broadcast(NewLevel);
+		});
+
 }
 
 void UOverlayWidgetController::ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGameplayEffect> GameplayEffectClass)
@@ -92,18 +88,3 @@ void UOverlayWidgetController::ApplyEffectToTarget(AActor* TargetActor, TSubclas
 	TargetASC->ApplyGameplayEffectSpecToSelf(*EffectSpecHandle.Data.Get());
 }
 
-void UOverlayWidgetController::OnXPChanged(int32 NewXP) const
-{
-	if (NewXP >= SumEnemyHealthAtStartOfLevel)
-	{
-		//LevelUp
-		UE_LOG(LogTemp,Warning,TEXT("LEVEL UP!"))
-	}
-	else
-	{
-		const float XPBarPercent = NewXP / SumEnemyHealthAtStartOfLevel;
-		OnXPPercentChangedDelegate.Broadcast(XPBarPercent);
-		UE_LOG(LogTemp,Warning,TEXT("XP Bar Percent = %f"), XPBarPercent);
-
-	}
-}
