@@ -100,6 +100,14 @@ void APippaCharacter::Die()
 	}
 }
 
+void APippaCharacter::PippaHandleLevelFailure()
+{
+	if (PippaPlayerController)
+	{
+		PippaPlayerController->DisableInput(PippaPlayerController);
+	}
+}
+
 void APippaCharacter::Landed(const FHitResult& Hit)
 {
 	Super::Landed(Hit);
@@ -120,7 +128,8 @@ void APippaCharacter::InitAbilityActorInfo()
 	Cast<UFQFAbilitySystemComponent>(FQFPlayerState->GetAbilitySystemComponent())->AbilityActorInfoSet();
 	AttributeSet = FQFPlayerState->GetAttributeSet();
 
-	if (APippaPlayerController* PippaPlayerController = Cast<APippaPlayerController>(GetController()))
+	PippaPlayerController = Cast<APippaPlayerController>(GetController());
+	if (PippaPlayerController)
 	{
 		if (AFQFHUD* FQFHUD = Cast<AFQFHUD>(PippaPlayerController->GetHUD()))
 		{
@@ -139,6 +148,16 @@ void APippaCharacter::InitAbilityActorInfo()
 	}
 	
 	
+}
+
+void APippaCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+
+	if(APippaPlayerController* PC = Cast<APippaPlayerController>(UGameplayStatics::GetPlayerController(this, 0)))
+	{
+		PC->OnLevelFailureDelegate.AddDynamic(this,&APippaCharacter::PippaHandleLevelFailure);
+	}	
 }
 
 void APippaCharacter::AddCharacterAbilities()

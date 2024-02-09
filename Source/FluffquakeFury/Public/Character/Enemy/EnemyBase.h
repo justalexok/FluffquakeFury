@@ -40,7 +40,7 @@ public:
 	void HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
 
 	UFUNCTION()
-	virtual void HandleLevelFailure();
+	void EnemyHandleLevelFailure();
 	
 	UPROPERTY(BlueprintAssignable)
 	FOnAttributeChangedSignature OnHealthChanged;

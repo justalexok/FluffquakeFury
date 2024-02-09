@@ -54,5 +54,8 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void RestartCurrentLevel();
+
+	UPROPERTY(VisibleAnywhere)
+	bool bIsLevelComplete = false;
 		
 };

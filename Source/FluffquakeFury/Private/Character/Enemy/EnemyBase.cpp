@@ -79,7 +79,7 @@ void AEnemyBase::BeginPlay()
 
 	if(APippaPlayerController* PC = Cast<APippaPlayerController>(UGameplayStatics::GetPlayerController(this, 0)))
 	{
-		PC->OnLevelFailureDelegate.AddDynamic(this,&AEnemyBase::HandleLevelFailure);
+		PC->OnLevelFailureDelegate.AddDynamic(this,&AEnemyBase::EnemyHandleLevelFailure);
 	}	
 
 	IncrementEnemyCount();
@@ -219,8 +219,8 @@ void AEnemyBase::HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCou
 
 }
 
-void AEnemyBase::HandleLevelFailure()
+void AEnemyBase::EnemyHandleLevelFailure()
 {
-	UE_LOG(LogTemp,Error,TEXT("LEVEL FAILURE HANDLED!"))
+	UE_LOG(LogTemp,Error,TEXT("ENEMY LEVEL FAILURE HANDLED!"))
 	FQFAIController->GetBlackboardComponent()->SetValueAsBool(FName("IsLevelRunning"), false); 
 }

@@ -8,6 +8,7 @@
 #include "Character/FQFCharacterBase.h"
 #include "PippaCharacter.generated.h"
 
+class APippaPlayerController;
 /**
  * 
  */
@@ -28,6 +29,9 @@ public:
 	virtual void KnockbackCharacter_Implementation(float Magnitude, float Pitch, FVector Direction) override;
 	virtual void Die() override;
 
+	UFUNCTION()
+	void PippaHandleLevelFailure();
+
 	virtual void Landed(const FHitResult& Hit) override;
 private:
 	virtual void InitAbilityActorInfo() override;
@@ -36,6 +40,12 @@ private:
 	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
 
 protected:
+
+	virtual void BeginPlay() override;
+
+	UPROPERTY()
+	APippaPlayerController* PippaPlayerController;
+	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	USpringArmComponent* SpringArm;
 
@@ -47,12 +57,6 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly)
 	float SpringArmAngle = -35.f;
-
-	// UPROPERTY(EditDefaultsOnly)
-	// float KnockbackMagnitude = 800.f;
-	//
-	// UPROPERTY(EditDefaultsOnly)
-	// float KnockbackPitch = 25.f;
 	
 	void AddCharacterAbilities();
 

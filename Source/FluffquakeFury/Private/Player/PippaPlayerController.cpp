@@ -78,14 +78,14 @@ void APippaPlayerController::PlayerTick(float DeltaTime)
 	LevelSecondsRemaining = FMath::Clamp(LevelSecondsRemaining,0,LevelSecondsRemaining);
 
 
-	if (GameMode && !HasCheckedLevelFinished && LevelSecondsRemaining <= GameMode->GetCurrentLevelInfo().MinimumSurvivalLength)
+	if (GameMode && !HasCheckedLevelFinished && LevelSecondsRemaining <= (GameMode->GetCurrentLevelInfo().LevelLength - GameMode->GetCurrentLevelInfo().MinimumSurvivalLength))
 	{
 		
 		GameMode->CheckIfLevelComplete();
 		HasCheckedLevelFinished = true;
 	}
 
-	if (LevelSecondsRemaining == 0.f)
+	if (LevelSecondsRemaining == 0.f && !GameMode->bIsLevelComplete)
 	{
 		UE_LOG(LogTemp,Warning,TEXT("LEVEL SECONDS 0.0  - Broadcasting!!!"))
 		//Tell Widget Controller To Spawn RetryLevel Widget

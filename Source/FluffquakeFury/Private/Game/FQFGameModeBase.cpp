@@ -45,6 +45,7 @@ void AFQFGameModeBase::CheckIfLevelComplete()
 	{
 		UE_LOG(LogTemp,Warning,TEXT("LEVEL COMPLETE!"))
 		OnLevelCompletion.Broadcast();
+		bIsLevelComplete = true;
 	}
 
 	
@@ -52,10 +53,12 @@ void AFQFGameModeBase::CheckIfLevelComplete()
 
 void AFQFGameModeBase::GoToNextLevel()
 {
+	bIsLevelComplete = false;
 	UGameplayStatics::OpenLevel(this,GetNextLevelName());
 }
 
 void AFQFGameModeBase::RestartCurrentLevel()
 {
+	bIsLevelComplete = false;
 	UGameplayStatics::OpenLevel(this,GetCurrentLevelInfo().LevelName);
 }
