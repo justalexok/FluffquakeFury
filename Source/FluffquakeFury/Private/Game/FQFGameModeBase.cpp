@@ -50,31 +50,6 @@ void AFQFGameModeBase::BroadcastLevelCompletion()
 }
 
 
-// int32 AFQFGameModeBase::GetCurrentMapIndex()
-// {
-// 	int32 CurrentMapIndex = -1; // Initialize with an invalid index
-// 	for (int32 Index = 0; Index < LevelInfo->LevelInformation.Num(); ++Index)
-// 	{
-// 		FString LevelName = GetWorld()->GetName();
-// 		
-// 		if (LevelInfo->LevelInformation[Index].LevelName == LevelName)
-// 		{
-// 			CurrentMapIndex = Index;
-// 			break; // Stop searching once the item is found
-// 		}
-// 	}
-// 	UE_LOG(LogTemp,Warning,TEXT("Current Map Index: %d"),CurrentMapIndex)
-// 	return CurrentMapIndex;
-// }
-
-// void AFQFGameModeBase::GoToNextLevel()
-// {
-// 	OnLevelCompletionDelegate.Broadcast();
-// 	//Player Level has already gone up, so look up current level name 
-// 	// bIsLevelComplete = false;
-// 	UGameplayStatics::OpenLevel(this,GetCurrentLevelInfo().LevelName);
-// }
-
 void AFQFGameModeBase::RestartCurrentLevel()
 {
 	// bIsLevelComplete = false;

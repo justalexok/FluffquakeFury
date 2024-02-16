@@ -25,26 +25,13 @@ void AFQFPlayerState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutL
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
 	DOREPLIFETIME(AFQFPlayerState, Level);
-	DOREPLIFETIME(AFQFPlayerState, XP);
 
-}
-
-void AFQFPlayerState::AddToXP(int32 InXP)
-{
-	XP += InXP;
-	OnXPChangedDelegate.Broadcast(XP);
 }
 
 void AFQFPlayerState::AddToLevel(int32 InLevel)
 {
 	Level += InLevel;
 	OnLevelChangedDelegate.Broadcast(Level);
-}
-
-void AFQFPlayerState::SetXP(int32 InXP)
-{
-	XP = InXP;
-	OnXPChangedDelegate.Broadcast(XP);
 }
 
 void AFQFPlayerState::SetLevel(int32 InLevel)
@@ -84,7 +71,4 @@ void AFQFPlayerState::OnRep_Level(int32 OldLevel) const
 	OnLevelChangedDelegate.Broadcast(Level);
 }
 
-void AFQFPlayerState::OnRep_XP(int32 OldXP) const
-{
-	OnXPChangedDelegate.Broadcast(XP);
-}
+

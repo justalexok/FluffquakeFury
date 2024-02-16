@@ -57,15 +57,9 @@ public:
 	
 	UFUNCTION(BlueprintCallable)
 	void CheckIfLevelComplete();
-	//
-	// UFUNCTION(BlueprintCallable)
-	// int32 GetCurrentMapIndex();
-	
+		
 	UPROPERTY(EditAnywhere)
 	int32 NumEnemiesInLevel = 0;
-
-	// UFUNCTION(BlueprintCallable)
-	// void GoToNextLevel();
 
 	UFUNCTION(BlueprintCallable)
 	void RestartCurrentLevel();

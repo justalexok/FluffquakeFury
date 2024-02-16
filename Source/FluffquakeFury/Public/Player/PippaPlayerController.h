@@ -44,6 +44,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	float LevelSecondsRemaining;
 
+	UFUNCTION(BlueprintCallable)
+	void SetLevelParameters(float InLevelSecondsRemaining, float InStartingLevelLength, float InMinimumSurvivalLength);
+	
 	UPROPERTY(BlueprintAssignable, Category = "Events")
 	FOnLevelFailedSignature OnLevelFailureDelegate;
 

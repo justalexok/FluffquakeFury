@@ -26,6 +26,14 @@ APippaPlayerController::APippaPlayerController()
 }
 
 
+void APippaPlayerController::SetLevelParameters(float InLevelSecondsRemaining, float InStartingLevelLength,
+	float InMinimumSurvivalLength)
+{
+	LevelSecondsRemaining = InLevelSecondsRemaining;
+	StartingLevelLength = InStartingLevelLength;
+	MinimumSurvivalLength = InMinimumSurvivalLength;
+}
+
 void APippaPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
@@ -51,10 +59,8 @@ void APippaPlayerController::BeginPlay()
 		{
 			PS->SetLevel(PS->GetPlayerLevel());
 		}
-		
-		LevelSecondsRemaining = GameMode->GetCurrentLevelInfo().LevelLength;
-		StartingLevelLength = LevelSecondsRemaining;
-		MinimumSurvivalLength = GameMode->GetCurrentLevelInfo().MinimumSurvivalLength;
+
+		SetLevelParameters(GameMode->GetCurrentLevelInfo().LevelLength, LevelSecondsRemaining,  GameMode->GetCurrentLevelInfo().MinimumSurvivalLength);
 		bLevelIsRunning = true;
 		GameMode->AddAnyPreviouslyGrantedAbilities();
 	}
@@ -98,6 +104,11 @@ void APippaPlayerController::PlayerTick(float DeltaTime)
 		//Tell Widget Controller To Spawn RetryLevel Widget
 		OnLevelFailureDelegate.Broadcast();
 		bLevelIsRunning = false;
+	}
+	if (APippaCharacter* Pippa = Cast<APippaCharacter>(GetOwner()))
+	{
+		int32 Level = Pippa->GetPlayerLevel();
+		UE_LOG(LogTemp,Warning,TEXT("LEVEL - %d"),Level);
 	}
 	
 }
