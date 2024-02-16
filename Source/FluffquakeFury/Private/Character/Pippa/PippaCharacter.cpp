@@ -20,17 +20,11 @@ APippaCharacter::APippaCharacter()
 {
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
 	SpringArm->SetupAttachment(RootComponent);
-	SpringArm->TargetArmLength = TargetArmLength;
-	SpringArm->bUsePawnControlRotation = false;
-	SpringArm->bInheritPitch = false;
-	SpringArm->bInheritRoll = false;
-	SpringArm->bInheritYaw = false;
-	SpringArm->SetRelativeRotation(FRotator(SpringArmAngle, 0.0f, 0.0f));
-	
+	ImplementDefaultCameraSettings();
+
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	Camera->SetupAttachment(SpringArm);
 	Camera->bUsePawnControlRotation = false;
-	 
 
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	GetCharacterMovement()->RotationRate = FRotator(0.f, 400.f, 0.f);
@@ -178,6 +172,18 @@ void APippaCharacter::Landed(const FHitResult& Hit)
 	FGameplayTagContainer TagContainer;
 	TagContainer.AddTag(FFQFGameplayTags::Get().Abilities_Jump);
 	GetAbilitySystemComponent()->TryActivateAbilitiesByTag(TagContainer);
+
+}
+
+void APippaCharacter::ImplementDefaultCameraSettings()
+{
+	SpringArm->TargetArmLength = TargetArmLength;
+	SpringArm->bUsePawnControlRotation = false;
+	SpringArm->bInheritPitch = false;
+	SpringArm->bInheritRoll = false;
+	SpringArm->bInheritYaw = false;
+	SpringArm->SetRelativeRotation(FRotator(SpringArmAngle, 0.0f, 0.0f));
+	
 
 }
 

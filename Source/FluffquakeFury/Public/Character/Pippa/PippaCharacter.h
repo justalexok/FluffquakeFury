@@ -40,6 +40,10 @@ public:
 	void PippaHandleLevelUp();
 
 	virtual void Landed(const FHitResult& Hit) override;
+
+	UFUNCTION(BlueprintCallable)
+	void ImplementDefaultCameraSettings();
+	
 private:
 	virtual void InitAbilityActorInfo() override;
 
