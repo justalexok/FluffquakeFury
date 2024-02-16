@@ -135,6 +135,8 @@ void APippaCharacter::Die()
 {
 	Super::Die();
 
+	
+
 	//Tell each enemy behavior tree player is Dead.
 	TArray<AActor*> EnemiesInWorld;
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AEnemyBase::StaticClass(), EnemiesInWorld);
