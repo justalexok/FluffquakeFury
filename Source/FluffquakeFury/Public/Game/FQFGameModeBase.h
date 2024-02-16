@@ -32,11 +32,16 @@ private:
 
 public:
 
-	UPROPERTY(BlueprintAssignable, Category = "Events")
+	UPROPERTY(BlueprintAssignable, BlueprintReadWrite, Category = "Events")
 	FLevelCompletionSignature OnLevelCompletionDelegate;
+
+	UFUNCTION(BlueprintCallable, Category = "Events")
+	void BroadcastLevelCompletion();
+	
 
 	UPROPERTY(BlueprintAssignable, Category = "Events")
 	FLevelCanBeCompletedSignature LevelCanBeCompletedDelegate;
+	
 
 	UPROPERTY(EditDefaultsOnly, Category = "Character Class Defaults")
 	TObjectPtr<UCharacterClassInfo> CharacterClassInfo;
@@ -52,15 +57,15 @@ public:
 	
 	UFUNCTION(BlueprintCallable)
 	void CheckIfLevelComplete();
-
-	UFUNCTION(BlueprintCallable)
-	int32 GetCurrentMapIndex();
+	//
+	// UFUNCTION(BlueprintCallable)
+	// int32 GetCurrentMapIndex();
 	
 	UPROPERTY(EditAnywhere)
 	int32 NumEnemiesInLevel = 0;
 
-	UFUNCTION(BlueprintCallable)
-	void GoToNextLevel();
+	// UFUNCTION(BlueprintCallable)
+	// void GoToNextLevel();
 
 	UFUNCTION(BlueprintCallable)
 	void RestartCurrentLevel();

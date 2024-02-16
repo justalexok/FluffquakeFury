@@ -47,10 +47,9 @@ void APippaPlayerController::BeginPlay()
 
 	if (GameMode)
 	{
-		//Sets Player Level based on index of current map. E.g. if Map index 3, then Level 3
 		if (AFQFPlayerState* PS = Cast<AFQFPlayerState>(PlayerState))
 		{
-			PS->SetLevel(GameMode->GetCurrentMapIndex());
+			PS->SetLevel(PS->GetPlayerLevel());
 		}
 		
 		LevelSecondsRemaining = GameMode->GetCurrentLevelInfo().LevelLength;
