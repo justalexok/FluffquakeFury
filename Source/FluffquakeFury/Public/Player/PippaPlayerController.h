@@ -52,15 +52,18 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	bool bLevelIsRunning = false;
+
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Input")
+	TObjectPtr<UInputMappingContext> PippaContext;
 	
 protected:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
 
-private:
-	UPROPERTY(EditAnywhere, Category="Input")
-	TObjectPtr<UInputMappingContext> PippaContext;
 
+private:
+	
 	UPROPERTY(EditAnywhere, Category="Input")
 	TObjectPtr<UInputAction> MoveAction;
 

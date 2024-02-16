@@ -135,7 +135,10 @@ void APippaCharacter::Die()
 {
 	Super::Die();
 
-	
+	if (PippaPlayerController)
+	{
+		PippaPlayerController->OnLevelFailureDelegate.Broadcast();
+	}
 
 	//Tell each enemy behavior tree player is Dead.
 	TArray<AActor*> EnemiesInWorld;
