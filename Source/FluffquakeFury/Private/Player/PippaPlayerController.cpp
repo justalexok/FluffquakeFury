@@ -11,6 +11,7 @@
 #include "Actor/EffectActor.h"
 #include "Character/Pippa/PippaCharacter.h"
 #include "Components/SplineComponent.h"
+#include "Game/FQFGameInstance.h"
 #include "Input/FQFInputComponent.h"
 #include "Interaction/EnemyInterface.h"
 #include "GameFramework/Character.h"
@@ -44,13 +45,14 @@ void APippaPlayerController::BeginPlay()
 	SetInputMode(InputModeData);
 
 	GameMode = UFQFBlueprintFunctionLibrary::GetFQFGameMode(this);
+	UFQFGameInstance* GameInstance = UFQFBlueprintFunctionLibrary::GetGameInstance(this);
 
 	if (GameMode)
 	{
 		//Sets Player Level based on index of current map. E.g. if Map index 3, then Level 3
 		if (AFQFPlayerState* PS = Cast<AFQFPlayerState>(PlayerState))
 		{
-			PS->SetLevel(GameMode->GetCurrentMapIndex());
+			PS->SetLevel(GameInstance->GetCurrentLevel());
 		}
 		
 		LevelSecondsRemaining = GameMode->GetCurrentLevelInfo().LevelLength;

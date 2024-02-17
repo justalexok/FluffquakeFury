@@ -10,6 +10,7 @@
 #include "Data/CharacterClassInfo.h"
 #include "FQFBlueprintFunctionLibrary.generated.h"
 
+class UFQFGameInstance;
 class AFQFGameModeBase;
 struct FDamageEffectParams;
 class UFQFAttributeSet;
@@ -84,4 +85,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "FQFBlueprintFunctionLibrary|GameplayEffects")
 	static AFQFGameModeBase* GetFQFGameMode(const UObject* WorldContextObject);
+
+	UFUNCTION(BlueprintPure, Category = "FQFBlueprintFunctionLibrary|GameplayMechanics")
+	static UFQFGameInstance* GetGameInstance(const UObject* WorldContextObject);
 };

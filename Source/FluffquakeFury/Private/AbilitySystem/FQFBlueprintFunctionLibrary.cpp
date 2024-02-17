@@ -16,6 +16,7 @@
 #include "NavigationSystem.h"
 #include "NiagaraFunctionLibrary.h"
 #include "Character/Enemy/EnemyBase.h"
+#include "Game/FQFGameInstance.h"
 
 UOverlayWidgetController* UFQFBlueprintFunctionLibrary::GetOverlayWidgetController(const UObject* WorldContextObject)
 {
@@ -280,6 +281,13 @@ UAbilityInfo* UFQFBlueprintFunctionLibrary::GetAbilityInfo(const UObject* WorldC
 AFQFGameModeBase* UFQFBlueprintFunctionLibrary::GetFQFGameMode(const UObject* WorldContextObject)
 {
 	return Cast<AFQFGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
+}
+
+UFQFGameInstance* UFQFBlueprintFunctionLibrary::GetGameInstance(const UObject* WorldContextObject)
+{
+	UFQFGameInstance* GameInstance = Cast<UFQFGameInstance>(UGameplayStatics::GetGameInstance(WorldContextObject));
+
+	return GameInstance;
 }
 
 

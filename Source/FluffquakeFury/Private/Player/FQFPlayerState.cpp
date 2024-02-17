@@ -4,7 +4,9 @@
 #include "Player/FQFPlayerState.h"
 #include "AbilitySystem/FQFAbilitySystemComponent.h"
 #include "AbilitySystem/FQFAttributeSet.h"
+#include "AbilitySystem/FQFBlueprintFunctionLibrary.h"
 #include "Character/Enemy/EnemyBase.h"
+#include "Game/FQFGameInstance.h"
 #include "Kismet/GameplayStatics.h"
 #include "Net/UnrealNetwork.h"
 
@@ -25,26 +27,18 @@ void AFQFPlayerState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutL
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
 	DOREPLIFETIME(AFQFPlayerState, Level);
-	DOREPLIFETIME(AFQFPlayerState, XP);
 
-}
-
-void AFQFPlayerState::AddToXP(int32 InXP)
-{
-	XP += InXP;
-	OnXPChangedDelegate.Broadcast(XP);
 }
 
 void AFQFPlayerState::AddToLevel(int32 InLevel)
 {
+	UFQFGameInstance* GameInstance = UFQFBlueprintFunctionLibrary::GetGameInstance(this);
+	if (GameInstance)
+	{
+		GameInstance->AddToLevel(InLevel);
+	}
 	Level += InLevel;
-	OnLevelChangedDelegate.Broadcast(Level);
-}
-
-void AFQFPlayerState::SetXP(int32 InXP)
-{
-	XP = InXP;
-	OnXPChangedDelegate.Broadcast(XP);
+	OnLevelChangedDelegate.Broadcast(Level);	
 }
 
 void AFQFPlayerState::SetLevel(int32 InLevel)
@@ -82,9 +76,4 @@ float AFQFPlayerState::SumHealthOfAllEnemiesRemaining()
 void AFQFPlayerState::OnRep_Level(int32 OldLevel) const
 {
 	OnLevelChangedDelegate.Broadcast(Level);
-}
-
-void AFQFPlayerState::OnRep_XP(int32 OldXP) const
-{
-	OnXPChangedDelegate.Broadcast(XP);
 }

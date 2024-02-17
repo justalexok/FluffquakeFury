@@ -4,8 +4,10 @@
 #include "Game/FQFGameModeBase.h"
 
 #include "AbilitySystem/FQFAbilitySystemComponent.h"
+#include "AbilitySystem/FQFBlueprintFunctionLibrary.h"
 #include "AbilitySystem/Data/LevelInfo.h"
 #include "Character/FQFCharacterBase.h"
+#include "Game/FQFGameInstance.h"
 #include "Kismet/GameplayStatics.h"
 #include "Player/PippaPlayerController.h"
 
@@ -41,23 +43,6 @@ void AFQFGameModeBase::CheckIfLevelComplete()
 	}
 
 	
-}
-
-int32 AFQFGameModeBase::GetCurrentMapIndex()
-{
-	int32 CurrentMapIndex = -1; // Initialize with an invalid index
-	for (int32 Index = 0; Index < LevelInfo->LevelInformation.Num(); ++Index)
-	{
-		FString LevelName = GetWorld()->GetName();
-		
-		if (LevelInfo->LevelInformation[Index].LevelName == LevelName)
-		{
-			CurrentMapIndex = Index;
-			break; // Stop searching once the item is found
-		}
-	}
-	UE_LOG(LogTemp,Warning,TEXT("Current Map Index: %d"),CurrentMapIndex)
-	return CurrentMapIndex;
 }
 
 void AFQFGameModeBase::GoToNextLevel()
@@ -96,6 +81,12 @@ void AFQFGameModeBase::AddAnyPreviouslyGrantedAbilities()
 		{
 			PippaASC->AddAbility(Ability);
 		}
+	}
+
+	if (UFQFGameInstance* GameInstance = UFQFBlueprintFunctionLibrary::GetGameInstance(this))
+	{
+		int32 CurrentLevel = GameInstance->CurrentLevel;
+		UE_LOG(LogTemp,Error,TEXT("Game instance thinks the level is [%d]"),CurrentLevel);
 	}
 	
 	
