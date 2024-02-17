@@ -5,6 +5,8 @@
 
 #include "AbilitySystem/FQFAbilitySystemComponent.h"
 #include "AbilitySystem/Data/LevelInfo.h"
+#include "Actor/PippaPlayerStart.h"
+#include "Actor/PippaSpawnPoint.h"
 #include "Character/FQFCharacterBase.h"
 #include "Kismet/GameplayStatics.h"
 #include "Player/PippaPlayerController.h"
@@ -76,3 +78,13 @@ void AFQFGameModeBase::AddAnyPreviouslyGrantedAbilities()
 	
 	
 }
+//
+// void AFQFGameModeBase::RespawnPlayerCharacter()
+// {
+// 	FVector SpawnLocation = GetPlayerStartLocation();
+// }
+//
+// FVector AFQFGameModeBase::GetPlayerStartLocation()
+// {
+//
+// }

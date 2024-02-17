@@ -125,9 +125,11 @@ void APippaCharacter::Die()
 {
 	Super::Die();
 
-	if (PippaPlayerController)
+	Destroy();
+
+	if (const AFQFGameModeBase* GameMode = UFQFBlueprintFunctionLibrary::GetFQFGameMode(this))
 	{
-		PippaPlayerController->OnLevelFailureDelegate.Broadcast();
+		GameMode->OnPlayerDeathDelegate.Broadcast();
 	}
 
 	//Tell each enemy behavior tree player is Dead.
@@ -136,12 +138,16 @@ void APippaCharacter::Die()
 
 	for (AActor* EnemyInWorld : EnemiesInWorld)
 	{
-		AEnemyBase* Enemy = Cast<AEnemyBase>(EnemyInWorld);
-		if (Enemy)
+		if (AEnemyBase* Enemy = Cast<AEnemyBase>(EnemyInWorld))
 		{
 			Enemy->FQFAIController->GetBlackboardComponent()->SetValueAsBool(FName("IsPlayerDead"), true);
 			Enemy->RemoveInfiniteGameplayEffects();
 		}
+	}
+	
+	if (PippaPlayerController)
+	{
+		PippaPlayerController->OnLevelFailureDelegate.Broadcast();		
 	}
 }
 

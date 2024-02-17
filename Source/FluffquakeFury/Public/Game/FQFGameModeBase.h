@@ -7,6 +7,7 @@
 #include "GameFramework/GameModeBase.h"
 #include "FQFGameModeBase.generated.h"
 
+class APippaSpawnPoint;
 class AFQFCharacterBase;
 class AEffectActor;
 class ULevelInfo;
@@ -16,7 +17,7 @@ class UCharacterClassInfo;
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FLevelCompletionSignature);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FLevelCanBeCompletedSignature);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FLevelShouldBeginSignature);
-
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FGameModeGeneralSignature);
 
 /**
  * 
@@ -45,7 +46,10 @@ public:
 	FLevelShouldBeginSignature OnLevelShouldBeginDelegate;
 	
 	UFUNCTION(BlueprintCallable, Category = "Events")
-	void BroadcastLevelShouldBegin() const {OnLevelShouldBeginDelegate.Broadcast();}  
+	void BroadcastLevelShouldBegin() const {OnLevelShouldBeginDelegate.Broadcast();}
+
+	UPROPERTY(BlueprintAssignable, Category = "Events")
+	FGameModeGeneralSignature OnPlayerDeathDelegate;
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Character Class Defaults")
 	TObjectPtr<UCharacterClassInfo> CharacterClassInfo;
@@ -73,5 +77,13 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void AddAnyPreviouslyGrantedAbilities();
-		
+
+	// UFUNCTION(BlueprintCallable)
+	// void RespawnPlayerCharacter();
+	//
+	// UFUNCTION(BlueprintCallable)
+	// FVector GetPlayerStartLocation();
+
+	// UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	// APippaSpawnPoint* PippaSpawnPoint;
 };
