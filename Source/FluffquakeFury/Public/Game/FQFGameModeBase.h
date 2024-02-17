@@ -15,7 +15,7 @@ class UCharacterClassInfo;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FLevelCompletionSignature);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FLevelCanBeCompletedSignature);
-
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FLevelShouldBeginSignature);
 
 
 /**
@@ -36,13 +36,17 @@ public:
 	FLevelCompletionSignature OnLevelCompletionDelegate;
 
 	UFUNCTION(BlueprintCallable, Category = "Events")
-	void BroadcastLevelCompletion();
-	
+	void BroadcastLevelCompletion() const {OnLevelCompletionDelegate.Broadcast();}	
 
 	UPROPERTY(BlueprintAssignable, Category = "Events")
 	FLevelCanBeCompletedSignature LevelCanBeCompletedDelegate;
-	
 
+	UPROPERTY(BlueprintAssignable, Category = "Events")
+	FLevelShouldBeginSignature OnLevelShouldBeginDelegate;
+	
+	UFUNCTION(BlueprintCallable, Category = "Events")
+	void BroadcastLevelShouldBegin() const {OnLevelShouldBeginDelegate.Broadcast();}  
+	
 	UPROPERTY(EditDefaultsOnly, Category = "Character Class Defaults")
 	TObjectPtr<UCharacterClassInfo> CharacterClassInfo;
 

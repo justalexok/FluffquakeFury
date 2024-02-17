@@ -47,10 +47,6 @@ void APippaCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if(APippaPlayerController* PC = Cast<APippaPlayerController>(UGameplayStatics::GetPlayerController(this, 0)))
-	{
-		PC->OnLevelFailureDelegate.AddDynamic(this,&APippaCharacter::PippaHandleLevelFailure);
-	}
 	UFQFBlueprintFunctionLibrary::GetFQFGameMode(this)->OnLevelCompletionDelegate.AddDynamic(this,&APippaCharacter::PippaHandleLevelUp);
 }
 
@@ -146,14 +142,6 @@ void APippaCharacter::Die()
 			Enemy->FQFAIController->GetBlackboardComponent()->SetValueAsBool(FName("IsPlayerDead"), true);
 			Enemy->RemoveInfiniteGameplayEffects();
 		}
-	}
-}
-
-void APippaCharacter::PippaHandleLevelFailure()
-{
-	if (PippaPlayerController)
-	{
-		PippaPlayerController->DisableInput(PippaPlayerController);
 	}
 }
 

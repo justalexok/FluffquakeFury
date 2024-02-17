@@ -55,7 +55,8 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGameplayEffect> GameplayEffectClass);
 
-
+	UFUNCTION()
+	void HandleLevelFailure();
 
 };
 

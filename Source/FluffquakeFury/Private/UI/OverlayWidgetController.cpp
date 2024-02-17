@@ -74,6 +74,8 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 			OnPlayerLevelChangedDelegate.Broadcast(NewLevel);
 		});
 
+	APippaPlayerController* PippaPC = CastChecked<APippaPlayerController>(PlayerController);
+	PippaPC->OnLevelFailureDelegate.AddDynamic(this, &UOverlayWidgetController::HandleLevelFailure);
 }
 
 void UOverlayWidgetController::ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGameplayEffect> GameplayEffectClass)
@@ -86,5 +88,10 @@ void UOverlayWidgetController::ApplyEffectToTarget(AActor* TargetActor, TSubclas
 	EffectContextHandle.AddSourceObject(this);
 	const FGameplayEffectSpecHandle EffectSpecHandle = TargetASC->MakeOutgoingSpec(GameplayEffectClass, 1.f, EffectContextHandle);
 	TargetASC->ApplyGameplayEffectSpecToSelf(*EffectSpecHandle.Data.Get());
+}
+
+void UOverlayWidgetController::HandleLevelFailure()
+{
+	OnLevelFailureDelegate.Broadcast();
 }
 

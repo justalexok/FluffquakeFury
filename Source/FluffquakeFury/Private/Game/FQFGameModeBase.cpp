@@ -10,7 +10,6 @@
 #include "Player/PippaPlayerController.h"
 
 
-
 FFQFLevelInfo AFQFGameModeBase::GetCurrentLevelInfo()
 {
 	PippaCharacterBase = Cast<AFQFCharacterBase>(UGameplayStatics::GetPlayerPawn(this,0));
@@ -42,11 +41,6 @@ void AFQFGameModeBase::CheckIfLevelComplete()
 	}
 
 	
-}
-
-void AFQFGameModeBase::BroadcastLevelCompletion()
-{
-	OnLevelCompletionDelegate.Broadcast();
 }
 
 
