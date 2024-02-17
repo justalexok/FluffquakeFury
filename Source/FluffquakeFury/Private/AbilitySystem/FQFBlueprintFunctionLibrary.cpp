@@ -4,6 +4,7 @@
 #include "AbilitySystem/FQFBlueprintFunctionLibrary.h"
 
 #include "AbilitySystemBlueprintLibrary.h"
+#include "EnhancedInputSubsystems.h"
 #include "AbilitySystem/FQFAttributeSet.h"
 #include "Game/FQFGameModeBase.h"
 #include "Interaction/CombatInterface.h"
@@ -280,6 +281,27 @@ UAbilityInfo* UFQFBlueprintFunctionLibrary::GetAbilityInfo(const UObject* WorldC
 AFQFGameModeBase* UFQFBlueprintFunctionLibrary::GetFQFGameMode(const UObject* WorldContextObject)
 {
 	return Cast<AFQFGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
+}
+
+void UFQFBlueprintFunctionLibrary::ModifyControllerMappingContext(const UObject* WorldContextObject, bool bRemove, UInputMappingContext* MappingContext)
+{
+	APlayerController* PlayerController = UGameplayStatics::GetPlayerController(WorldContextObject,0);
+	// check(MappingContext);
+
+	if (MappingContext == nullptr) return;
+	
+	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer());
+	check(Subsystem);
+	
+	if (bRemove)
+	{
+		Subsystem->RemoveMappingContext(MappingContext);
+	}
+	else
+	{
+		Subsystem->AddMappingContext(MappingContext, 0);
+
+	}
 }
 
 

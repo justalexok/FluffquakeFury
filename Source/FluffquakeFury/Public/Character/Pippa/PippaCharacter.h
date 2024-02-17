@@ -8,6 +8,7 @@
 #include "Character/FQFCharacterBase.h"
 #include "PippaCharacter.generated.h"
 
+class UInputMappingContext;
 class AFQFPlayerState;
 class APippaPlayerController;
 /**
@@ -67,5 +68,8 @@ protected:
 	float SpringArmAngle = -35.f;
 	
 	void AddCharacterAbilities();
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	UInputMappingContext* CurrentMappingContext;
 
 };

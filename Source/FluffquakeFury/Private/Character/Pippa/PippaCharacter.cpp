@@ -125,8 +125,6 @@ void APippaCharacter::Die()
 {
 	Super::Die();
 
-	Destroy();
-
 	if (const AFQFGameModeBase* GameMode = UFQFBlueprintFunctionLibrary::GetFQFGameMode(this))
 	{
 		GameMode->OnPlayerDeathDelegate.Broadcast();

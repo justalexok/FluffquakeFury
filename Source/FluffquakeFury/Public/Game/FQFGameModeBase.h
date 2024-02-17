@@ -77,13 +77,4 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void AddAnyPreviouslyGrantedAbilities();
-
-	// UFUNCTION(BlueprintCallable)
-	// void RespawnPlayerCharacter();
-	//
-	// UFUNCTION(BlueprintCallable)
-	// FVector GetPlayerStartLocation();
-
-	// UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-	// APippaSpawnPoint* PippaSpawnPoint;
 };

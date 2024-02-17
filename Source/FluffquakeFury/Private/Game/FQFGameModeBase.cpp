@@ -78,13 +78,3 @@ void AFQFGameModeBase::AddAnyPreviouslyGrantedAbilities()
 	
 	
 }
-//
-// void AFQFGameModeBase::RespawnPlayerCharacter()
-// {
-// 	FVector SpawnLocation = GetPlayerStartLocation();
-// }
-//
-// FVector AFQFGameModeBase::GetPlayerStartLocation()
-// {
-//
-// }

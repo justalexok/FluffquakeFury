@@ -10,6 +10,7 @@
 #include "Data/CharacterClassInfo.h"
 #include "FQFBlueprintFunctionLibrary.generated.h"
 
+class UInputMappingContext;
 class AFQFGameModeBase;
 struct FDamageEffectParams;
 class UFQFAttributeSet;
@@ -84,4 +85,8 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "FQFBlueprintFunctionLibrary|GameplayEffects")
 	static AFQFGameModeBase* GetFQFGameMode(const UObject* WorldContextObject);
+
+	UFUNCTION(BlueprintCallable, Category = "FQFBlueprintFunctionLibrary|GameplayMechanics")
+	static void ModifyControllerMappingContext(const UObject* WorldContextObject, bool bRemove, UInputMappingContext* MappingContext);
+
 };
