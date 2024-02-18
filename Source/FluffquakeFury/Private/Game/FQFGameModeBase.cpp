@@ -39,7 +39,7 @@ void AFQFGameModeBase::CheckIfLevelComplete()
 	if (NumEnemiesInLevel == 0 && PlayerController->LevelSecondsRemaining < (GetCurrentLevelInfo().LevelLength - GetCurrentLevelInfo().MinimumSurvivalLength))
 	{
 		UE_LOG(LogTemp,Warning,TEXT("LEVEL CAN BE COMPLETE!"))
-		LevelCanBeCompletedDelegate.Broadcast();
+		OnLevelCanBeCompletedDelegate.Broadcast();
 	}
 
 	

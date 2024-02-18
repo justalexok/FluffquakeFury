@@ -34,9 +34,6 @@ public:
 	virtual void Die() override;
 
 	UFUNCTION()
-	void PippaHandleLevelFailure();
-
-	UFUNCTION()
 	void PippaHandleLevelUp();
 
 	virtual void Landed(const FHitResult& Hit) override;

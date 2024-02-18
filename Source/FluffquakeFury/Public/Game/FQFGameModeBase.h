@@ -13,8 +13,9 @@ class ULevelInfo;
 class UAbilityInfo;
 class UCharacterClassInfo;
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FLevelCompletionSignature);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FLevelCanBeCompletedSignature);
+// DECLARE_DYNAMIC_MULTICAST_DELEGATE(FLevelCompletionSignature);
+// DECLARE_DYNAMIC_MULTICAST_DELEGATE(FLevelCanBeCompletedSignature);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FGeneralLevelMechanicsSignature);
 
 
 
@@ -33,11 +34,23 @@ private:
 public:
 
 	UPROPERTY(BlueprintAssignable, Category = "Events")
-	FLevelCompletionSignature OnLevelCompletionDelegate;
+	FGeneralLevelMechanicsSignature OnLevelCompletionDelegate;
+	UFUNCTION(BlueprintCallable, Category = "Events")
+	void BroadcastLevelCompletion() const {OnLevelCompletionDelegate.Broadcast();}	
 
 	UPROPERTY(BlueprintAssignable, Category = "Events")
-	FLevelCanBeCompletedSignature LevelCanBeCompletedDelegate;
+	FGeneralLevelMechanicsSignature OnLevelCanBeCompletedDelegate;
 
+	UPROPERTY(BlueprintAssignable, Category = "Events")
+	FGeneralLevelMechanicsSignature OnLevelFailureDelegate;
+	UFUNCTION(BlueprintCallable, Category = "Events")
+	void BroadcastLevelFailure() const {OnLevelFailureDelegate.Broadcast();}	
+
+	UPROPERTY(BlueprintAssignable, Category = "Events")
+	FGeneralLevelMechanicsSignature OnPlayerDeathDelegate;
+	UFUNCTION(BlueprintCallable, Category = "Events")
+	void BroadcastPlayerDeath() const {OnPlayerDeathDelegate.Broadcast();}
+	
 	UPROPERTY(EditDefaultsOnly, Category = "Character Class Defaults")
 	TObjectPtr<UCharacterClassInfo> CharacterClassInfo;
 

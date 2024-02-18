@@ -54,11 +54,9 @@ protected:
 	UPROPERTY()
 	TObjectPtr<UAttributeSet> AttributeSet;
 	
-	
-
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<AEnemyBase> EnemyClass;
-
+	
 private:
 
 	UPROPERTY(VisibleAnywhere, ReplicatedUsing=OnRep_Level)

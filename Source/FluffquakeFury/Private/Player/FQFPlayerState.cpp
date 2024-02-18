@@ -18,7 +18,6 @@ AFQFPlayerState::AFQFPlayerState()
 	AttributeSet = CreateDefaultSubobject<UFQFAttributeSet>("AttributeSet");
 	
 	NetUpdateFrequency = 100.f;
-
 	
 }
 
@@ -72,6 +71,7 @@ float AFQFPlayerState::SumHealthOfAllEnemiesRemaining()
 	}
 	return SumHealth;
 }
+
 
 void AFQFPlayerState::OnRep_Level(int32 OldLevel) const
 {
