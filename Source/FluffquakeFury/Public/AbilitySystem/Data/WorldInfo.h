@@ -3,25 +3,21 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "AbilitySystem/Abilities/FQFGameplayAbility.h"
 #include "Engine/DataAsset.h"
-#include "LevelInfo.generated.h"
+#include "WorldInfo.generated.h"
 
-struct FGameplayTag;
+class UGameplayAbility;
 
 USTRUCT(BlueprintType)
-struct FFQFLevelInfo
+struct FFQFWorldInfo
 {
 	GENERATED_BODY()
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	int32 LevelIndex;
+	int32 WorldIndex;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	int32 LevelLength = 60;
-	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	int32 MinimumSurvivalLength = 30;
+	FName WorldName = FName();
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	TSubclassOf<UGameplayAbility>  AbilityGrantedOnCompletion;
@@ -33,13 +29,12 @@ struct FFQFLevelInfo
  * 
  */
 UCLASS()
-class FLUFFQUAKEFURY_API ULevelInfo : public UDataAsset
+class FLUFFQUAKEFURY_API UWorldInfo : public UDataAsset
 {
 	GENERATED_BODY()
-
+	
 public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	TArray<FFQFLevelInfo> LevelInformation;
-
+	TArray<FFQFWorldInfo> WorldInformation;
 
 };

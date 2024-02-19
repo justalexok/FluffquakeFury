@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystem/Data/LevelInfo.h"
+#include "AbilitySystem/Data/WorldInfo.h"
 #include "GameFramework/GameModeBase.h"
 #include "FQFGameModeBase.generated.h"
 
@@ -60,8 +61,14 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Level Information")
 	TObjectPtr<ULevelInfo> LevelInfo;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "World Information")
+	TObjectPtr<UWorldInfo> WorldInfo;
+
 	UFUNCTION(BlueprintCallable)
 	FFQFLevelInfo GetCurrentLevelInfo();
+	
+	UFUNCTION(BlueprintCallable)
+	FFQFWorldInfo GetCurrentWorldInfo();
 	
 	UFUNCTION(BlueprintCallable)
 	void CheckIfLevelComplete();
@@ -73,7 +80,7 @@ public:
 	void GoToNextLevel();
 
 	UFUNCTION(BlueprintCallable)
-	void RestartCurrentLevel();
+	void RestartCurrentWorld();
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	bool bIsLevelComplete = false;

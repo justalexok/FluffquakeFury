@@ -11,7 +11,6 @@
 #include "Kismet/GameplayStatics.h"
 #include "Player/PippaPlayerController.h"
 
-
 FFQFLevelInfo AFQFGameModeBase::GetCurrentLevelInfo()
 {
 	PippaCharacterBase = Cast<AFQFCharacterBase>(UGameplayStatics::GetPlayerPawn(this,0));
@@ -23,9 +22,29 @@ FFQFLevelInfo AFQFGameModeBase::GetCurrentLevelInfo()
 		{
 			return LevelInfo->LevelInformation[CurrentLevel];
 		}
-		
+
 	}
 	return FFQFLevelInfo();
+}
+
+FFQFWorldInfo AFQFGameModeBase::GetCurrentWorldInfo()
+{
+
+	if (UFQFGameInstance* GameInstance = UFQFBlueprintFunctionLibrary::GetGameInstance(this))
+	{
+		if (WorldInfo->WorldInformation.Num() <= GameInstance->CurrentWorldIndex)
+		{
+			UE_LOG(LogTemp,Error,TEXT("Tried to Find World Info at Index %d where there was none in Data Asset!"),GameInstance->CurrentWorldIndex);
+			return FFQFWorldInfo();
+
+		}
+	
+		FFQFWorldInfo CurrentWorldInfo = WorldInfo->WorldInformation[GameInstance->CurrentWorldIndex];
+		return CurrentWorldInfo;
+		
+	}
+	
+	return FFQFWorldInfo();
 }
 
 void AFQFGameModeBase::CheckIfLevelComplete()
@@ -48,15 +67,12 @@ void AFQFGameModeBase::CheckIfLevelComplete()
 void AFQFGameModeBase::GoToNextLevel()
 {
 	OnLevelCompletionDelegate.Broadcast();
-	//Player Level has already gone up, so look up current level name 
-	// bIsLevelComplete = false;
-	UGameplayStatics::OpenLevel(this,GetCurrentLevelInfo().LevelName);
+
 }
 
-void AFQFGameModeBase::RestartCurrentLevel()
+void AFQFGameModeBase::RestartCurrentWorld()
 {
-	// bIsLevelComplete = false;
-	UGameplayStatics::OpenLevel(this,GetCurrentLevelInfo().LevelName);
+	UGameplayStatics::OpenLevel(this,GetCurrentWorldInfo().WorldName);
 }
 
 void AFQFGameModeBase::AddAnyPreviouslyGrantedAbilities()
@@ -68,7 +84,7 @@ void AFQFGameModeBase::AddAnyPreviouslyGrantedAbilities()
 
 	for (FFQFLevelInfo Info : LevelInfo->LevelInformation)
 	{
-		if (Info.LevelName == GetCurrentLevelInfo().LevelName)
+		if (Info.LevelIndex == GetCurrentLevelInfo().LevelIndex)
 		{
 			break;
 		}
@@ -87,6 +103,9 @@ void AFQFGameModeBase::AddAnyPreviouslyGrantedAbilities()
 	{
 		int32 CurrentLevel = GameInstance->CurrentLevel;
 		UE_LOG(LogTemp,Error,TEXT("Game instance thinks the level is [%d]"),CurrentLevel);
+
+		int32 CurrentWorldIndex = GameInstance->CurrentWorldIndex;
+		UE_LOG(LogTemp,Error,TEXT("Game instance thinks the WorldIndex is [%d]"),CurrentWorldIndex);
 	}
 	
 	
