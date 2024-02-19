@@ -19,7 +19,7 @@ FFQFLevelInfo AFQFGameModeBase::GetCurrentLevelInfo()
 	{
 		const int32 CurrentLevel = PippaCharacterBase->GetPlayerLevel();
 
-		if (LevelInfo->LevelInformation.Num() >= CurrentLevel) 
+		if (LevelInfo->LevelInformation.Num() > CurrentLevel) 
 		{
 			return LevelInfo->LevelInformation[CurrentLevel];
 		}

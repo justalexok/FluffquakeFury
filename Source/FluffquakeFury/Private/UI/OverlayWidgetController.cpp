@@ -69,11 +69,6 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 	AFQFPlayerState* FQFPlayerState = CastChecked<AFQFPlayerState>(PlayerState);
 	FQFPlayerState->OnLevelChangedDelegate.AddDynamic(this,&UOverlayWidgetController::BroadcastLevelChange);
 
-	// FQFPlayerState->OnLevelChangedDelegate.AddLambda(
-	// 	[this](int32 NewLevel)
-	// 	{
-	// 		OnPlayerLevelChangedDelegate.Broadcast(NewLevel);
-	// 	});
 
 }
 

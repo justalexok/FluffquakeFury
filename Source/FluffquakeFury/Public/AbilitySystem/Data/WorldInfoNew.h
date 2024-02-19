@@ -13,7 +13,7 @@ struct FFQFWorldInfoNew
 	GENERATED_BODY()
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	int32 WorldIndex;
+	int32 WorldIndex = 1;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	FName WorldName = FName();

@@ -49,6 +49,9 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	bool bLevelIsRunning = false;
+
+	UFUNCTION(BlueprintCallable)
+	void SetLevelParamsFromLevelInfo(const FFQFLevelInfo& LevelInfo);
 	
 protected:
 	virtual void BeginPlay() override;

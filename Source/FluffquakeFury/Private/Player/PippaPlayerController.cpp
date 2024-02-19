@@ -26,7 +26,6 @@ APippaPlayerController::APippaPlayerController()
 
 }
 
-
 void APippaPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
@@ -55,11 +54,7 @@ void APippaPlayerController::BeginPlay()
 			PS->SetLevel(GameInstance->GetCurrentLevel());
 		}
 		
-		LevelSecondsRemaining = GameMode->GetCurrentLevelInfo().LevelLength;
-		StartingLevelLength = LevelSecondsRemaining;
-		MinimumSurvivalLength = GameMode->GetCurrentLevelInfo().MinimumSurvivalLength;
-		bLevelIsRunning = true;
-		GameMode->AddAnyPreviouslyGrantedAbilities();
+		SetLevelParamsFromLevelInfo(GameMode->GetCurrentLevelInfo());
 	}
 }
 
@@ -86,13 +81,11 @@ void APippaPlayerController::PlayerTick(float DeltaTime)
 	
 	LevelSecondsRemaining -= DeltaTime;
 	LevelSecondsRemaining = FMath::Clamp(LevelSecondsRemaining,0,LevelSecondsRemaining);
-
-
+	
 	if (GameMode && !HasCheckedLevelFinished && LevelSecondsRemaining <= StartingLevelLength - MinimumSurvivalLength)
 	{
-		
-		GameMode->CheckIfLevelComplete();
 		HasCheckedLevelFinished = true;
+		GameMode->CheckIfLevelComplete();
 	}
 
 	if (LevelSecondsRemaining == 0.f)
@@ -103,6 +96,16 @@ void APippaPlayerController::PlayerTick(float DeltaTime)
 		bLevelIsRunning = false;
 	}
 	
+}
+
+void APippaPlayerController::SetLevelParamsFromLevelInfo(const FFQFLevelInfo& LevelInfo)
+{
+	LevelSecondsRemaining = LevelInfo.LevelLength;
+	StartingLevelLength = LevelSecondsRemaining;
+	MinimumSurvivalLength = LevelInfo.MinimumSurvivalLength;
+	bLevelIsRunning = true;
+	HasCheckedLevelFinished = false;
+	GameMode->AddAnyPreviouslyGrantedAbilities();
 }
 
 void APippaPlayerController::ShowDamageNumber_Implementation(float DamageAmount, ACharacter* TargetCharacter, bool bBlockedHit, bool bPillowExploded, bool bFatalHit)
