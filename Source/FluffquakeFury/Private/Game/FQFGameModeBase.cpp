@@ -60,17 +60,13 @@ void AFQFGameModeBase::CheckIfLevelComplete()
 	//Must be 0 enemies and have made it past the minimum survival length
 	if (NumEnemiesInLevel == 0 && PlayerController->LevelSecondsRemaining < (GetCurrentLevelInfo().LevelLength - GetCurrentLevelInfo().MinimumSurvivalLength))
 	{
-		UE_LOG(LogTemp,Warning,TEXT("LEVEL CAN BE COMPLETE!"))
-		OnLevelCanBeCompletedDelegate.Broadcast();
+		UE_LOG(LogTemp,Warning,TEXT("LEVEL COMPLETE!"))
+		// OnLevelCanBeCompletedDelegate.Broadcast();
+
+		OnLevelCompletionDelegate.Broadcast();
 	}
 
 	
-}
-
-void AFQFGameModeBase::GoToNextLevel()
-{
-	OnLevelCompletionDelegate.Broadcast();
-
 }
 
 void AFQFGameModeBase::RestartCurrentWorld()

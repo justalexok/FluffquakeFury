@@ -11,7 +11,7 @@ class AEnemyBase;
 class UAbilitySystemComponent;
 class UAttributeSet;
 
-DECLARE_MULTICAST_DELEGATE_OneParam(FOnPlayerStatChanged, int32 /*StatValue*/)
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPlayerStatChanged, int32,StatValue);
 
 /**
  * 
@@ -29,6 +29,7 @@ public:
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override { return AbilitySystemComponent; }
 	UAttributeSet* GetAttributeSet() const { return AttributeSet; }
 
+	UPROPERTY(BlueprintAssignable, Category = "Events")
 	FOnPlayerStatChanged OnLevelChangedDelegate;
 	
 	FORCEINLINE int32 GetPlayerLevel() const { return Level; }

@@ -34,16 +34,11 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category = "Events")
 	FGeneralLevelMechanicsSignature OnLevelCompletionDelegate;
-	UFUNCTION(BlueprintCallable, Category = "Events")
-	void BroadcastLevelCompletion() const {OnLevelCompletionDelegate.Broadcast();}
 
 	UPROPERTY(BlueprintAssignable, Category = "Events")
 	FGeneralLevelMechanicsSignature OnWorldCompletionDelegate;
 	UFUNCTION(BlueprintCallable, Category = "Events")
 	void BroadcastWorldCompletion() const {OnWorldCompletionDelegate.Broadcast();}
-
-	UPROPERTY(BlueprintAssignable, Category = "Events")
-	FGeneralLevelMechanicsSignature OnLevelCanBeCompletedDelegate;
 
 	UPROPERTY(BlueprintAssignable, Category = "Events")
 	FGeneralLevelMechanicsSignature OnLevelFailureDelegate;
@@ -78,9 +73,6 @@ public:
 	
 	UPROPERTY(EditAnywhere)
 	int32 NumEnemiesInLevel = 0;
-
-	UFUNCTION(BlueprintCallable)
-	void GoToNextLevel();
 
 	UFUNCTION(BlueprintCallable)
 	void RestartCurrentWorld();

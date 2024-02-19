@@ -56,7 +56,8 @@ protected:
 	void ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGameplayEffect> GameplayEffectClass);
 
 
-
+	UFUNCTION()
+	void BroadcastLevelChange(int32 NewLevel);
 };
 
 

@@ -67,12 +67,13 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 		});
 
 	AFQFPlayerState* FQFPlayerState = CastChecked<AFQFPlayerState>(PlayerState);
+	FQFPlayerState->OnLevelChangedDelegate.AddDynamic(this,&UOverlayWidgetController::BroadcastLevelChange);
 
-	FQFPlayerState->OnLevelChangedDelegate.AddLambda(
-		[this](int32 NewLevel)
-		{
-			OnPlayerLevelChangedDelegate.Broadcast(NewLevel);
-		});
+	// FQFPlayerState->OnLevelChangedDelegate.AddLambda(
+	// 	[this](int32 NewLevel)
+	// 	{
+	// 		OnPlayerLevelChangedDelegate.Broadcast(NewLevel);
+	// 	});
 
 }
 
@@ -86,5 +87,10 @@ void UOverlayWidgetController::ApplyEffectToTarget(AActor* TargetActor, TSubclas
 	EffectContextHandle.AddSourceObject(this);
 	const FGameplayEffectSpecHandle EffectSpecHandle = TargetASC->MakeOutgoingSpec(GameplayEffectClass, 1.f, EffectContextHandle);
 	TargetASC->ApplyGameplayEffectSpecToSelf(*EffectSpecHandle.Data.Get());
+}
+
+void UOverlayWidgetController::BroadcastLevelChange(int32 NewLevel)
+{
+	OnPlayerLevelChangedDelegate.Broadcast(NewLevel);
 }
 
