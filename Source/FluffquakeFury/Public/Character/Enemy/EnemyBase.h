@@ -83,6 +83,4 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Class Defaults")
 	TObjectPtr<UAnimMontage> DeathMontage;
 
-	void IncrementEnemyCount();
-	void DecrementEnemyCount();
 };

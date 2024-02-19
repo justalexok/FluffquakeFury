@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystem/Data/LevelInfo.h"
-#include "AbilitySystem/Data/WorldInfo.h"
+#include "AbilitySystem/Data/WorldInfoNew.h"
 #include "GameFramework/GameModeBase.h"
 #include "FQFGameModeBase.generated.h"
 
@@ -14,8 +14,6 @@ class ULevelInfo;
 class UAbilityInfo;
 class UCharacterClassInfo;
 
-// DECLARE_DYNAMIC_MULTICAST_DELEGATE(FLevelCompletionSignature);
-// DECLARE_DYNAMIC_MULTICAST_DELEGATE(FLevelCanBeCompletedSignature);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FGeneralLevelMechanicsSignature);
 
 
@@ -37,7 +35,12 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "Events")
 	FGeneralLevelMechanicsSignature OnLevelCompletionDelegate;
 	UFUNCTION(BlueprintCallable, Category = "Events")
-	void BroadcastLevelCompletion() const {OnLevelCompletionDelegate.Broadcast();}	
+	void BroadcastLevelCompletion() const {OnLevelCompletionDelegate.Broadcast();}
+
+	UPROPERTY(BlueprintAssignable, Category = "Events")
+	FGeneralLevelMechanicsSignature OnWorldCompletionDelegate;
+	UFUNCTION(BlueprintCallable, Category = "Events")
+	void BroadcastWorldCompletion() const {OnWorldCompletionDelegate.Broadcast();}
 
 	UPROPERTY(BlueprintAssignable, Category = "Events")
 	FGeneralLevelMechanicsSignature OnLevelCanBeCompletedDelegate;
@@ -62,13 +65,13 @@ public:
 	TObjectPtr<ULevelInfo> LevelInfo;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "World Information")
-	TObjectPtr<UWorldInfo> WorldInfo;
+	TObjectPtr<UWorldInfoNew> WorldInfo;
 
 	UFUNCTION(BlueprintCallable)
 	FFQFLevelInfo GetCurrentLevelInfo();
 	
 	UFUNCTION(BlueprintCallable)
-	FFQFWorldInfo GetCurrentWorldInfo();
+	FFQFWorldInfoNew GetCurrentWorldInfo();
 	
 	UFUNCTION(BlueprintCallable)
 	void CheckIfLevelComplete();
@@ -87,5 +90,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void AddAnyPreviouslyGrantedAbilities();
-		
+
+	UFUNCTION(BlueprintCallable)
+	int32 CountActiveEnemiesInWorldForLevelIndex(int32 Level);
 };

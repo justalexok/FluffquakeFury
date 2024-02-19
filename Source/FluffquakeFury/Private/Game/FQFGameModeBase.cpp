@@ -7,6 +7,7 @@
 #include "AbilitySystem/FQFBlueprintFunctionLibrary.h"
 #include "AbilitySystem/Data/LevelInfo.h"
 #include "Character/FQFCharacterBase.h"
+#include "Character/Enemy/EnemyBase.h"
 #include "Game/FQFGameInstance.h"
 #include "Kismet/GameplayStatics.h"
 #include "Player/PippaPlayerController.h"
@@ -27,7 +28,7 @@ FFQFLevelInfo AFQFGameModeBase::GetCurrentLevelInfo()
 	return FFQFLevelInfo();
 }
 
-FFQFWorldInfo AFQFGameModeBase::GetCurrentWorldInfo()
+FFQFWorldInfoNew AFQFGameModeBase::GetCurrentWorldInfo()
 {
 
 	if (UFQFGameInstance* GameInstance = UFQFBlueprintFunctionLibrary::GetGameInstance(this))
@@ -35,21 +36,23 @@ FFQFWorldInfo AFQFGameModeBase::GetCurrentWorldInfo()
 		if (WorldInfo->WorldInformation.Num() <= GameInstance->CurrentWorldIndex)
 		{
 			UE_LOG(LogTemp,Error,TEXT("Tried to Find World Info at Index %d where there was none in Data Asset!"),GameInstance->CurrentWorldIndex);
-			return FFQFWorldInfo();
+			return FFQFWorldInfoNew();
 
 		}
 	
-		FFQFWorldInfo CurrentWorldInfo = WorldInfo->WorldInformation[GameInstance->CurrentWorldIndex];
+		FFQFWorldInfoNew CurrentWorldInfo = WorldInfo->WorldInformation[GameInstance->CurrentWorldIndex];
 		return CurrentWorldInfo;
 		
 	}
 	
-	return FFQFWorldInfo();
+	return FFQFWorldInfoNew();
 }
 
 void AFQFGameModeBase::CheckIfLevelComplete()
 {
 	
+
+	NumEnemiesInLevel = CountActiveEnemiesInWorldForLevelIndex(GetCurrentLevelInfo().LevelIndex);
 	UE_LOG(LogTemp,Warning,TEXT("Number of Enemies in World: %d"),NumEnemiesInLevel);
 
 	APippaPlayerController* PlayerController = CastChecked<APippaPlayerController>(GetWorld()->GetFirstPlayerController());
@@ -110,3 +113,24 @@ void AFQFGameModeBase::AddAnyPreviouslyGrantedAbilities()
 	
 	
 }
+
+int32 AFQFGameModeBase::CountActiveEnemiesInWorldForLevelIndex(int32 Level)
+{
+	FString LevelString = FString::FromInt(Level);
+	FName TagFName(*LevelString);
+
+	TArray<AActor*> OutEnemies;
+	UGameplayStatics::GetAllActorsOfClassWithTag(this,AEnemyBase::StaticClass(), TagFName,OutEnemies);
+
+	int32 ActiveEnemyCount = 0;
+	for (AActor* Enemy : OutEnemies)
+	{
+		if (!Cast<AEnemyBase>(Enemy)->Execute_IsDead(Enemy))
+		{
+			ActiveEnemyCount ++;
+		}
+	}
+	return  ActiveEnemyCount;
+}
+
+	

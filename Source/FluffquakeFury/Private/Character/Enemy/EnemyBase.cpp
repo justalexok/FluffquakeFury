@@ -81,8 +81,6 @@ void AEnemyBase::BeginPlay()
 	{
 		PC->OnLevelFailureDelegate.AddDynamic(this,&AEnemyBase::EnemyHandleLevelFailure);
 	}	
-
-	IncrementEnemyCount();
 	
 	GetCharacterMovement()->MaxWalkSpeed = BaseWalkSpeed;
 
@@ -131,16 +129,6 @@ void AEnemyBase::InitAbilityActorInfo()
 
 }
 
-void AEnemyBase::IncrementEnemyCount()
-{
-	UFQFBlueprintFunctionLibrary::GetFQFGameMode(this)->NumEnemiesInLevel ++;
-}
-
-void AEnemyBase::DecrementEnemyCount()
-{
-	UFQFBlueprintFunctionLibrary::GetFQFGameMode(this)->NumEnemiesInLevel --;
-}
-
 void AEnemyBase::Die()
 {
 	SetLifeSpan(5.f);
@@ -149,14 +137,14 @@ void AEnemyBase::Die()
 
 	PlayAnimMontage(DeathMontage);
 
-	DecrementEnemyCount();
+	Super::Die();
 
 	//Tell GameMode to check if level is complete.
 	if (AFQFGameModeBase* GameMode = UFQFBlueprintFunctionLibrary::GetFQFGameMode(this))
 	{
 		GameMode->CheckIfLevelComplete();		
 	}	
-	Super::Die();
+
 }
 
 void AEnemyBase::RemoveInfiniteGameplayEffects()
