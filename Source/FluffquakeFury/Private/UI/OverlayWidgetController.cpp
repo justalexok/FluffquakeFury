@@ -66,6 +66,13 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 			OnLoadedFluffChanged.Broadcast(Data.NewValue);
 		});
 
+	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(
+	FQFAttributeSet->GetStrengthAttribute()).AddLambda(
+		[this](const FOnAttributeChangeData& Data)
+		{
+			OnStrengthChanged.Broadcast(Data.NewValue);
+		});
+
 	AFQFPlayerState* FQFPlayerState = CastChecked<AFQFPlayerState>(PlayerState);
 	FQFPlayerState->OnLevelChangedDelegate.AddDynamic(this,&UOverlayWidgetController::BroadcastLevelChange);
 

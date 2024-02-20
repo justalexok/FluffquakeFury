@@ -10,6 +10,7 @@
 #include "Character/Enemy/EnemyBase.h"
 #include "Game/FQFGameInstance.h"
 #include "Kismet/GameplayStatics.h"
+#include "Player/FQFPlayerState.h"
 #include "Player/PippaPlayerController.h"
 
 FFQFLevelInfo AFQFGameModeBase::GetCurrentLevelInfo()
@@ -65,7 +66,27 @@ void AFQFGameModeBase::CheckIfLevelComplete()
 
 void AFQFGameModeBase::RestartCurrentWorld()
 {
+	if (UFQFGameInstance* GameInstance = UFQFBlueprintFunctionLibrary::GetGameInstance(this))
+	{
+		//Finds the Level we started this world at and resets the player level to that level both on the playerstate and game instance.
+		int32 CurrentWorldIndex = GameInstance->GetCurrentWorldIndex();
+		int32 Index = 0;
+		for (FFQFLevelInfo Info : LevelInfo->LevelInformation)
+		{
+			if (Info.WorldIndex == CurrentWorldIndex)
+			{
+				GameInstance->SetCurrentLevel(Index);
+				
+				AFQFPlayerState* FQFPlayerState = UGameplayStatics::GetPlayerPawn(this,0)->GetPlayerState<AFQFPlayerState>();
+				check(FQFPlayerState);
+				FQFPlayerState->SetLevel(Index);
+				break;
+			}
+			Index++;
+		}
+	}
 	UGameplayStatics::OpenLevel(this,GetCurrentWorldInfo().WorldName);
+	
 }
 
 void AFQFGameModeBase::AddAnyPreviouslyGrantedAbilities()

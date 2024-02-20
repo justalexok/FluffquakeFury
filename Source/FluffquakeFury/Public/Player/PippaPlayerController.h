@@ -21,6 +21,8 @@ class UFQFInputConfig;
 class USplineComponent;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnLevelFailedSignature);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FShouldBeginLevelSignature);
+
 /**
  * 
  */
@@ -46,6 +48,12 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category = "Events")
 	FOnLevelFailedSignature OnLevelFailureDelegate;
+
+	UPROPERTY(BlueprintAssignable, Category = "Events")
+	FShouldBeginLevelSignature OnShouldBeginLevelDelegate;
+	UFUNCTION(BlueprintCallable, Category = "Events")
+	void BroadcastLevelShouldBegin() const {OnShouldBeginLevelDelegate.Broadcast();}
+	
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	bool bLevelIsRunning = false;

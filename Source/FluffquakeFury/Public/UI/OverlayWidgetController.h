@@ -40,6 +40,9 @@ public:
 	UPROPERTY(BlueprintAssignable, Category="GAS|Attributes")
 	FOnAttributeChangedSignature OnLoadedFluffChanged;
 
+	UPROPERTY(BlueprintAssignable, Category="GAS|Attributes")
+	FOnAttributeChangedSignature OnStrengthChanged;
+
 	UPROPERTY(BlueprintAssignable, Category="GameplayMechanics")
 	FOnAttributeChangedSignature OnPlayerLevelChangedDelegate;
 

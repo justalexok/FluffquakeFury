@@ -55,7 +55,7 @@ void APippaPlayerController::BeginPlay()
 		}
 		
 		SetLevelParamsFromLevelInfo(GameMode->GetCurrentLevelInfo());
-	}
+	}	
 }
 
 void APippaPlayerController::SetupInputComponent()
@@ -93,7 +93,6 @@ void APippaPlayerController::PlayerTick(float DeltaTime)
 		UE_LOG(LogTemp,Warning,TEXT("LEVEL SECONDS 0.0  - Broadcasting!!!"))
 		//Tell Widget Controller To Spawn RetryLevel Widget
 		OnLevelFailureDelegate.Broadcast();
-		bLevelIsRunning = false;
 	}
 	
 }
@@ -103,7 +102,6 @@ void APippaPlayerController::SetLevelParamsFromLevelInfo(const FFQFLevelInfo& Le
 	LevelSecondsRemaining = LevelInfo.LevelLength;
 	StartingLevelLength = LevelSecondsRemaining;
 	MinimumSurvivalLength = LevelInfo.MinimumSurvivalLength;
-	bLevelIsRunning = true;
 	HasCheckedLevelFinished = false;
 	GameMode->AddAnyPreviouslyGrantedAbilities();
 }
