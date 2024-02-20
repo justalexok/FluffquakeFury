@@ -49,7 +49,7 @@ public:
 	FOnAttributeChangedSignature OnMaxHealthChanged;
 
 
-	virtual void Die() override;
+	virtual void Die(const FVector& DeathImpulse) override;
 	void RemoveInfiniteGameplayEffects();
 
 	UPROPERTY(BlueprintReadWrite, Category = "Combat")

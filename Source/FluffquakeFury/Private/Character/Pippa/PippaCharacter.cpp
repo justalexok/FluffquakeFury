@@ -117,19 +117,10 @@ int32 APippaCharacter::GetPlayerLevel()
 	return FQFPlayerState->GetPlayerLevel();
 }
 
-void APippaCharacter::KnockbackCharacter_Implementation(float Magnitude, float Pitch, FVector Direction)
-{
-	// const FVector OppositeDirection = GetActorForwardVector() * -1.0f;
-	FRotator Rotation = Direction.Rotation();
-	Rotation.Pitch = Pitch;
-	const FVector ToTarget = Rotation.Vector();
-	const FVector KnockbackForce = ToTarget * Magnitude;
-	LaunchCharacter(KnockbackForce, true, true);
-}
 
-void APippaCharacter::Die()
+void APippaCharacter::Die(const FVector& DeathImpulse)
 {
-	Super::Die();
+	Super::Die(DeathImpulse);
 
 	UFQFBlueprintFunctionLibrary::GetFQFGameMode(this)->BroadcastPlayerDeath();
 
@@ -155,14 +146,5 @@ void APippaCharacter::PippaHandleLevelUp()
 	FQFPlayerState->AddToLevel(1);
 }
 
-void APippaCharacter::Landed(const FHitResult& Hit)
-{
-	Super::Landed(Hit);
 
-	//Activate Jump Ability
-	FGameplayTagContainer TagContainer;
-	TagContainer.AddTag(FFQFGameplayTags::Get().Abilities_Jump);
-	GetAbilitySystemComponent()->TryActivateAbilitiesByTag(TagContainer);
-
-}
 

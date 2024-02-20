@@ -9,18 +9,6 @@
 #include "Character/FQFCharacterBase.h"
 
 
-//
-// FTaggedMontage UFQFGameplayAbility::GetRandomTaggedMontage(TArray<FTaggedMontage> TaggedMontages)
-// {
-// 	if (TaggedMontages.Num() > 0)
-// 	{
-// 		const int32 RandomIndex = FMath::RandRange(0,TaggedMontages.Num()-1);
-// 		return TaggedMontages[RandomIndex];
-// 	}
-// 	
-// 	return FTaggedMontage(); 
-// }
-
 FDamageEffectParams UFQFGameplayAbility::MakeDamageEffectParamsFromClassDefaults(AActor* TargetActor) const
 {
 	FDamageEffectParams Params;
@@ -35,5 +23,16 @@ FDamageEffectParams UFQFGameplayAbility::MakeDamageEffectParamsFromClassDefaults
 	}
 	Params.AbilityLevel = GetAbilityLevel();
 	Params.DamageType = DamageType;
+	Params.DeathImpulseMagnitude = DeathImpulseMagnitude;
+	Params.KnockbackForceMagnitude = KnockbackForceMagnitude;
+	Params.KnockbackChance = KnockbackChance;
+	if (IsValid(TargetActor))
+	{
+		FRotator Rotation = (TargetActor->GetActorLocation() - GetAvatarActorFromActorInfo()->GetActorLocation()).Rotation();
+		Rotation.Pitch = 45.f;
+		const FVector ToTarget = Rotation.Vector();
+		Params.DeathImpulse = ToTarget * DeathImpulseMagnitude;
+		Params.KnockbackForce = ToTarget * KnockbackForceMagnitude;
+	}
 	return  Params;
 }

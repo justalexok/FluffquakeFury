@@ -86,7 +86,9 @@ void UFQFAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbac
 			{
 				if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(Props.TargetAvatarActor))
 				{
-					CombatInterface->Die();
+					const FVector Impulse = UFQFBlueprintFunctionLibrary::GetDeathImpulse(Props.EffectContextHandle);
+
+					CombatInterface->Die(Impulse);
 				}
 			}
 			
@@ -95,6 +97,14 @@ void UFQFAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbac
 				FGameplayTagContainer TagContainer;
 				TagContainer.AddTag(FFQFGameplayTags::Get().Effects_HitReact);
 				Props.TargetASC->TryActivateAbilitiesByTag(TagContainer); //Try and activate an Ability with the hit react tag
+
+				const bool bKnockback = FMath::RandRange(1,100) < UFQFBlueprintFunctionLibrary::GetKnockbackChance(Props.EffectContextHandle);				
+				const FVector& KnockbackForce = UFQFBlueprintFunctionLibrary::GetKnockbackForce(Props.EffectContextHandle);
+				if (bKnockback & !KnockbackForce.IsNearlyZero(1.f))
+				{
+					Props.TargetCharacter->LaunchCharacter(KnockbackForce, true, true);
+				}
+				
 			}
 			if (DamageType == FFQFGameplayTags::Get().DamageType_Fluff)
 			{

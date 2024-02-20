@@ -129,7 +129,7 @@ void AEnemyBase::InitAbilityActorInfo()
 
 }
 
-void AEnemyBase::Die()
+void AEnemyBase::Die(const FVector& DeathImpulse)
 {
 	SetLifeSpan(5.f);
 	FQFAIController->GetBlackboardComponent()->SetValueAsBool(FName("IsDead"), true);
@@ -137,7 +137,11 @@ void AEnemyBase::Die()
 
 	PlayAnimMontage(DeathMontage);
 
-	Super::Die();
+	Super::Die(DeathImpulse);
+
+	Weapon->AddImpulse(DeathImpulse * 0.1f, NAME_None, true);
+	GetMesh()->AddImpulse(DeathImpulse, NAME_None, true);
+
 
 	//Tell GameMode to check if level is complete.
 	if (AFQFGameModeBase* GameMode = UFQFBlueprintFunctionLibrary::GetFQFGameMode(this))

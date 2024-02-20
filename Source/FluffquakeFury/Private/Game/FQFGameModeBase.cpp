@@ -66,24 +66,25 @@ void AFQFGameModeBase::CheckIfLevelComplete()
 
 void AFQFGameModeBase::RestartCurrentWorld()
 {
-	if (UFQFGameInstance* GameInstance = UFQFBlueprintFunctionLibrary::GetGameInstance(this))
+	UFQFGameInstance* GameInstance = UFQFBlueprintFunctionLibrary::GetGameInstance(this);
+	if (GameInstance == nullptr) return;
+	
+	//Finds the Level we started this world at and resets the player level to that level both on the playerstate and game instance.
+	int32 CurrentWorldIndex = GameInstance->GetCurrentWorldIndex();
+	int32 Index = 0;
+	for (FFQFLevelInfo Info : LevelInfo->LevelInformation)
 	{
-		//Finds the Level we started this world at and resets the player level to that level both on the playerstate and game instance.
-		int32 CurrentWorldIndex = GameInstance->GetCurrentWorldIndex();
-		int32 Index = 0;
-		for (FFQFLevelInfo Info : LevelInfo->LevelInformation)
+		if (Info.WorldIndex == CurrentWorldIndex)
 		{
-			if (Info.WorldIndex == CurrentWorldIndex)
-			{
-				GameInstance->SetCurrentLevel(Index);
-				
-				AFQFPlayerState* FQFPlayerState = UGameplayStatics::GetPlayerPawn(this,0)->GetPlayerState<AFQFPlayerState>();
-				check(FQFPlayerState);
-				FQFPlayerState->SetLevel(Index);
-				break;
-			}
-			Index++;
+			GameInstance->SetCurrentLevel(Index);
+			
+			AFQFPlayerState* FQFPlayerState = UGameplayStatics::GetPlayerPawn(this,0)->GetPlayerState<AFQFPlayerState>();
+			check(FQFPlayerState);
+			FQFPlayerState->SetLevel(Index);
+			break;
 		}
+		Index++;
+		
 	}
 	UGameplayStatics::OpenLevel(this,GetCurrentWorldInfo().WorldName);
 	

@@ -22,7 +22,14 @@ public:
 	TSharedPtr<FGameplayTag> GetDamageType() const { return DamageType; }
 	void SetDamageType(TSharedPtr<FGameplayTag> InDamageType) { DamageType = InDamageType; }
 
-	
+	FVector GetDeathImpulse() const { return DeathImpulse; }
+	FVector GetKnockbackForce() const { return KnockbackForce; }
+	float GetKnockbackChance() const { return KnockbackChance; }
+
+	void SetDeathImpulse(const FVector& InImpulse) { DeathImpulse = InImpulse; }
+	void SetKnockbackForce(const FVector& InForce) { KnockbackForce = InForce; }
+	void SetKnockbackChance(const float InChance) { KnockbackChance = InChance; }
+
 	/** Returns the actual struct used for serialization, subclasses must override this! */
 	virtual UScriptStruct* GetScriptStruct() const
 	{
@@ -55,6 +62,17 @@ protected:
 	bool bHasPillowExploded = false;
 	
 	TSharedPtr<FGameplayTag> DamageType;
+	
+	
+	UPROPERTY()
+	FVector DeathImpulse = FVector::ZeroVector;
+
+	UPROPERTY()
+	FVector KnockbackForce = FVector::ZeroVector;
+
+	UPROPERTY()
+	float KnockbackChance = 0;
+	
 };
 	template<>
 	struct TStructOpsTypeTraits<FFQFGameplayEffectContext> : public TStructOpsTypeTraitsBase2<FFQFGameplayEffectContext>
@@ -93,6 +111,29 @@ struct FDamageEffectParams
 
 	UPROPERTY()
 	float AbilityLevel = 1.f;
+
+	UPROPERTY(BlueprintReadWrite)
+	float DeathImpulseMagnitude = 0.f;
+
+	UPROPERTY(BlueprintReadWrite)
+	FVector DeathImpulse = FVector::ZeroVector;
+
+	UPROPERTY(BlueprintReadWrite)
+	float KnockbackForceMagnitude = 0.f;
+	
+	UPROPERTY(BlueprintReadWrite)
+	FVector KnockbackForce = FVector::ZeroVector;
+
+	UPROPERTY(BlueprintReadWrite)
+	float KnockbackChance = 0.f;
+
+
+	// UPROPERTY()
+	// bool bIsRadialDamage = false;
+	//
+	// UPROPERTY()
+	// float DistanceToTarget = 0.f;
+	
 
 	UPROPERTY()
 	FGameplayTag DamageType = FGameplayTag();

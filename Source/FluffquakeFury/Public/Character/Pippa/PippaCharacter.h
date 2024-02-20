@@ -30,8 +30,7 @@ public:
 
 	//CombatInterface
 	virtual int32 GetPlayerLevel() override;
-	virtual void KnockbackCharacter_Implementation(float Magnitude, float Pitch, FVector Direction) override;
-	virtual void Die() override;
+	virtual void Die(const FVector& DeathImpulse) override;
 
 	UFUNCTION()
 	void PippaHandleLevelUp();

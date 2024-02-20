@@ -7,8 +7,7 @@
 #include "AbilitySystem/FQFBlueprintFunctionLibrary.h"
 #include "Components/AudioComponent.h"
 #include "Components/CapsuleComponent.h"
-#include "Kismet/GameplayStatics.h"
-#include "Player/PippaPlayerController.h"
+
 
 // Sets default values
 AFQFCharacterBase::AFQFCharacterBase()
@@ -61,7 +60,7 @@ void AFQFCharacterBase::HandleDeath()
 	OnDeathDelegate.Broadcast(this); //Currently nobody listening
 
 }
-void AFQFCharacterBase::Die()
+void AFQFCharacterBase::Die(const FVector& DeathImpulse)
 {
 	Weapon->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
 	HandleDeath();
@@ -105,6 +104,16 @@ FVector AFQFCharacterBase::GetActorHaloPoint_Implementation()
 void AFQFCharacterBase::SetWeaponVisibility_Implementation(bool bVisible)
 {	
 	Weapon->SetVisibility(bVisible);
+}
+
+void AFQFCharacterBase::KnockbackCharacter_Implementation(float Magnitude, float Pitch, FVector Direction)
+{
+	// const FVector OppositeDirection = GetActorForwardVector() * -1.0f;
+	FRotator Rotation = Direction.Rotation();
+	Rotation.Pitch = Pitch;
+	const FVector ToTarget = Rotation.Vector();
+	const FVector KnockbackForce = ToTarget * Magnitude;
+	LaunchCharacter(KnockbackForce, true, true);
 }
 
 FVector AFQFCharacterBase::GetCombatSocketLocation_Implementation(const FGameplayTag& SpecificAbilityTag)

@@ -34,7 +34,7 @@ public:
 	virtual bool IsDead_Implementation() const override;
 	virtual AActor* GetAvatar_Implementation() override;
 	virtual UAnimMontage* GetHitReactMontage_Implementation() override;
-	virtual void Die() override;
+	virtual void Die(const FVector& DeathImpulse) override;
 	virtual void SetMaxWalkSpeed_Implementation(bool bShouldImmobiliseCharacter) override;
 	virtual FOnDeathSignature& GetOnDeathDelegate() override;
 	virtual void ResetRecentlyReceivedDamageType_Implementation() override;
@@ -42,6 +42,7 @@ public:
 	virtual FVector GetActorGroundPoint_Implementation() override;
 	virtual FVector GetActorHaloPoint_Implementation() override;
 	virtual void SetWeaponVisibility_Implementation(bool bVisible) override;
+	virtual void KnockbackCharacter_Implementation(float Magnitude, float Pitch, FVector Direction) override;
 	
 
 	

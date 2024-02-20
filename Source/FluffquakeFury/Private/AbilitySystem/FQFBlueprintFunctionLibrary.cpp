@@ -214,8 +214,10 @@ FGameplayEffectContextHandle UFQFBlueprintFunctionLibrary::ApplyDamageEffect(
 	if (IsTargetImmuneToDamageType(TargetAvatarActor, DamageEffectParams.DamageType)) return FGameplayEffectContextHandle();
 
 	FGameplayEffectContextHandle EffectContextHandle = DamageEffectParams.SourceAbilitySystemComponent->MakeEffectContext();
-	// EffectContextHandle.SetAbility(DamageEffectParams.)
 	EffectContextHandle.AddSourceObject(SourceAvatarActor);
+	SetDeathImpulse(EffectContextHandle, DamageEffectParams.DeathImpulse);
+	SetKnockbackForce(EffectContextHandle, DamageEffectParams.KnockbackForce);
+	SetKnockbackChance(EffectContextHandle, DamageEffectParams.KnockbackChance);
 	const FGameplayEffectSpecHandle SpecHandle = DamageEffectParams.SourceAbilitySystemComponent->MakeOutgoingSpec(DamageEffectParams.DamageGameplayEffectClass, DamageEffectParams.AbilityLevel, EffectContextHandle);
 
 	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, DamageEffectParams.DamageType, DamageEffectParams.BaseDamage);
@@ -288,6 +290,59 @@ UFQFGameInstance* UFQFBlueprintFunctionLibrary::GetGameInstance(const UObject* W
 	UFQFGameInstance* GameInstance = Cast<UFQFGameInstance>(UGameplayStatics::GetGameInstance(WorldContextObject));
 
 	return GameInstance;
+}
+
+FVector UFQFBlueprintFunctionLibrary::GetDeathImpulse(const FGameplayEffectContextHandle& EffectContextHandle)
+{
+	if (const FFQFGameplayEffectContext* FQFEffectContext = static_cast<const FFQFGameplayEffectContext*>(EffectContextHandle.Get()))
+	{
+		return FQFEffectContext->GetDeathImpulse();
+	}
+	return FVector::ZeroVector;
+}
+
+FVector UFQFBlueprintFunctionLibrary::GetKnockbackForce(const FGameplayEffectContextHandle& EffectContextHandle)
+{
+	if (const FFQFGameplayEffectContext* FQFEffectContext = static_cast<const FFQFGameplayEffectContext*>(EffectContextHandle.Get()))
+	{
+		return FQFEffectContext->GetKnockbackForce();
+	}
+	return FVector::ZeroVector;
+}
+float UFQFBlueprintFunctionLibrary::GetKnockbackChance(const FGameplayEffectContextHandle& EffectContextHandle)
+{
+	if (const FFQFGameplayEffectContext* FQFEffectContext = static_cast<const FFQFGameplayEffectContext*>(EffectContextHandle.Get()))
+	{
+		return FQFEffectContext->GetKnockbackChance();
+	}
+	return 0.f;
+}
+
+void UFQFBlueprintFunctionLibrary::SetDeathImpulse(FGameplayEffectContextHandle& EffectContextHandle,
+	const FVector& InImpulse)
+{
+	if (FFQFGameplayEffectContext* FQFEffectContext = static_cast<FFQFGameplayEffectContext*>(EffectContextHandle.Get()))
+	{
+		FQFEffectContext->SetDeathImpulse(InImpulse);
+	}
+}
+
+void UFQFBlueprintFunctionLibrary::SetKnockbackForce(FGameplayEffectContextHandle& EffectContextHandle,
+	const FVector& InForce)
+{
+	if (FFQFGameplayEffectContext* FQFEffectContext = static_cast<FFQFGameplayEffectContext*>(EffectContextHandle.Get()))
+	{
+		FQFEffectContext->SetKnockbackForce(InForce);
+	}
+}
+
+void UFQFBlueprintFunctionLibrary::SetKnockbackChance(FGameplayEffectContextHandle& EffectContextHandle,
+	const float InChance)
+{
+	if (FFQFGameplayEffectContext* FQFEffectContext = static_cast<FFQFGameplayEffectContext*>(EffectContextHandle.Get()))
+	{
+		FQFEffectContext->SetKnockbackChance(InChance);
+	}
 }
 
 
