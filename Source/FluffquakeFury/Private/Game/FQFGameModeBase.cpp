@@ -31,7 +31,7 @@ FFQFLevelInfo AFQFGameModeBase::GetCurrentLevelInfo()
 FFQFWorldInfoNew AFQFGameModeBase::GetCurrentWorldInfo()
 {
 
-	if (UFQFGameInstance* GameInstance = UFQFBlueprintFunctionLibrary::GetGameInstance(this))
+	if (const UFQFGameInstance* GameInstance = UFQFBlueprintFunctionLibrary::GetGameInstance(this))
 	{
 		if (WorldInfo->WorldInformation.Num() <= GameInstance->CurrentWorldIndex)
 		{
@@ -39,30 +39,24 @@ FFQFWorldInfoNew AFQFGameModeBase::GetCurrentWorldInfo()
 			return FFQFWorldInfoNew();
 
 		}
-	
-		FFQFWorldInfoNew CurrentWorldInfo = WorldInfo->WorldInformation[GameInstance->CurrentWorldIndex];
-		return CurrentWorldInfo;
-		
-	}
-	
+
+		const FFQFWorldInfoNew CurrentWorldInfo = WorldInfo->WorldInformation[GameInstance->CurrentWorldIndex];
+		return CurrentWorldInfo;		
+	}	
 	return FFQFWorldInfoNew();
 }
 
 void AFQFGameModeBase::CheckIfLevelComplete()
 {
-	
-
-	NumEnemiesInLevel = CountActiveEnemiesInWorldForLevelIndex(GetCurrentLevelInfo().LevelIndex);
+	NumEnemiesInLevel = CountActiveEnemiesInWorldForLevelIndex(GetCurrentLevelInfo().LevelIndexInWorld);
 	UE_LOG(LogTemp,Warning,TEXT("Number of Enemies in World: %d"),NumEnemiesInLevel);
 
-	APippaPlayerController* PlayerController = CastChecked<APippaPlayerController>(GetWorld()->GetFirstPlayerController());
+	const APippaPlayerController* PlayerController = CastChecked<APippaPlayerController>(GetWorld()->GetFirstPlayerController());
 
 	//Must be 0 enemies and have made it past the minimum survival length
 	if (NumEnemiesInLevel == 0 && PlayerController->LevelSecondsRemaining < (GetCurrentLevelInfo().LevelLength - GetCurrentLevelInfo().MinimumSurvivalLength))
 	{
 		UE_LOG(LogTemp,Warning,TEXT("LEVEL COMPLETE!"))
-		// OnLevelCanBeCompletedDelegate.Broadcast();
-
 		OnLevelCompletionDelegate.Broadcast();
 	}
 
@@ -78,18 +72,20 @@ void AFQFGameModeBase::AddAnyPreviouslyGrantedAbilities()
 {
 	TArray<TSubclassOf<UGameplayAbility>> PreviouslyGrantedAbilities;
 
-	// Loops through Level info, if same level as current level, then breaks out of loop, otherwise adds ability granted on completion to Tarray
+	// Loops through Level info up till index of current level, adding any abilities granted on completion to Tarray
 	//at end of loop, add those abilities.
 
-	for (FFQFLevelInfo Info : LevelInfo->LevelInformation)
+	PippaCharacterBase = Cast<AFQFCharacterBase>(UGameplayStatics::GetPlayerPawn(this,0));
+	if (PippaCharacterBase)
 	{
-		if (Info.LevelIndex == GetCurrentLevelInfo().LevelIndex)
+		const int32 CurrentLevel = PippaCharacterBase->GetPlayerLevel();
+		for (int32 Index = 0; Index <= CurrentLevel && Index < LevelInfo->LevelInformation.Num(); ++Index)
 		{
-			break;
+			FFQFLevelInfo& Info = LevelInfo->LevelInformation[Index];
+			PreviouslyGrantedAbilities.Add(Info.AbilityGrantedOnCompletion);
 		}
-		PreviouslyGrantedAbilities.Add(Info.AbilityGrantedOnCompletion);
 	}
-
+	
 	if (UFQFAbilitySystemComponent* PippaASC = Cast<UFQFAbilitySystemComponent>(PippaCharacterBase->GetAbilitySystemComponent()))
 	{
 		for (const TSubclassOf<UGameplayAbility> Ability : PreviouslyGrantedAbilities)
@@ -127,6 +123,11 @@ int32 AFQFGameModeBase::CountActiveEnemiesInWorldForLevelIndex(int32 Level)
 		}
 	}
 	return  ActiveEnemyCount;
+}
+
+int32 AFQFGameModeBase::CountNumLevelsInCurrentWorld()
+{
+	return LevelInfo->CountLevelsInWorld(GetCurrentLevelInfo().WorldIndex);
 }
 
 	

@@ -83,6 +83,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void AddAnyPreviouslyGrantedAbilities();
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION()
 	int32 CountActiveEnemiesInWorldForLevelIndex(int32 Level);
+
+	UFUNCTION(BlueprintCallable)
+	int32 CountNumLevelsInCurrentWorld();
 };

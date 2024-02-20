@@ -13,7 +13,10 @@ struct FFQFLevelInfo
 	GENERATED_BODY()
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	int32 LevelIndex = 1;
+	int32 LevelIndexInWorld = 0;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	int32 WorldIndex = 0;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	int32 LevelLength = 60;
@@ -39,5 +42,6 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TArray<FFQFLevelInfo> LevelInformation;
 
+	int32 CountLevelsInWorld(int32 WorldIndex);
 
 };

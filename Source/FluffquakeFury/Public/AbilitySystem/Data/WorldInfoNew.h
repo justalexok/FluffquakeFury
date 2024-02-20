@@ -13,8 +13,8 @@ struct FFQFWorldInfoNew
 	GENERATED_BODY()
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	int32 WorldIndex = 1;
-
+	int32 WorldIndex = 0;
+	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	FName WorldName = FName();
 
@@ -36,4 +36,5 @@ class FLUFFQUAKEFURY_API UWorldInfoNew : public UDataAsset
 public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TArray<FFQFWorldInfoNew> WorldInformation;
+
 };
