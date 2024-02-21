@@ -12,6 +12,7 @@ class UAnimMontage;
 class UAbilitySystemComponent;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnDeathSignature, AActor*, DeadActor);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnDamageSignature, float /*DamageAmount*/);
 
 
 // This class does not need to be modified.
@@ -20,27 +21,6 @@ class UCombatInterface : public UInterface
 {
 	GENERATED_BODY()
 };
-
-/**
- * 
- */
-// USTRUCT(BlueprintType)
-// struct FTaggedMontage
-// {
-// 	GENERATED_BODY()
-//
-// 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-// 	UAnimMontage* AnimMontage = nullptr;
-// 	
-// 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-// 	FGameplayTag MontageTag;
-//
-// 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-// 	FGameplayTag SocketTag;
-// 	
-// 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-// 	USoundBase* ImpactSound = nullptr;
-// };
 
 
 class FLUFFQUAKEFURY_API ICombatInterface
@@ -84,6 +64,9 @@ public:
 	void SetMaxWalkSpeed(bool bShouldImmobiliseCharacter);
 
 	virtual FOnDeathSignature& GetOnDeathDelegate() = 0;
+	virtual FOnDamageSignature& GetOnDamageSignature() = 0; 
+
+	
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	UAnimInstance* GetAnimInstance();

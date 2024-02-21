@@ -35,7 +35,6 @@ public:
 	UFUNCTION()
 	void PippaHandleLevelUp();
 
-	virtual void Landed(const FHitResult& Hit) override;
 private:
 	virtual void InitAbilityActorInfo() override;
 

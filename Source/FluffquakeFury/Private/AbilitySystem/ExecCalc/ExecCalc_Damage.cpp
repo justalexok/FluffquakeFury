@@ -7,6 +7,8 @@
 #include "FQFGameplayTags.h"
 #include "AbilitySystem/FQFAttributeSet.h"
 #include "AbilitySystem/FQFBlueprintFunctionLibrary.h"
+#include "Interaction/CombatInterface.h"
+#include "Kismet/GameplayStatics.h"
 
 struct FQFDamageStatics
 {
@@ -44,8 +46,8 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	const UAbilitySystemComponent* SourceASC = ExecutionParams.GetSourceAbilitySystemComponent();
 	const UAbilitySystemComponent* TargetASC = ExecutionParams.GetTargetAbilitySystemComponent();
 
-	const AActor* SourceAvatar = SourceASC ? SourceASC->GetAvatarActor() : nullptr;
-	const AActor* TargetAvatar = TargetASC ? TargetASC->GetAvatarActor() : nullptr;
+	AActor* SourceAvatar = SourceASC ? SourceASC->GetAvatarActor() : nullptr;
+	AActor* TargetAvatar = TargetASC ? TargetASC->GetAvatarActor() : nullptr;
 
 	const FGameplayEffectSpec& Spec = ExecutionParams.GetOwningSpec();
 
@@ -107,6 +109,18 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	}	
 	
 	Damage = bBlocked ? Damage / 2.f : Damage;
+ 
+	if (UFQFBlueprintFunctionLibrary::IsRadialDamage(EffectContextHandle))
+	{
+		//Get distance from Source to Target. Multiply by Base Damage 
+
+		FVector TargetLocation = TargetAvatar->GetActorLocation();		
+		FVector Origin = UFQFBlueprintFunctionLibrary::GetRadialDamageOrigin(EffectContextHandle);
+		float OriginToTargetDistance = FVector::Distance(Origin,TargetLocation);
+		//Closer to Target, more damage done.
+		Damage = Damage / OriginToTargetDistance;
+
+	}
 	
 	Damage = round(Damage);
 	

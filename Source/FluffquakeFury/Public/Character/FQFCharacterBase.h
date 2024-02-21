@@ -28,6 +28,8 @@ public:
 
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override {return AbilitySystemComponent; }
 	UAttributeSet* GetAttributeSet() const { return AttributeSet; }
+
+	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 	
 	//Combat Interface
 	virtual FVector GetCombatSocketLocation_Implementation(const FGameplayTag& SpecificAbilityTag) override;
@@ -43,13 +45,16 @@ public:
 	virtual FVector GetActorHaloPoint_Implementation() override;
 	virtual void SetWeaponVisibility_Implementation(bool bVisible) override;
 	virtual void KnockbackCharacter_Implementation(float Magnitude, float Pitch, FVector Direction) override;
-	
+	virtual FOnDamageSignature& GetOnDamageSignature() override;
 
 	
 	UFUNCTION()
 	void HandleDeath();
 
 	FOnDeathSignature OnDeathDelegate;
+
+	FOnDamageSignature OnDamageDelegate;
+
 
 	UPROPERTY(EditDefaultsOnly, Category="Combat")
 	TSubclassOf<APillowBase> PillowClass;

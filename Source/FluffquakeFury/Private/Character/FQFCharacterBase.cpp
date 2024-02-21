@@ -116,6 +116,21 @@ void AFQFCharacterBase::KnockbackCharacter_Implementation(float Magnitude, float
 	LaunchCharacter(KnockbackForce, true, true);
 }
 
+FOnDamageSignature& AFQFCharacterBase::GetOnDamageSignature()
+{
+	return OnDamageDelegate;
+}
+
+
+
+float AFQFCharacterBase::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator,
+                                    AActor* DamageCauser)
+{
+	const float DamageTaken = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+	OnDamageDelegate.Broadcast(DamageTaken);
+	return DamageTaken;
+}
+
 FVector AFQFCharacterBase::GetCombatSocketLocation_Implementation(const FGameplayTag& SpecificAbilityTag)
 {
 
