@@ -37,7 +37,6 @@ FDamageEffectParams UFQFGameplayAbility::MakeDamageEffectParamsFromClassDefaults
 		Rotation.Pitch = 45.f;
 		const FVector ToTarget = Rotation.Vector();
 		Params.DeathImpulse = ToTarget * DeathImpulseMagnitude;
-		// Params.KnockbackForce = ToTarget * KnockbackForceMagnitude;
 		Params.KnockbackForce = bIsRadialDamage ? ToTarget * KnockbackForceMagnitude * Params.BaseDamage/500: ToTarget * KnockbackForceMagnitude;
 
 	}
