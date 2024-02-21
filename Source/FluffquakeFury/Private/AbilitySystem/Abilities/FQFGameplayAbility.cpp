@@ -37,11 +37,14 @@ FDamageEffectParams UFQFGameplayAbility::MakeDamageEffectParamsFromClassDefaults
 		Rotation.Pitch = 45.f;
 		const FVector ToTarget = Rotation.Vector();
 		Params.DeathImpulse = ToTarget * DeathImpulseMagnitude;
-		Params.KnockbackForce = ToTarget * KnockbackForceMagnitude;
+		// Params.KnockbackForce = ToTarget * KnockbackForceMagnitude;
+		Params.KnockbackForce = bIsRadialDamage ? ToTarget * KnockbackForceMagnitude * Params.BaseDamage/500: ToTarget * KnockbackForceMagnitude;
+
 	}
 	if (bIsRadialDamage)
 	{
 		Params.bIsRadialDamage = bIsRadialDamage;
+		UE_LOG(LogTemp,Warning, TEXT("Knockback Magnitude = %f, Params.BaseDamage = %f"), KnockbackForceMagnitude, Params.BaseDamage);
 		Params.RadialDamageOrigin = InRadialDamageOrigin;
 		Params.RadialDamageInnerRadius = RadialDamageInnerRadius;
 		Params.RadialDamageOuterRadius = RadialDamageOuterRadius;

@@ -7,8 +7,7 @@
 #include "FQFGameplayTags.h"
 #include "AbilitySystem/FQFAttributeSet.h"
 #include "AbilitySystem/FQFBlueprintFunctionLibrary.h"
-#include "Interaction/CombatInterface.h"
-#include "Kismet/GameplayStatics.h"
+
 
 struct FQFDamageStatics
 {
@@ -118,7 +117,7 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 		FVector Origin = UFQFBlueprintFunctionLibrary::GetRadialDamageOrigin(EffectContextHandle);
 		float OriginToTargetDistance = FVector::Distance(Origin,TargetLocation);
 		//Closer to Target, more damage done.
-		Damage = Damage / OriginToTargetDistance;
+		Damage = Damage * 5 / OriginToTargetDistance;
 
 	}
 	

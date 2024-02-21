@@ -70,7 +70,8 @@ void UFQFAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbac
 			return;
 		}
 		FGameplayTag DamageType = UFQFBlueprintFunctionLibrary::GetDamageType(Props.EffectContextHandle);
-		
+		FFQFGameplayTags GameplayTags = FFQFGameplayTags::Get();
+
 		const float LocalIncomingDamage = GetIncomingDamage();
 		SetIncomingDamage(0.f);
 
@@ -80,6 +81,7 @@ void UFQFAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbac
 			SetHealth(FMath::Clamp(NewHealth, 0.f, GetMaxHealth()));
 			UE_LOG(LogTemp,Warning,TEXT("Incoming Damage on %s, Damage: %f, New Health %f"), *Props.TargetAvatarActor->GetName(),LocalIncomingDamage, GetHealth());
 
+			
 			const bool bFatal = GetHealth() <= 0.f;
 			const bool bBlocked = UFQFBlueprintFunctionLibrary::IsBlockedHit(Props.EffectContextHandle);
 			if (bFatal)
@@ -95,7 +97,7 @@ void UFQFAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbac
 			else if (!bBlocked)
 			{
 				FGameplayTagContainer TagContainer;
-				TagContainer.AddTag(FFQFGameplayTags::Get().Effects_HitReact);
+				TagContainer.AddTag(GameplayTags.Effects_HitReact);
 				Props.TargetASC->TryActivateAbilitiesByTag(TagContainer); //Try and activate an Ability with the hit react tag
 
 				const bool bKnockback = FMath::RandRange(1,100) < UFQFBlueprintFunctionLibrary::GetKnockbackChance(Props.EffectContextHandle);				
@@ -106,21 +108,21 @@ void UFQFAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbac
 				}
 				
 			}
-			if (DamageType == FFQFGameplayTags::Get().DamageType_Fluff)
+			if (DamageType == GameplayTags.DamageType_Fluff)
 			{
 				SetFluffLost(Props, LocalIncomingDamage);			
 				SpawnNiagara(Props.SourceCharacter, false, LocalIncomingDamage);
-			}
+			}	
 				
 			ShowFloatingText(Props, LocalIncomingDamage, bBlocked, false, bFatal);
 			
 
 			
 		}
-		if (DamageType == FFQFGameplayTags::Get().DamageType_Fluff && UFQFBlueprintFunctionLibrary::HasPillowExploded(Props.EffectContextHandle))
+		if (DamageType == GameplayTags.DamageType_Fluff && UFQFBlueprintFunctionLibrary::HasPillowExploded(Props.EffectContextHandle))
 		{
 			FGameplayTagContainer TagContainer;
-			TagContainer.AddTag(FFQFGameplayTags::Get().Effects_HitReact);
+			TagContainer.AddTag(GameplayTags.Effects_HitReact);
 			Props.SourceASC->TryActivateAbilitiesByTag(TagContainer);
 			
 			HandleExplosion(Props,LocalIncomingDamage);
@@ -240,12 +242,14 @@ void UFQFAttributeSet::SetFluffLost(const FEffectProperties& Props, float LocalI
 {
 	if (UFQFAttributeSet* SourceAS = UFQFBlueprintFunctionLibrary::GetAttributeSet(Props.SourceAvatarActor))
 	{
-		float DamageToFluffLostCoeff = 0.1;
+		float DamageToFluffLostCoeff = 0.25;
 		const float FluffLost = LocalIncomingDamage * DamageToFluffLostCoeff;
 		SourceAS->SetFluff(SourceAS->GetFluff() - FluffLost);
 		SourceAS->SetLoadedFluff(SourceAS->GetLoadedFluff() - FluffLost);
 	}
 }
+
+
 
 void UFQFAttributeSet::OnRep_Health(const FGameplayAttributeData& OldHealth) const
 {
