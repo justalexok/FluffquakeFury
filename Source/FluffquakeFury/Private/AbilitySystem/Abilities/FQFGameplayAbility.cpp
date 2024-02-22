@@ -22,8 +22,7 @@ FDamageEffectParams UFQFGameplayAbility::MakeDamageEffectParamsFromClassDefaults
 
 	if (const UFQFAttributeSet* AttributeSet = UFQFBlueprintFunctionLibrary::GetAttributeSet(this))
 	{
-		
-
+	
 		Params.ExplosionChance = ExplosionChance.GetValueAtLevel(AttributeSet->GetLoadedFluff());
 		if (DamageType == FFQFGameplayTags::Get().DamageType_Physical)
 		{
