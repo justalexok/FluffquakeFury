@@ -18,14 +18,23 @@ FDamageEffectParams UFQFGameplayAbility::MakeDamageEffectParamsFromClassDefaults
 	Params.SourceAbilitySystemComponent = GetAbilitySystemComponentFromActorInfo();
 	Params.TargetAbilitySystemComponent = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor);
 	Params.BaseDamage = Damage.GetValueAtLevel(GetAbilityLevel());
+	UE_LOG(LogTemp,Warning, TEXT("Damage At Ability Level: %f"),Params.BaseDamage);
+
 	if (const UFQFAttributeSet* AttributeSet = UFQFBlueprintFunctionLibrary::GetAttributeSet(this))
 	{
+		
+
 		Params.ExplosionChance = ExplosionChance.GetValueAtLevel(AttributeSet->GetLoadedFluff());
 		if (DamageType == FFQFGameplayTags::Get().DamageType_Physical)
 		{
-			Params.BaseDamage += Damage.GetValueAtLevel(AttributeSet->GetStrength());
+			Params.BaseDamage += Damage.GetValueAtLevel(AttributeSet->GetStrength()); //Strength will be 0 for enemies so this adds 0. Variable for pippa. 
+		}
+		if (DamageType == FFQFGameplayTags::Get().DamageType_Fluff)
+		{
+			Params.BaseDamage *= LoadedFluffCoefficient.GetValueAtLevel(AttributeSet->GetLoadedFluff());
 		}
 	}
+	UE_LOG(LogTemp,Warning, TEXT("Damage After Adjustments in Gameplay Ability : %f"),Params.BaseDamage);
 	Params.AbilityLevel = GetAbilityLevel();
 	Params.DamageType = DamageType;
 	Params.DeathImpulseMagnitude = DeathImpulseMagnitude;

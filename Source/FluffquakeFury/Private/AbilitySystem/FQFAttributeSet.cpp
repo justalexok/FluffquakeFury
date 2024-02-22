@@ -73,6 +73,8 @@ void UFQFAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbac
 		FFQFGameplayTags GameplayTags = FFQFGameplayTags::Get();
 
 		const float LocalIncomingDamage = GetIncomingDamage();
+		UE_LOG(LogTemp,Warning, TEXT("LocalIncomingDamage: %f"),LocalIncomingDamage);
+
 		SetIncomingDamage(0.f);
 
 		if (LocalIncomingDamage > 0.f)
@@ -111,7 +113,7 @@ void UFQFAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbac
 			if (DamageType == GameplayTags.DamageType_Fluff)
 			{
 				SetFluffLost(Props, LocalIncomingDamage);			
-				SpawnNiagara(Props.SourceCharacter, false, LocalIncomingDamage);
+				SpawnNiagara(Props.SourceCharacter, LocalIncomingDamage);
 			}	
 				
 			ShowFloatingText(Props, LocalIncomingDamage, bBlocked, false, bFatal);
@@ -194,16 +196,14 @@ void UFQFAttributeSet::ShowFloatingText(const FEffectProperties& Props, float Da
 	}
 }
 
-void UFQFAttributeSet::SpawnNiagara(ACharacter* SourceCharacter, bool bPillowExploded, float Damage) const
+void UFQFAttributeSet::SpawnNiagara(ACharacter* SourceCharacter, float Damage) const
 {
 	if (AFQFCharacterBase* FQFCharacterBase = Cast<AFQFCharacterBase>(SourceCharacter))
-	{
+	{		
 		const FVector SpawnLocation = FQFCharacterBase->GetCombatSocketLocation_Implementation(FFQFGameplayTags::Get().Abilities_PillowWhack);
 		// DrawDebugSphere(GetWorld(),SpawnLocation,12,64,FColor::Red,false,20);
 		
-		TObjectPtr<UNiagaraSystem> Effect;
-		if (bPillowExploded) Effect = FQFCharacterBase->Pillow->ExplosionEffect;
-		else Effect = FQFCharacterBase->Pillow->DynamicImpactEffect;
+		TObjectPtr<UNiagaraSystem> Effect = FQFCharacterBase->Pillow->DynamicImpactEffect;
 
 		const float ScaledSpawnRate = FQFCharacterBase->Pillow->SpawnRate.GetValueAtLevel(Damage);
 		const FLinearColor FluffColor = FQFCharacterBase->Pillow->FluffColor;
@@ -217,7 +217,6 @@ void UFQFAttributeSet::SpawnNiagara(ACharacter* SourceCharacter, bool bPillowExp
 
 void UFQFAttributeSet::HandleExplosion(const FEffectProperties& Props, float LocalIncomingDamage) const
 {
-	SpawnNiagara(Props.SourceCharacter, true, 100);
 	
 
 	if (UFQFAttributeSet* SourceAS = UFQFBlueprintFunctionLibrary::GetAttributeSet(Props.SourceAvatarActor))
@@ -230,6 +229,7 @@ void UFQFAttributeSet::HandleExplosion(const FEffectProperties& Props, float Loc
 	ShowFloatingText(Props, LocalIncomingDamage, false, true, false);
 	if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(Props.SourceCharacter))
 	{
+		CombatInterface->Execute_ExplodePillow(Props.SourceCharacter);
 		CombatInterface->Execute_SetWeaponVisibility(Props.SourceCharacter,false);
 		CombatInterface->Execute_KnockbackCharacter(Props.SourceCharacter, 800,25,Props.SourceCharacter->GetActorForwardVector() * -1);
 		FGameplayTagContainer TagContainer;

@@ -31,6 +31,7 @@ public:
 	//CombatInterface
 	virtual int32 GetPlayerLevel() override;
 	virtual void Die(const FVector& DeathImpulse) override;
+	virtual void ExplodePillow_Implementation() override;
 
 	UFUNCTION()
 	void PippaHandleLevelUp();

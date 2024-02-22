@@ -134,7 +134,7 @@ public:
 private:
 	static void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Props);
 	static void ShowFloatingText(const FEffectProperties& Props, float Damage, bool bBlockedHit, bool bPillowExploded, bool bFatalHit);
-	void SpawnNiagara(ACharacter* SourceCharacter, bool bPillowExploded, float Damage) const;
+	void SpawnNiagara(ACharacter* SourceCharacter, float Damage) const;
 	void HandleExplosion(const FEffectProperties& Props, float LocalIncomingDamage) const;
 	void SetFluffLost(const FEffectProperties& Props, float LocalIncomingDamage) const;
 	

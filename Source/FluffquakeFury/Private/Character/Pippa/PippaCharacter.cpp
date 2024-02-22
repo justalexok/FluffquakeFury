@@ -139,6 +139,11 @@ void APippaCharacter::Die(const FVector& DeathImpulse)
 	}
 }
 
+void APippaCharacter::ExplodePillow_Implementation()
+{
+	Pillow->ExplodePillow();
+}
+
 void APippaCharacter::PippaHandleLevelUp()
 {
 	AFQFPlayerState* FQFPlayerState = GetPlayerState<AFQFPlayerState>();

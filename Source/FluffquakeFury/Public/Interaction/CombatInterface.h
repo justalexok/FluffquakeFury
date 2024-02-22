@@ -60,6 +60,9 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void KnockbackCharacter(float Magnitude, float Pitch, FVector Direction);
 
+	UFUNCTION(BlueprintNativeEvent)
+	void ExplodePillow();
+	
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void SetMaxWalkSpeed(bool bShouldImmobiliseCharacter);
 

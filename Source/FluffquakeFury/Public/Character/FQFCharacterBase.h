@@ -59,6 +59,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category="Combat")
 	TSubclassOf<APillowBase> PillowClass;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite,  Category = "Default")
 	APillowBase* Pillow;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite,  Category = "Default")

@@ -37,10 +37,12 @@ public:
 
 	UPROPERTY(EditAnywhere, Category="Pillow Properties")
 	FLinearColor FluffColor;
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void ExplodePillow();
 	
 protected:
-	virtual void BeginPlay() override;
-	
+	virtual void BeginPlay() override;	
 	
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	TObjectPtr<USkeletalMeshComponent> PillowMesh;

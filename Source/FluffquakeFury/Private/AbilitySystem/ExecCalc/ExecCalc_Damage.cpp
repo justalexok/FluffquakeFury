@@ -75,7 +75,7 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 		}
 		
 	}
-	UE_LOG(LogTemp,Display,TEXT("Damage Type: %s"),*LocalDamageType.ToString());	
+	UE_LOG(LogTemp,Warning,TEXT("Damage Type: %s"),*LocalDamageType.ToString());	
 	
 	//Capture BlockChance on Target and determine if successful block
 	float TargetBlockChance = 0.f;
@@ -105,10 +105,13 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 		Damage = bExploded ? 0 : Damage;
 		if (bExploded) UE_LOG(LogTemp, Error, TEXT("PILLOW EXPLODED!"));
 
-	}	
+	}
+	UE_LOG(LogTemp,Warning, TEXT("Damage before bBlocked: %f"),Damage);
+
 	
 	Damage = bBlocked ? Damage / 2.f : Damage;
- 
+
+	
 	if (UFQFBlueprintFunctionLibrary::IsRadialDamage(EffectContextHandle))
 	{
 		//Get distance from Source to Target. Multiply by Base Damage 
@@ -122,6 +125,9 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	}
 	
 	Damage = round(Damage);
+
+	UE_LOG(LogTemp,Warning, TEXT("Final Damage in ExecCalc: %f"),Damage);
+
 	
 	const FGameplayModifierEvaluatedData IncomingDamageEvaluatedData(UFQFAttributeSet::GetIncomingDamageAttribute(), EGameplayModOp::Additive, Damage);
 	OutExecutionOutput.AddOutputModifier(IncomingDamageEvaluatedData);
