@@ -75,11 +75,10 @@ void AEnemyBase::BeginPlay()
 {
 	Super::BeginPlay();
 
-	FQFAIController->GetBlackboardComponent()->SetValueAsBool(FName("IsLevelRunning"), true);
-
 	if(APippaPlayerController* PC = Cast<APippaPlayerController>(UGameplayStatics::GetPlayerController(this, 0)))
 	{
 		PC->OnLevelFailureDelegate.AddDynamic(this,&AEnemyBase::EnemyHandleLevelFailure);
+		PC->OnShouldBeginLevelDelegate.AddDynamic(this, &AEnemyBase::EnemyHandleLevelShouldBegin);
 	}	
 	
 	GetCharacterMovement()->MaxWalkSpeed = BaseWalkSpeed;
@@ -115,7 +114,6 @@ void AEnemyBase::BeginPlay()
 		OnHealthChanged.Broadcast(FQFAS->GetHealth());
 		OnMaxHealthChanged.Broadcast(FQFAS->GetMaxHealth());
 	}
-
 	
 }
 
@@ -126,6 +124,31 @@ void AEnemyBase::InitAbilityActorInfo()
 
 	// InitializeDefaultAttributes();
 	UFQFBlueprintFunctionLibrary::InitializeDefaultAttributes(this,CharacterClass,1,AbilitySystemComponent);
+
+}
+
+void AEnemyBase::EnemyHandleLevelShouldBegin() 
+{
+	if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(UGameplayStatics::GetPlayerPawn(this,0)))
+	{
+		int32 PlayerLevel =  CombatInterface->GetPlayerLevel();
+		FString EnemyGameLevelTag = FString();
+		bool AmSameGameLevelAsPlayer = false;
+		for (FName Tag : Tags)
+		{
+			EnemyGameLevelTag = Tag.ToString();
+			FName LevelFName = *FString::FromInt(PlayerLevel);
+			if (LevelFName == Tag)
+			{
+				
+				AmSameGameLevelAsPlayer = true;
+				break;
+			}
+		}	
+		UE_LOG(LogTemp, Warning, TEXT("I am %s and my game level is %s. Player Level is %d"),*GetClass()->GetName(),*EnemyGameLevelTag, PlayerLevel);
+		FQFAIController->GetBlackboardComponent()->SetValueAsBool(FName("IsMyLevelRunning"), AmSameGameLevelAsPlayer);
+
+	}
 
 }
 

@@ -51,6 +51,7 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category = "Events")
 	FShouldBeginLevelSignature OnShouldBeginLevelDelegate;
+	
 	UFUNCTION(BlueprintCallable, Category = "Events")
 	void BroadcastLevelShouldBegin() const {OnShouldBeginLevelDelegate.Broadcast();}
 	

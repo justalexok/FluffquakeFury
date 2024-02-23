@@ -48,6 +48,9 @@ public:
 	UPROPERTY(BlueprintAssignable)
 	FOnAttributeChangedSignature OnMaxHealthChanged;
 
+	UFUNCTION()
+	void EnemyHandleLevelShouldBegin();
+
 
 	virtual void Die(const FVector& DeathImpulse) override;
 	void RemoveInfiniteGameplayEffects();
