@@ -107,6 +107,11 @@ void UFQFBlueprintFunctionLibrary::GetLivePlayersWithinRadius(const UObject* Wor
 
 UFQFAttributeSet* UFQFBlueprintFunctionLibrary::GetAttributeSet(const UObject* WorldContextObject)
 {
+	if (const AEnemyBase* Enemy = Cast<AEnemyBase>(WorldContextObject))
+	{
+		return Cast<UFQFAttributeSet>(Enemy->AttributeSet);
+	}
+	
 	if (const APlayerController* PC = UGameplayStatics::GetPlayerController(WorldContextObject, 0))
 	{
 		const AFQFPlayerState* PS = PC->GetPlayerState<AFQFPlayerState>();

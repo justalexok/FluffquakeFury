@@ -8,6 +8,7 @@
 #include "AbilitySystem/FQFAttributeSet.h"
 #include "AbilitySystem/FQFBlueprintFunctionLibrary.h"
 #include "Character/FQFCharacterBase.h"
+#include "Character/Pippa/PippaCharacter.h"
 
 
 FDamageEffectParams UFQFGameplayAbility::MakeDamageEffectParamsFromClassDefaults(AActor* TargetActor,  FVector InRadialDamageOrigin) const
@@ -20,19 +21,24 @@ FDamageEffectParams UFQFGameplayAbility::MakeDamageEffectParamsFromClassDefaults
 	Params.BaseDamage = Damage.GetValueAtLevel(GetAbilityLevel());
 	UE_LOG(LogTemp,Warning, TEXT("Damage At Ability Level: %f"),Params.BaseDamage);
 
-	if (const UFQFAttributeSet* AttributeSet = UFQFBlueprintFunctionLibrary::GetAttributeSet(this))
+	if (const APippaCharacter* PippaCharacter = Cast<APippaCharacter>(GetAvatarActorFromActorInfo()))
 	{
+		if (const UFQFAttributeSet* AttributeSet = UFQFBlueprintFunctionLibrary::GetAttributeSet(PippaCharacter))
+		{
+			if (DamageType == FFQFGameplayTags::Get().DamageType_Physical)
+			{
+				Params.BaseDamage += Damage.GetValueAtLevel(AttributeSet->GetStrength());
+				UE_LOG(LogTemp,Warning, TEXT("Adding to damage: %f"),Damage.GetValueAtLevel(AttributeSet->GetStrength()));
+			}
+			if (DamageType == FFQFGameplayTags::Get().DamageType_Fluff)
+			{
+				Params.ExplosionChance = ExplosionChance.GetValueAtLevel(AttributeSet->GetLoadedFluff());
+				Params.BaseDamage *= LoadedFluffCoefficient.GetValueAtLevel(AttributeSet->GetLoadedFluff());
+			}
+		}
+			
+	}		
 	
-		Params.ExplosionChance = ExplosionChance.GetValueAtLevel(AttributeSet->GetLoadedFluff());
-		if (DamageType == FFQFGameplayTags::Get().DamageType_Physical)
-		{
-			Params.BaseDamage += Damage.GetValueAtLevel(AttributeSet->GetStrength()); //Strength will be 0 for enemies so this adds 0. Variable for pippa. 
-		}
-		if (DamageType == FFQFGameplayTags::Get().DamageType_Fluff)
-		{
-			Params.BaseDamage *= LoadedFluffCoefficient.GetValueAtLevel(AttributeSet->GetLoadedFluff());
-		}
-	}
 	UE_LOG(LogTemp,Warning, TEXT("Damage After Adjustments in Gameplay Ability : %f"),Params.BaseDamage);
 	Params.AbilityLevel = GetAbilityLevel();
 	Params.DamageType = DamageType;

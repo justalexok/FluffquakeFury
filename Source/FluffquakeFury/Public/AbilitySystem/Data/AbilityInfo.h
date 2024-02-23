@@ -40,13 +40,12 @@ struct FFQFAbilityInfo
 	// USoundBase* ImpactSound = nullptr;
 
 	UPROPERTY(BlueprintReadOnly)
-	FGameplayTag InputTag = FGameplayTag();	
+	FGameplayTag InputTag = FGameplayTag();
 
-// 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-// 	TObjectPtr<const UTexture2D> Icon = nullptr;
-//
-// 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-// 	TObjectPtr<const UMaterialInterface> BackgroundMaterial = nullptr;
+	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly)
+	FScalableFloat DamageCurve = FScalableFloat();
+	
+
 };
 
 /**

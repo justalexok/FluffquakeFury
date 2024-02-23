@@ -123,13 +123,13 @@ FOnDamageSignature& AFQFCharacterBase::GetOnDamageSignature()
 
 
 
-float AFQFCharacterBase::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator,
-                                    AActor* DamageCauser)
-{
-	const float DamageTaken = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
-	OnDamageDelegate.Broadcast(DamageTaken);
-	return DamageTaken;
-}
+// float AFQFCharacterBase::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator,
+//                                     AActor* DamageCauser)
+// {
+// 	const float DamageTaken = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+// 	OnDamageDelegate.Broadcast(DamageTaken);
+// 	return DamageTaken;
+// }
 
 FVector AFQFCharacterBase::GetCombatSocketLocation_Implementation(const FGameplayTag& SpecificAbilityTag)
 {

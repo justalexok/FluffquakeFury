@@ -29,7 +29,7 @@ public:
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override {return AbilitySystemComponent; }
 	UAttributeSet* GetAttributeSet() const { return AttributeSet; }
 
-	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
+	// virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 	
 	//Combat Interface
 	virtual FVector GetCombatSocketLocation_Implementation(const FGameplayTag& SpecificAbilityTag) override;
@@ -74,12 +74,16 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TMap<FActiveGameplayEffectHandle, UAbilitySystemComponent*> ActiveInfiniteEffectHandles;
 
+	
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<UAttributeSet> AttributeSet;
+
 protected:
 	virtual void BeginPlay() override;
 
 	
 
-	UPROPERTY(EditAnywhere, Category = "Combat")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat")
 	TObjectPtr<USkeletalMeshComponent> Weapon;
 
 	bool bDead = false;
@@ -87,8 +91,6 @@ protected:
 	UPROPERTY()
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 
-	UPROPERTY()
-	TObjectPtr<UAttributeSet> AttributeSet;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float BaseWalkSpeed = 500.f;
