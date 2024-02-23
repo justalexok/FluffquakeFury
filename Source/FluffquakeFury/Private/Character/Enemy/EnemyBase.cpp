@@ -208,6 +208,7 @@ void AEnemyBase::HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCou
 	{
 		FQFAIController->GetBlackboardComponent()->SetValueAsBool(FName("AmICasting"), false); 
 	}
+	
 
 }
 

@@ -106,14 +106,24 @@ void AFQFCharacterBase::SetWeaponVisibility_Implementation(bool bVisible)
 	Weapon->SetVisibility(bVisible);
 }
 
-void AFQFCharacterBase::KnockbackCharacter_Implementation(float Magnitude, float Pitch, FVector Direction)
+void AFQFCharacterBase::KnockbackCharacter_Implementation(float Magnitude, float Pitch, AActor* Target, AActor* Subject)
 {
-	// const FVector OppositeDirection = GetActorForwardVector() * -1.0f;
-	FRotator Rotation = Direction.Rotation();
+
+	FRotator Rotation = (Subject->GetActorLocation() - Target->GetActorLocation()).Rotation();
 	Rotation.Pitch = Pitch;
 	const FVector ToTarget = Rotation.Vector();
+
+	
 	const FVector KnockbackForce = ToTarget * Magnitude;
+	UE_LOG(LogTemp, Warning, TEXT("Vector: %f, %f, %f"), KnockbackForce.X, KnockbackForce.Y, KnockbackForce.Z);
 	LaunchCharacter(KnockbackForce, true, true);
+
+
+	//
+	// FRotator Rotation = (TargetActor->GetActorLocation() - GetAvatarActorFromActorInfo()->GetActorLocation()).Rotation();
+	// Rotation.Pitch = 45.f;
+	// const FVector ToTarget = Rotation.Vector();
+	// Params.KnockbackForce = ToTarget * KnockbackForceMagnitude;
 }
 
 FOnDamageSignature& AFQFCharacterBase::GetOnDamageSignature()
@@ -123,13 +133,6 @@ FOnDamageSignature& AFQFCharacterBase::GetOnDamageSignature()
 
 
 
-// float AFQFCharacterBase::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator,
-//                                     AActor* DamageCauser)
-// {
-// 	const float DamageTaken = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
-// 	OnDamageDelegate.Broadcast(DamageTaken);
-// 	return DamageTaken;
-// }
 
 FVector AFQFCharacterBase::GetCombatSocketLocation_Implementation(const FGameplayTag& SpecificAbilityTag)
 {

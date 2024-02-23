@@ -106,6 +106,8 @@ void UFQFAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbac
 				const FVector& KnockbackForce = UFQFBlueprintFunctionLibrary::GetKnockbackForce(Props.EffectContextHandle);
 				if (bKnockback & !KnockbackForce.IsNearlyZero(1.f))
 				{
+					UE_LOG(LogTemp, Warning, TEXT("Vector: %f, %f, %f"), KnockbackForce.X, KnockbackForce.Y, KnockbackForce.Z);
+
 					Props.TargetCharacter->LaunchCharacter(KnockbackForce, true, true);
 				}
 				
@@ -231,7 +233,6 @@ void UFQFAttributeSet::HandleExplosion(const FEffectProperties& Props, float Loc
 	{
 		CombatInterface->Execute_ExplodePillow(Props.SourceCharacter);
 		CombatInterface->Execute_SetWeaponVisibility(Props.SourceCharacter,false);
-		CombatInterface->Execute_KnockbackCharacter(Props.SourceCharacter, 800,25,Props.SourceCharacter->GetActorForwardVector() * -1);
 		FGameplayTagContainer TagContainer;
 		TagContainer.AddTag(FFQFGameplayTags::Get().Effects_HitReact);
 		Props.TargetASC->TryActivateAbilitiesByTag(TagContainer);

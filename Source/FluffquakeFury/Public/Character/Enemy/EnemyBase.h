@@ -61,12 +61,20 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Character Class Defaults")
 	TArray<FGameplayTag>Immunities;
 
+	UFUNCTION(BlueprintCallable)
+	int32 GetEnemyLevel() { return Level;}
+
+	UFUNCTION(BlueprintCallable)
+	void IncrementEnemyLevel() { Level++;}
+	
 protected:
 	virtual void BeginPlay() override;
 	virtual void InitAbilityActorInfo() override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Class Defaults")
 	int32 Level = 1;
+
+	
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TObjectPtr<UWidgetComponent> HealthBar;

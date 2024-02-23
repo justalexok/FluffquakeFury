@@ -44,7 +44,7 @@ public:
 	virtual FVector GetActorGroundPoint_Implementation() override;
 	virtual FVector GetActorHaloPoint_Implementation() override;
 	virtual void SetWeaponVisibility_Implementation(bool bVisible) override;
-	virtual void KnockbackCharacter_Implementation(float Magnitude, float Pitch, FVector Direction) override;
+	virtual void KnockbackCharacter_Implementation(float Magnitude, float Pitch, AActor* Target, AActor* Subject) override;
 	virtual FOnDamageSignature& GetOnDamageSignature() override;
 
 	
@@ -75,8 +75,11 @@ public:
 	TMap<FActiveGameplayEffectHandle, UAbilitySystemComponent*> ActiveInfiniteEffectHandles;
 
 	
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	TObjectPtr<UAttributeSet> AttributeSet;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 
 protected:
 	virtual void BeginPlay() override;
@@ -88,8 +91,7 @@ protected:
 
 	bool bDead = false;
 	
-	UPROPERTY()
-	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
+
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

@@ -58,7 +58,7 @@ public:
 	AActor* GetAvatar();
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
-	void KnockbackCharacter(float Magnitude, float Pitch, FVector Direction);
+	void KnockbackCharacter(float Magnitude, float Pitch, AActor* Target, AActor* Subject);
 
 	UFUNCTION(BlueprintNativeEvent)
 	void ExplodePillow();
