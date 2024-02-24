@@ -26,5 +26,12 @@ public:
 	AActor* GetCombatTarget() const;
 	
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
-	void SetCombatTarget(AActor* InCombatTarget);	
+	void SetCombatTarget(AActor* InCombatTarget);
+
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	void EnemyHandleLevelShouldBegin();
+
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	FLinearColor GetEnemyColor();
+	
 };

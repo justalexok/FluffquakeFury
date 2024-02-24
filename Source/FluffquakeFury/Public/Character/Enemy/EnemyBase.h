@@ -31,6 +31,8 @@ public:
 	virtual void UnHighlightActor() override;
 	virtual AActor* GetCombatTarget_Implementation() const override;
 	virtual void SetCombatTarget_Implementation(AActor* InCombatTarget) override;
+	virtual void EnemyHandleLevelShouldBegin_Implementation() override;
+	virtual FLinearColor GetEnemyColor_Implementation() override;
 
 	//CombatInterface
 	virtual int32 GetPlayerLevel() override;
@@ -47,10 +49,6 @@ public:
 
 	UPROPERTY(BlueprintAssignable)
 	FOnAttributeChangedSignature OnMaxHealthChanged;
-
-	UFUNCTION()
-	void EnemyHandleLevelShouldBegin();
-
 
 	virtual void Die(const FVector& DeathImpulse) override;
 	void RemoveInfiniteGameplayEffects();
