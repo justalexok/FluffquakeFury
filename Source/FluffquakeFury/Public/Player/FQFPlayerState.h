@@ -35,7 +35,8 @@ public:
 	FORCEINLINE int32 GetPlayerLevel() const { return Level; }
 
 	void AddToLevel(int32 InLevel);
-
+	
+	UFUNCTION(BlueprintCallable)
 	void SetLevel(int32 InLevel);
 	
 	UFUNCTION(BlueprintCallable)

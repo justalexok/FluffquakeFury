@@ -56,7 +56,9 @@ void FFQFGameplayTags::InitializeNativeGameplayTags(){
 	GameplayTags.Cooldown_PillowWhack = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Cooldown.PillowWhack"),FString("Pillow Whack Cooldown Tag"));
 	GameplayTags.Cooldown_PillowSpin = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Cooldown.PillowSpin"),FString("Pillow Spin Cooldown Tag"));
 
+	//Effect Tags
 	GameplayTags.Effects_HitReact = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Effects.HitReact"),FString("Tag granted when Hit Reacting"));
+	GameplayTags.Effects_KnockOver = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Effects.KnockOver"),FString("Tag granted when Knocking Over"));
 
 	//Montage Tags
 	GameplayTags.Montage_Attack_PillowWhack = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Montage.Attack.PillowWhack"),FString("Tag for PillowWhack Attack"));

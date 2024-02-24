@@ -229,13 +229,16 @@ void UFQFAttributeSet::HandleExplosion(const FEffectProperties& Props, float Loc
 				
 	}
 	ShowFloatingText(Props, LocalIncomingDamage, false, true, false);
-	if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(Props.SourceCharacter))
+	if (const ICombatInterface* CombatInterface = Cast<ICombatInterface>(Props.SourceCharacter))
 	{
 		CombatInterface->Execute_ExplodePillow(Props.SourceCharacter);
-		CombatInterface->Execute_SetWeaponVisibility(Props.SourceCharacter,false);
 		FGameplayTagContainer TagContainer;
 		TagContainer.AddTag(FFQFGameplayTags::Get().Effects_HitReact);
 		Props.TargetASC->TryActivateAbilitiesByTag(TagContainer);
+
+		TagContainer.Reset();
+		TagContainer.AddTag(FFQFGameplayTags::Get().Effects_KnockOver);
+		Props.SourceASC->TryActivateAbilitiesByTag(TagContainer);
 	}
 }
 

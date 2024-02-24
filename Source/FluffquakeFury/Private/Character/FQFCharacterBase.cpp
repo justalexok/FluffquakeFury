@@ -115,7 +115,7 @@ void AFQFCharacterBase::KnockbackCharacter_Implementation(float Magnitude, float
 
 	
 	const FVector KnockbackForce = ToTarget * Magnitude;
-	UE_LOG(LogTemp, Warning, TEXT("Vector: %f, %f, %f"), KnockbackForce.X, KnockbackForce.Y, KnockbackForce.Z);
+	UE_LOG(LogTemp, Warning, TEXT("Vector: %s"), *KnockbackForce.ToString());
 	LaunchCharacter(KnockbackForce, true, true);
 
 

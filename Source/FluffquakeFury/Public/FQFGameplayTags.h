@@ -61,6 +61,7 @@ public:
 	FGameplayTag Cooldown_PillowSpin;
 
 	FGameplayTag Effects_HitReact;
+	FGameplayTag Effects_KnockOver;
 
 	FGameplayTag CombatSocket_CenterChest;
 

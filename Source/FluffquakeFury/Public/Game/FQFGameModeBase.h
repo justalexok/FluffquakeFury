@@ -34,6 +34,8 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category = "Events")
 	FGeneralLevelMechanicsSignature OnLevelCompletionDelegate;
+	UFUNCTION(BlueprintCallable, Category = "Events")
+	void BroadcastLevelCompletion() const {OnLevelCompletionDelegate.Broadcast();}
 
 	UPROPERTY(BlueprintAssignable, Category = "Events")
 	FGeneralLevelMechanicsSignature OnWorldCompletionDelegate;
