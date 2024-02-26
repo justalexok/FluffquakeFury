@@ -11,7 +11,7 @@
 #include "Character/Pippa/PippaCharacter.h"
 
 
-FDamageEffectParams UFQFGameplayAbility::MakeDamageEffectParamsFromClassDefaults(AActor* TargetActor,  FVector InRadialDamageOrigin) const
+FDamageEffectParams UFQFGameplayAbility::MakeDamageEffectParamsFromClassDefaults(AActor* TargetActor,  FVector InRadialDamageOrigin, bool bDidJumpOffBed) const
 {
 	FDamageEffectParams Params;
 	Params.WorldContextObject = GetAvatarActorFromActorInfo();
@@ -28,6 +28,7 @@ FDamageEffectParams UFQFGameplayAbility::MakeDamageEffectParamsFromClassDefaults
 			if (DamageType == FFQFGameplayTags::Get().DamageType_Physical)
 			{
 				Params.BaseDamage += Damage.GetValueAtLevel(AttributeSet->GetStrength());
+				if (bDidJumpOffBed) { Params.BaseDamage *= 3 ;}
 				UE_LOG(LogTemp,Warning, TEXT("Adding to damage: %f"),Damage.GetValueAtLevel(AttributeSet->GetStrength()));
 			}
 			if (DamageType == FFQFGameplayTags::Get().DamageType_Fluff)
@@ -43,7 +44,7 @@ FDamageEffectParams UFQFGameplayAbility::MakeDamageEffectParamsFromClassDefaults
 	Params.AbilityLevel = GetAbilityLevel();
 	Params.DamageType = DamageType;
 	Params.DeathImpulseMagnitude = DeathImpulseMagnitude;
-	Params.KnockbackForceMagnitude = KnockbackForceMagnitude;
+	Params.KnockbackForceMagnitude = bDidJumpOffBed ? KnockbackForceMagnitude * 5 : KnockbackForceMagnitude;
 	Params.KnockbackChance = KnockbackChance;
 	if (IsValid(TargetActor))
 	{

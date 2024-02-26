@@ -31,7 +31,8 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category = "Events")
 	FOnPlayerStatChanged OnLevelChangedDelegate;
-	
+
+	UFUNCTION(BlueprintCallable)
 	FORCEINLINE int32 GetPlayerLevel() const { return Level; }
 
 	void AddToLevel(int32 InLevel);
