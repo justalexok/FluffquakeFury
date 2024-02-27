@@ -90,4 +90,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	int32 CountNumLevelsInCurrentWorld();
+
+	UFUNCTION(BlueprintCallable)
+	int32 NumLevelsInPreviousWorlds();
 };

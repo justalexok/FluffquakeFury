@@ -13,7 +13,7 @@ struct FFQFLevelInfo
 	GENERATED_BODY()
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	int32 LevelIndexInWorld = 0;
+	int32 LevelIndex = 0;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	int32 WorldIndex = 0;

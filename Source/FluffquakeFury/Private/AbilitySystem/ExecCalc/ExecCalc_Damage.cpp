@@ -93,6 +93,8 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 		float SourceLoadedFluff = 0.f;
 		ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().LoadedFluffDef, EvaluationParameters, SourceLoadedFluff);
 
+		//TODO Capture Strength 
+
 		//Get ExplosionChance Set By Caller Magnitude and determine if explosion
 		const float ExplosionChance = Spec.GetSetByCallerMagnitude(FFQFGameplayTags::Get().ExplosionChance, false);
 		UE_LOG(LogTemp, Warning, TEXT("Explosion Chance : %f"), ExplosionChance);
@@ -102,6 +104,7 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 
 		//Alter Damage
 		Damage *= SourceLoadedFluff / 100;
+		//TODO Alter based on strength
 		Damage = bExploded ? 0 : Damage;
 		if (bExploded) UE_LOG(LogTemp, Error, TEXT("PILLOW EXPLODED!"));
 

@@ -49,7 +49,7 @@ FFQFWorldInfoNew AFQFGameModeBase::GetCurrentWorldInfo()
 
 void AFQFGameModeBase::CheckIfLevelComplete()
 {
-	NumEnemiesInLevel = CountActiveEnemiesInWorldForLevelIndex(GetCurrentLevelInfo().LevelIndexInWorld);
+	NumEnemiesInLevel = CountActiveEnemiesInWorldForLevelIndex(GetCurrentLevelInfo().LevelIndex);
 	UE_LOG(LogTemp,Warning,TEXT("Number of Enemies in World: %d"),NumEnemiesInLevel);
 
 	const APippaPlayerController* PlayerController = CastChecked<APippaPlayerController>(GetWorld()->GetFirstPlayerController());
@@ -150,6 +150,22 @@ int32 AFQFGameModeBase::CountActiveEnemiesInWorldForLevelIndex(int32 Level)
 int32 AFQFGameModeBase::CountNumLevelsInCurrentWorld()
 {
 	return LevelInfo->CountLevelsInWorld(GetCurrentLevelInfo().WorldIndex);
+}
+
+int32 AFQFGameModeBase::NumLevelsInPreviousWorlds()
+{
+	int32 CurrentWorldIndex = GetCurrentWorldInfo().WorldIndex;
+	int32 LevelCount = -1; //Blank Level In World 0 should not be counted.
+
+	for (auto WInfo : WorldInfo->WorldInformation)
+	{
+		if (WInfo.WorldIndex == CurrentWorldIndex) break;
+
+		const int32 NumLevelsInWorld = LevelInfo->CountLevelsInWorld(WInfo.WorldIndex);
+		LevelCount += NumLevelsInWorld;
+	}
+	return LevelCount;
+	
 }
 
 	
