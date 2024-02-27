@@ -193,6 +193,8 @@ void AEnemyBase::SetCombatTarget_Implementation(AActor* InCombatTarget)
 
 void AEnemyBase::EnemyHandleLevelShouldBegin_Implementation()
 {
+	if (IsDead_Implementation()) return;
+	
 	if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(UGameplayStatics::GetPlayerPawn(this,0)))
 	{
 		int32 PlayerLevel =  CombatInterface->GetPlayerLevel();
