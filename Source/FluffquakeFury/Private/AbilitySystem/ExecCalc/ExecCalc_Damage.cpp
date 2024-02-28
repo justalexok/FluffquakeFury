@@ -75,7 +75,7 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 		}
 		
 	}
-	UE_LOG(LogTemp,Warning,TEXT("Damage Type: %s"),*LocalDamageType.ToString());	
+	UE_LOG(LogTemp,Display,TEXT("Damage Type: %s"),*LocalDamageType.ToString());	
 	
 	//Capture BlockChance on Target and determine if successful block
 	float TargetBlockChance = 0.f;
@@ -97,7 +97,7 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 
 		//Get ExplosionChance Set By Caller Magnitude and determine if explosion
 		const float ExplosionChance = Spec.GetSetByCallerMagnitude(FFQFGameplayTags::Get().ExplosionChance, false);
-		UE_LOG(LogTemp, Warning, TEXT("Explosion Chance : %f"), ExplosionChance);
+		UE_LOG(LogTemp, Display, TEXT("Explosion Chance : %f"), ExplosionChance);
 		const bool bExploded = FMath::RandRange(1, 100) < ExplosionChance;
 
 		UFQFBlueprintFunctionLibrary::SetHasPillowExploded(EffectContextHandle, bExploded);
@@ -109,7 +109,7 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 		if (bExploded) UE_LOG(LogTemp, Error, TEXT("PILLOW EXPLODED!"));
 
 	}
-	UE_LOG(LogTemp,Warning, TEXT("Damage before bBlocked: %f"),Damage);
+	UE_LOG(LogTemp,Display, TEXT("Damage before bBlocked: %f"),Damage);
 
 	
 	Damage = bBlocked ? Damage / 2.f : Damage;
@@ -129,7 +129,7 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	
 	Damage = round(Damage);
 
-	UE_LOG(LogTemp,Warning, TEXT("Final Damage in ExecCalc: %f"),Damage);
+	UE_LOG(LogTemp,Display, TEXT("Final Damage in ExecCalc: %f"),Damage);
 
 	
 	const FGameplayModifierEvaluatedData IncomingDamageEvaluatedData(UFQFAttributeSet::GetIncomingDamageAttribute(), EGameplayModOp::Additive, Damage);

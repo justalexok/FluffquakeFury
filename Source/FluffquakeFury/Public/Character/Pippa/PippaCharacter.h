@@ -34,6 +34,9 @@ public:
 	virtual void ExplodePillow_Implementation() override;
 
 	UFUNCTION()
+	int32 PippaGetPlayerLevel();
+
+	UFUNCTION()
 	void PippaHandleLevelUp();
 
 private:

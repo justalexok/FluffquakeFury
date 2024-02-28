@@ -144,11 +144,17 @@ void APippaCharacter::ExplodePillow_Implementation()
 	Pillow->ExplodePillow();
 }
 
+int32 APippaCharacter::PippaGetPlayerLevel()
+{
+	return GetPlayerLevel();
+}
+
 void APippaCharacter::PippaHandleLevelUp()
 {
 	AFQFPlayerState* FQFPlayerState = GetPlayerState<AFQFPlayerState>();
 	check(FQFPlayerState);
 	FQFPlayerState->AddToLevel(1);
+	
 }
 
 

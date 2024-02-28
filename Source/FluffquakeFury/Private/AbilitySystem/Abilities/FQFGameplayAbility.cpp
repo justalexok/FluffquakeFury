@@ -18,18 +18,21 @@ FDamageEffectParams UFQFGameplayAbility::MakeDamageEffectParamsFromClassDefaults
 	Params.DamageGameplayEffectClass = DamageEffectClass;
 	Params.SourceAbilitySystemComponent = GetAbilitySystemComponentFromActorInfo();
 	Params.TargetAbilitySystemComponent = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor);
-	Params.BaseDamage = Damage.GetValueAtLevel(GetAbilityLevel());
-	UE_LOG(LogTemp,Warning, TEXT("Damage At Ability Level: %f"),Params.BaseDamage);
+	Params.BaseDamage = Damage.GetValueAtLevel(GetAbilityLevel()); //For Enemies, use their Ability Level
+	UE_LOG(LogTemp,Display, TEXT("Ability Level: %d, Damage At Ability Level: %f"),GetAbilityLevel(), Params.BaseDamage);
 
-	if (const APippaCharacter* PippaCharacter = Cast<APippaCharacter>(GetAvatarActorFromActorInfo()))
+	if (APippaCharacter* PippaCharacter = Cast<APippaCharacter>(GetAvatarActorFromActorInfo()))
 	{
+		Params.BaseDamage = Damage.GetValueAtLevel(PippaCharacter->PippaGetPlayerLevel());
+		UE_LOG(LogTemp,Display, TEXT("Damage At Pippa Level: %f"),Params.BaseDamage);
+		
 		if (const UFQFAttributeSet* AttributeSet = UFQFBlueprintFunctionLibrary::GetAttributeSet(PippaCharacter))
 		{
 			if (DamageType == FFQFGameplayTags::Get().DamageType_Physical)
 			{
 				Params.BaseDamage += Damage.GetValueAtLevel(AttributeSet->GetStrength());
 				if (bDidJumpOffBed) { Params.BaseDamage *= 3 ;}
-				UE_LOG(LogTemp,Warning, TEXT("Adding to damage: %f"),Damage.GetValueAtLevel(AttributeSet->GetStrength()));
+				UE_LOG(LogTemp,Display, TEXT("Adding to damage: %f"),Damage.GetValueAtLevel(AttributeSet->GetStrength()));
 			}
 			if (DamageType == FFQFGameplayTags::Get().DamageType_Fluff)
 			{
@@ -40,7 +43,7 @@ FDamageEffectParams UFQFGameplayAbility::MakeDamageEffectParamsFromClassDefaults
 			
 	}		
 	
-	UE_LOG(LogTemp,Warning, TEXT("Damage After Adjustments in Gameplay Ability : %f"),Params.BaseDamage);
+	UE_LOG(LogTemp,Display, TEXT("Damage After Adjustments in Gameplay Ability : %f"),Params.BaseDamage);
 	Params.AbilityLevel = GetAbilityLevel();
 	Params.DamageType = DamageType;
 	Params.DeathImpulseMagnitude = DeathImpulseMagnitude;
@@ -58,7 +61,7 @@ FDamageEffectParams UFQFGameplayAbility::MakeDamageEffectParamsFromClassDefaults
 	if (bIsRadialDamage)
 	{
 		Params.bIsRadialDamage = bIsRadialDamage;
-		UE_LOG(LogTemp,Warning, TEXT("Knockback Magnitude = %f, Params.BaseDamage = %f"), KnockbackForceMagnitude, Params.BaseDamage);
+		UE_LOG(LogTemp,Display, TEXT("Knockback Magnitude = %f, Params.BaseDamage = %f"), KnockbackForceMagnitude, Params.BaseDamage);
 		Params.RadialDamageOrigin = InRadialDamageOrigin;
 		Params.RadialDamageInnerRadius = RadialDamageInnerRadius;
 		Params.RadialDamageOuterRadius = RadialDamageOuterRadius;

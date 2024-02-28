@@ -101,7 +101,7 @@ void AFQFGameModeBase::AddAnyPreviouslyGrantedAbilities()
 	if (PippaCharacterBase)
 	{
 		const int32 CurrentLevel = PippaCharacterBase->GetPlayerLevel();
-		for (int32 Index = 0; Index <= CurrentLevel && Index < LevelInfo->LevelInformation.Num(); ++Index)
+		for (int32 Index = 0; Index < CurrentLevel && Index < LevelInfo->LevelInformation.Num(); ++Index)
 		{
 			FFQFLevelInfo& Info = LevelInfo->LevelInformation[Index];
 			PreviouslyGrantedAbilities.Add(Info.AbilityGrantedOnCompletion);
