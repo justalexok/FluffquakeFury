@@ -3,14 +3,16 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "FQFAbilityTypes.h"
 #include "GameplayTagContainer.h"
+#include "AbilitySystem/FQFAttributeSet.h"
 #include "GameFramework/Actor.h"
 #include "EffectActor.generated.h"
 
 class UBoxComponent;
 struct FGameplayTag;
 class UGameplayEffect;
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAttributeFullSignature, bool, bIsFull);
 
 UCLASS()
 class FLUFFQUAKEFURY_API AEffectActor : public AActor
@@ -75,6 +77,15 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TObjectPtr<UMaterialInstance> DissolveMaterialInstance;
 
-	
+	UPROPERTY()
+	UFQFAttributeSet* AttributeSet;
 
+	UFUNCTION()
+	void NotifyFullAttributes();
+	
+	UPROPERTY(BlueprintAssignable, Category="GAS|Attributes")
+	FOnAttributeFullSignature OnHealthFull;
+	
+	UPROPERTY(BlueprintAssignable, Category="GAS|Attributes")
+	FOnAttributeFullSignature OnFluffFull;
 };

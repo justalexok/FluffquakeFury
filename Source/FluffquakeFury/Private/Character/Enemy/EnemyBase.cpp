@@ -131,16 +131,23 @@ void AEnemyBase::Die(const FVector& DeathImpulse)
 
 	PlayAnimMontage(DeathMontage);
 
+	
+
 	Super::Die(DeathImpulse);
 
 	Weapon->AddImpulse(DeathImpulse * 0.1f, NAME_None, true);
 	GetMesh()->AddImpulse(DeathImpulse, NAME_None, true);
 
 
-	//Tell GameMode to check if level is complete.
+	//Tell GameMode to check if level is complete And Spawn Reward
 	if (AFQFGameModeBase* GameMode = UFQFBlueprintFunctionLibrary::GetFQFGameMode(this))
 	{
-		GameMode->CheckIfLevelComplete();		
+		GameMode->CheckIfLevelComplete();
+		if (Level > 1)
+		{
+			GameMode->SpawnReward();
+		}
+		
 	}	
 
 }

@@ -9,6 +9,7 @@
 #include "Character/Pippa/PippaCharacter.h"
 #include "Components/BoxComponent.h" 
 #include "Kismet/GameplayStatics.h"
+#include "Player/FQFPlayerState.h"
 #include "Player/PippaPlayerController.h"
 
 // Sets default values
@@ -37,15 +38,53 @@ AEffectActor::AEffectActor()
 	
 }
 
-
-
-
 void AEffectActor::BeginPlay()
 {
-	Super::BeginPlay();
+	Super::BeginPlay();	
 
+	NotifyFullAttributes();
 	
 }
+
+void AEffectActor::NotifyFullAttributes()
+{
+	const AFQFPlayerState* PlayerState = UGameplayStatics::GetPlayerController(this,0)->GetPlayerState<AFQFPlayerState>();
+	if (PlayerState == nullptr) return;
+	
+	AttributeSet = Cast<UFQFAttributeSet>(PlayerState->GetAttributeSet());
+	if (AttributeSet == nullptr) return;
+	
+	UAbilitySystemComponent* PippaASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(UGameplayStatics::GetPlayerPawn(this, 0));
+	if (PippaASC == nullptr) return;
+
+	//Notify if Attribute full at the start
+	OnFluffFull.Broadcast(AttributeSet->GetMaxFluff() == AttributeSet->GetFluff());
+	OnHealthFull.Broadcast(AttributeSet->GetMaxHealth() == AttributeSet->GetHealth());
+
+	//Bind fluff and health changes to lambdas
+	PippaASC->GetGameplayAttributeValueChangeDelegate(AttributeSet->GetFluffAttribute()).AddLambda(
+		[this](const FOnAttributeChangeData& Data)
+		{
+			if (AttributeSet)
+			{
+				OnFluffFull.Broadcast(AttributeSet->GetMaxFluff() == Data.NewValue);
+			}
+			
+		});
+	PippaASC->GetGameplayAttributeValueChangeDelegate(AttributeSet->GetHealthAttribute()).AddLambda(
+		[this](const FOnAttributeChangeData& Data)
+		{
+			if (AttributeSet)
+			{
+				OnHealthFull.Broadcast(AttributeSet->GetMaxHealth() == Data.NewValue);
+			}
+			
+		});
+	
+	
+}
+
+
 
 bool AEffectActor::ApplyEffectToTarget(AActor* Target, TSubclassOf<UGameplayEffect> GameplayEffectClass)
 {
@@ -111,35 +150,5 @@ void AEffectActor::Dissolve()
 		StartDissolveTimeline(DynamicMatInst);
 	}
 }
-
-//
-
-// void AEffectActor::NotifyPlayerOfFullAttribute() const
-// {
-// 	if (UOverlayWidgetController* OverlayWidgetController = UFQFBlueprintFunctionLibrary::GetOverlayWidgetController(this))
-// 	{
-// 		const FUIWidgetRow* Row = OverlayWidgetController->GetDataTableRowByTag<FUIWidgetRow>(OverlayWidgetController->MessageWidgetDataTable, ErrorInPickupTag);
-// 		OverlayWidgetController->MessageWidgetRowDelegate.Broadcast(*Row);
-// 	}	
-// }
-//
-// void AEffectActor::EnableStaticMeshBlocking(const bool bEnabled) const
-// {
-// 	if (bEnabled)
-// 	{
-// 		RootStaticMesh->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-// 		RootStaticMesh->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
-// 	}
-// 	else
-// 	{
-// 		RootStaticMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-// 		RootStaticMesh->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
-// 	}
-//
-// }
-
-
-// 		
-
 
 

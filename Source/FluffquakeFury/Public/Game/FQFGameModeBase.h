@@ -93,4 +93,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	int32 NumLevelsInPreviousWorlds();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void SpawnReward();
 };
