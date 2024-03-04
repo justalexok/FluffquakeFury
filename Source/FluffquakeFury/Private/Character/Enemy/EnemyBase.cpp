@@ -148,7 +148,7 @@ void AEnemyBase::Die(const FVector& DeathImpulse)
 			GameMode->SpawnReward();
 		}
 		
-	}	
+	}
 
 }
 

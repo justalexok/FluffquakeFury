@@ -42,48 +42,30 @@ void AEffectActor::BeginPlay()
 {
 	Super::BeginPlay();	
 
-	NotifyFullAttributes();
-	
+
 }
 
-void AEffectActor::NotifyFullAttributes()
+bool AEffectActor::IsAttributeFull(FGameplayAttribute Attribute)
 {
 	const AFQFPlayerState* PlayerState = UGameplayStatics::GetPlayerController(this,0)->GetPlayerState<AFQFPlayerState>();
-	if (PlayerState == nullptr) return;
-	
-	AttributeSet = Cast<UFQFAttributeSet>(PlayerState->GetAttributeSet());
-	if (AttributeSet == nullptr) return;
-	
-	UAbilitySystemComponent* PippaASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(UGameplayStatics::GetPlayerPawn(this, 0));
-	if (PippaASC == nullptr) return;
+	if (PlayerState == nullptr) return false;
 
-	//Notify if Attribute full at the start
-	OnFluffFull.Broadcast(AttributeSet->GetMaxFluff() == AttributeSet->GetFluff());
-	OnHealthFull.Broadcast(AttributeSet->GetMaxHealth() == AttributeSet->GetHealth());
+	const UFQFAttributeSet* AttributeSet = Cast<UFQFAttributeSet>(PlayerState->GetAttributeSet());
+	if (AttributeSet == nullptr) return false;
 
-	//Bind fluff and health changes to lambdas
-	PippaASC->GetGameplayAttributeValueChangeDelegate(AttributeSet->GetFluffAttribute()).AddLambda(
-		[this](const FOnAttributeChangeData& Data)
-		{
-			if (AttributeSet)
-			{
-				OnFluffFull.Broadcast(AttributeSet->GetMaxFluff() == Data.NewValue);
-			}
-			
-		});
-	PippaASC->GetGameplayAttributeValueChangeDelegate(AttributeSet->GetHealthAttribute()).AddLambda(
-		[this](const FOnAttributeChangeData& Data)
-		{
-			if (AttributeSet)
-			{
-				OnHealthFull.Broadcast(AttributeSet->GetMaxHealth() == Data.NewValue);
-			}
-			
-		});
-	
-	
+	const UAbilitySystemComponent* PippaASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(UGameplayStatics::GetPlayerPawn(this, 0));
+	if (PippaASC == nullptr) return false;
+
+	if (Attribute == AttributeSet->GetFluffAttribute())
+	{
+		return AttributeSet->GetFluff() == AttributeSet->GetMaxFluff();
+	}
+	if (Attribute == AttributeSet->GetHealthAttribute())
+	{
+		return AttributeSet->GetHealth() == AttributeSet->GetMaxHealth();
+	}
+	return false;
 }
-
 
 
 bool AEffectActor::ApplyEffectToTarget(AActor* Target, TSubclassOf<UGameplayEffect> GameplayEffectClass)
