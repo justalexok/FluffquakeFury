@@ -43,10 +43,6 @@ void AEnemyBase::PossessedBy(AController* NewController)
 	FQFAIController->GetBlackboardComponent()->InitializeBlackboard(*BehaviorTree->BlackboardAsset);
 	FQFAIController->RunBehaviorTree(BehaviorTree);
 	FQFAIController->GetBlackboardComponent()->SetValueAsBool(FName("HitReacting"), false);
-	FQFAIController->GetBlackboardComponent()->SetValueAsBool(FName("IsRanger"), CharacterClass == ECharacterClass::Ranger);
-	FQFAIController->GetBlackboardComponent()->SetValueAsBool(FName("IsWarrior"), CharacterClass == ECharacterClass::Warrior);
-	FQFAIController->GetBlackboardComponent()->SetValueAsBool(FName("IsElementalist"), CharacterClass == ECharacterClass::Elementalist);
-	FQFAIController->GetBlackboardComponent()->SetValueAsBool(FName("IsInsect"), CharacterClass == ECharacterClass::Insect);
 
 	
 	bUseControllerRotationPitch = false;
