@@ -108,11 +108,15 @@ void AFQFGameModeBase::AddAnyPreviouslyGrantedAbilities()
 		}
 	}
 	
+	
 	if (UFQFAbilitySystemComponent* PippaASC = Cast<UFQFAbilitySystemComponent>(PippaCharacterBase->GetAbilitySystemComponent()))
 	{
 		for (const TSubclassOf<UGameplayAbility> Ability : PreviouslyGrantedAbilities)
 		{
+			// if (!PippaASC->GetActivatableAbilities().Contains(Ability))
+			// {
 			PippaASC->AddAbility(Ability);
+
 		}
 	}
 
