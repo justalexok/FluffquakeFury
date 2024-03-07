@@ -26,6 +26,7 @@ public:
 	FGameplayTag Attributes_Primary_MaxFluff;
 	FGameplayTag Attributes_Primary_LoadedFluff;
 	FGameplayTag Attributes_Primary_BlockChance;
+	
 
 
 	FGameplayTag InputTag_LMB;

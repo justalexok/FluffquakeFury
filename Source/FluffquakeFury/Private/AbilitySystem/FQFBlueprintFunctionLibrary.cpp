@@ -219,6 +219,7 @@ FGameplayEffectContextHandle UFQFBlueprintFunctionLibrary::ApplyDamageEffect(
 
 	if (!IsNotFriend(SourceAvatarActor,TargetAvatarActor)) return FGameplayEffectContextHandle();
 	if (IsTargetImmuneToDamageType(TargetAvatarActor, DamageEffectParams.DamageType)) return FGameplayEffectContextHandle();
+	
 
 	FGameplayEffectContextHandle EffectContextHandle = DamageEffectParams.SourceAbilitySystemComponent->MakeEffectContext();
 	EffectContextHandle.AddSourceObject(SourceAvatarActor);
