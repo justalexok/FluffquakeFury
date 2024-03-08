@@ -52,6 +52,9 @@ public:
 	UFUNCTION(BlueprintPure, Category = "FQFBlueprintFunctionLibrary|GameplayMechanics")
 	static bool IsNotFriend(const AActor* FirstActor, const AActor* SecondActor);
 
+	UFUNCTION(BlueprintPure, Category = "FQFBlueprintFunctionLibrary|GameplayMechanics")
+	static bool IsDead(const AActor* Actor);
+
 	static bool IsTargetImmuneToDamageType(AActor* TargetActor, FGameplayTag DamageType);
 
 	UFUNCTION(BlueprintCallable, Category = "FQFBlueprintFunctionLibrary|GameplayEffects")

@@ -190,6 +190,11 @@ bool UFQFBlueprintFunctionLibrary::IsNotFriend(const AActor* FirstActor, const A
 	return !bFriends;
 }
 
+bool UFQFBlueprintFunctionLibrary::IsDead(const AActor* Actor)
+{
+	return Cast<AFQFCharacterBase>(Actor)->IsDead_Implementation();
+}
+
 bool UFQFBlueprintFunctionLibrary::IsTargetImmuneToDamageType(AActor* TargetActor, const FGameplayTag DamageType) 
 {
 	if (const AEnemyBase* Enemy = Cast<AEnemyBase>(TargetActor))
@@ -219,7 +224,7 @@ FGameplayEffectContextHandle UFQFBlueprintFunctionLibrary::ApplyDamageEffect(
 
 	if (!IsNotFriend(SourceAvatarActor,TargetAvatarActor)) return FGameplayEffectContextHandle();
 	if (IsTargetImmuneToDamageType(TargetAvatarActor, DamageEffectParams.DamageType)) return FGameplayEffectContextHandle();
-	
+	if (IsDead(TargetAvatarActor)) return FGameplayEffectContextHandle();
 
 	FGameplayEffectContextHandle EffectContextHandle = DamageEffectParams.SourceAbilitySystemComponent->MakeEffectContext();
 	EffectContextHandle.AddSourceObject(SourceAvatarActor);
