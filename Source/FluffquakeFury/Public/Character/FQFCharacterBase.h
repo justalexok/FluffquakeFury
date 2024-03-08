@@ -74,6 +74,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TMap<FActiveGameplayEffectHandle, UAbilitySystemComponent*> ActiveInfiniteEffectHandles;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TMap<FActiveGameplayEffectHandle, UAbilitySystemComponent*> ActiveDurationEffectHandles;
+
+	UFUNCTION()
+	void RemoveDurationEffectsOnDeath();
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	TObjectPtr<UAttributeSet> AttributeSet;

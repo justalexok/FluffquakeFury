@@ -98,9 +98,13 @@ void UFQFAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbac
 			
 			else if (!bBlocked)
 			{
-				FGameplayTagContainer TagContainer;
-				TagContainer.AddTag(GameplayTags.Effects_HitReact);
-				Props.TargetASC->TryActivateAbilitiesByTag(TagContainer); //Try and activate an Ability with the hit react tag
+				if (DamageType != GameplayTags.DamageType_Poison) //Don't hit react if poison damage type
+				{
+					FGameplayTagContainer TagContainer;
+					TagContainer.AddTag(GameplayTags.Effects_HitReact);
+					Props.TargetASC->TryActivateAbilitiesByTag(TagContainer); //Try and activate an Ability with the hit react tag
+				}
+				
 
 				const bool bKnockback = FMath::RandRange(1,100) < UFQFBlueprintFunctionLibrary::GetKnockbackChance(Props.EffectContextHandle);				
 				const FVector& KnockbackForce = UFQFBlueprintFunctionLibrary::GetKnockbackForce(Props.EffectContextHandle);

@@ -41,6 +41,7 @@ public:
 	FGameplayTag DamageType_Fluff;
 	FGameplayTag DamageType_Physical;
 	FGameplayTag DamageType_Insect;
+	FGameplayTag DamageType_Poison;
 
 	FGameplayTag ExplosionChance;
 
@@ -72,6 +73,7 @@ public:
 	FGameplayTag Montage_Attack_CastSpell;
 	FGameplayTag Montage_Attack_Squash;
 	FGameplayTag Montage_Attack_Tongue;
+	FGameplayTag Montage_Attack_FrisbeeThrow;
 
 
 	TArray<FGameplayTag> DamageTypes;

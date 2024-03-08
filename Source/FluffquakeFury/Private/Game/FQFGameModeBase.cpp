@@ -111,13 +111,21 @@ void AFQFGameModeBase::AddAnyPreviouslyGrantedAbilities()
 	
 	if (UFQFAbilitySystemComponent* PippaASC = Cast<UFQFAbilitySystemComponent>(PippaCharacterBase->GetAbilitySystemComponent()))
 	{
-		for (const TSubclassOf<UGameplayAbility> Ability : PreviouslyGrantedAbilities)
+		
+		TArray<TSubclassOf<UGameplayAbility>> ActivatableAbilities;
+		for (const FGameplayAbilitySpec& ActiveAbilitySpec :  PippaASC->GetActivatableAbilities())
 		{
-			// if (!PippaASC->GetActivatableAbilities().Contains(Ability))
-			// {
-			PippaASC->AddAbility(Ability);
-
+			ActivatableAbilities.Add(ActiveAbilitySpec.Ability->GetClass());
 		}
+		//Check whether Activatable Abilities already contains the previously granted ability. If not, then add it.
+		for (const TSubclassOf<UGameplayAbility> PrevGrantedAbility : PreviouslyGrantedAbilities)
+		{
+			if (!ActivatableAbilities.Contains(PrevGrantedAbility))
+			{
+				PippaASC->AddAbility(PrevGrantedAbility);
+			}
+		}					
+			
 	}
 
 	if (UFQFGameInstance* GameInstance = UFQFBlueprintFunctionLibrary::GetGameInstance(this))

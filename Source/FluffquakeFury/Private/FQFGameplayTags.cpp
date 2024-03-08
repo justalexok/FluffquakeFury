@@ -30,6 +30,7 @@ void FFQFGameplayTags::InitializeNativeGameplayTags(){
 	GameplayTags.DamageType_Fluff = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("DamageType.Fluff"),FString("Fluff Damage Type Tag"));
 	GameplayTags.DamageType_Physical = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("DamageType.Physical"),FString("Physical Damage Type Tag"));
 	GameplayTags.DamageType_Insect = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("DamageType.Insect"),FString("Insect Damage Type Tag"));
+	GameplayTags.DamageType_Poison = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("DamageType.Poison"),FString("Poison Damage Type Tag"));
 
 	GameplayTags.ExplosionChance = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("ExplosionChance"),FString("Tag for Explosion Chance"));
 
@@ -67,9 +68,11 @@ void FFQFGameplayTags::InitializeNativeGameplayTags(){
 	GameplayTags.Montage_Attack_CastSpell = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Montage.Attack.CastSpell"),FString("Tag for Cast Spell Attack"));
 	GameplayTags.Montage_Attack_Squash = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Montage.Attack.Squash"),FString("Tag for Squash Attack"));
 	GameplayTags.Montage_Attack_Tongue = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Montage.Attack.Tongue"),FString("Tag for Tongue Attack"));
+	GameplayTags.Montage_Attack_FrisbeeThrow = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Montage.Attack.FrisbeeThrow"),FString("Tag for FrisbeeThrow Attack"));
 
 	//Add to Damage Types TArray
 	GameplayTags.DamageTypes.Add(GameplayTags.DamageType_Fluff);
 	GameplayTags.DamageTypes.Add(GameplayTags.DamageType_Physical);
 	GameplayTags.DamageTypes.Add(GameplayTags.DamageType_Insect);
+	GameplayTags.DamageTypes.Add(GameplayTags.DamageType_Poison);
 }

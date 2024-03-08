@@ -220,9 +220,12 @@ FGameplayEffectContextHandle UFQFBlueprintFunctionLibrary::ApplyDamageEffect(
 	AActor* SourceAvatarActor = DamageEffectParams.SourceAbilitySystemComponent->GetAvatarActor();
 	AActor* TargetAvatarActor = DamageEffectParams.TargetAbilitySystemComponent->GetAvatarActor();
 
+	const FFQFGameplayTags GameplayTags = FFQFGameplayTags::Get();
+
 	if(SourceAvatarActor == nullptr || TargetAvatarActor == nullptr) return FGameplayEffectContextHandle();
 
-	if (!IsNotFriend(SourceAvatarActor,TargetAvatarActor)) return FGameplayEffectContextHandle();
+	//return empty if friendly fire and not poison damage type
+	if (!IsNotFriend(SourceAvatarActor,TargetAvatarActor) && DamageEffectParams.DamageType != GameplayTags.DamageType_Poison) return FGameplayEffectContextHandle();
 	if (IsTargetImmuneToDamageType(TargetAvatarActor, DamageEffectParams.DamageType)) return FGameplayEffectContextHandle();
 	if (IsDead(TargetAvatarActor)) return FGameplayEffectContextHandle();
 
@@ -240,7 +243,6 @@ FGameplayEffectContextHandle UFQFBlueprintFunctionLibrary::ApplyDamageEffect(
 
 	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, DamageEffectParams.DamageType, DamageEffectParams.BaseDamage);
 
-	const FFQFGameplayTags GameplayTags = FFQFGameplayTags::Get();
 
 	if (DamageEffectParams.DamageType == GameplayTags.DamageType_Fluff)
 	{
@@ -258,6 +260,15 @@ FGameplayEffectContextHandle UFQFBlueprintFunctionLibrary::ApplyDamageEffect(
 			FQFCharacter->ActiveInfiniteEffectHandles.Add(ActiveEffectHandle, DamageEffectParams.TargetAbilitySystemComponent);
 		}
 	}
+	if (SpecHandle.Data.Get()->Def.Get()->DurationPolicy == EGameplayEffectDurationType::HasDuration)
+	{
+		//For Poison Damage, need to add the active effect handle to the Target, so that it can be removed on death later.
+		if (AFQFCharacterBase* TargetCharacter = Cast<AFQFCharacterBase>(TargetAvatarActor))
+		{
+			TargetCharacter->ActiveDurationEffectHandles.Add(ActiveEffectHandle, DamageEffectParams.TargetAbilitySystemComponent);
+		}
+	}
+
 
 	return EffectContextHandle;
 	

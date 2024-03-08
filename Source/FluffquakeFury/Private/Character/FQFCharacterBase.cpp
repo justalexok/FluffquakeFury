@@ -25,6 +25,23 @@ AFQFCharacterBase::AFQFCharacterBase()
 }
 
 
+void AFQFCharacterBase::RemoveDurationEffectsOnDeath()
+{
+	TArray<FActiveGameplayEffectHandle> HandlesToRemove;
+	// Remove all active infinite effects owned (sourced) by this character
+	for (TTuple<FActiveGameplayEffectHandle, UAbilitySystemComponent*> HandlePair : ActiveDurationEffectHandles)
+	{
+		
+		HandlePair.Value->RemoveActiveGameplayEffect(HandlePair.Key, 1);
+		HandlesToRemove.Add(HandlePair.Key);	
+	}
+	//Must separately remove from the map
+	for (auto& Handle : HandlesToRemove)
+	{
+		ActiveDurationEffectHandles.FindAndRemoveChecked(Handle);
+	}
+}
+
 void AFQFCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
@@ -54,6 +71,8 @@ void AFQFCharacterBase::HandleDeath()
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
 	Dissolve();
+
+	RemoveDurationEffectsOnDeath();
 
 	bDead = true;
 

@@ -129,6 +129,8 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	
 	Damage = round(Damage);
 
+	
+
 	UE_LOG(LogTemp,Display, TEXT("Final Damage in ExecCalc: %f"),Damage);
 
 	
