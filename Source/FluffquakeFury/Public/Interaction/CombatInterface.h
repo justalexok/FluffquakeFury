@@ -66,6 +66,9 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void SetMaxWalkSpeed(bool bShouldImmobiliseCharacter);
 
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void SetMaxWalkSpeedByFloat(float InWalkSpeed);
+	
 	virtual FOnDeathSignature& GetOnDeathDelegate() = 0;
 	virtual FOnDamageSignature& GetOnDamageSignature() = 0; 
 

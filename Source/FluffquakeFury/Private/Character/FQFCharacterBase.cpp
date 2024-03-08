@@ -63,10 +63,7 @@ void AFQFCharacterBase::HandleDeath()
 	Weapon->SetEnableGravity(true);
 	Weapon->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
 
-	GetMesh()->SetSimulatePhysics(true);
-	GetMesh()->SetEnableGravity(true);
-	GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
-	GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
+	RagdollMesh(true);
 
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
@@ -79,6 +76,25 @@ void AFQFCharacterBase::HandleDeath()
 	OnDeathDelegate.Broadcast(this); //Currently nobody listening
 
 }
+
+void AFQFCharacterBase::RagdollMesh(bool ShouldRagdoll)
+{
+	if (ShouldRagdoll)
+	{
+		GetMesh()->SetSimulatePhysics(true);
+		// GetMesh()->SetEnableGravity(true);
+		GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+		GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
+		return;
+	}
+	GetMesh()->SetSimulatePhysics(false);
+	// GetMesh()->SetEnableGravity(false);
+	GetMesh()->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+	// GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
+}
+
+
+
 void AFQFCharacterBase::Die(const FVector& DeathImpulse)
 {
 	Weapon->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
@@ -88,6 +104,11 @@ void AFQFCharacterBase::Die(const FVector& DeathImpulse)
 void AFQFCharacterBase::SetMaxWalkSpeed_Implementation(bool bShouldImmobiliseCharacter)
 {
 	GetCharacterMovement()->MaxWalkSpeed = bShouldImmobiliseCharacter ? 0.f : BaseWalkSpeed;
+}
+
+void AFQFCharacterBase::SetMaxWalkSpeedByFloat_Implementation(float InWalkSpeed)
+{
+	GetCharacterMovement()->MaxWalkSpeed = InWalkSpeed;
 }
 
 FOnDeathSignature& AFQFCharacterBase::GetOnDeathDelegate()

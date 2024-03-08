@@ -38,6 +38,7 @@ public:
 	virtual UAnimMontage* GetHitReactMontage_Implementation() override;
 	virtual void Die(const FVector& DeathImpulse) override;
 	virtual void SetMaxWalkSpeed_Implementation(bool bShouldImmobiliseCharacter) override;
+	virtual void SetMaxWalkSpeedByFloat_Implementation(float InWalkSpeed) override;
 	virtual FOnDeathSignature& GetOnDeathDelegate() override;
 	virtual void ResetRecentlyReceivedDamageType_Implementation() override;
 	virtual UAnimInstance* GetAnimInstance_Implementation() override;
@@ -50,6 +51,9 @@ public:
 	
 	UFUNCTION()
 	void HandleDeath();
+
+	UFUNCTION(BlueprintCallable)
+	void RagdollMesh(bool ShouldRagdoll);
 
 	FOnDeathSignature OnDeathDelegate;
 
