@@ -25,22 +25,6 @@ AFQFCharacterBase::AFQFCharacterBase()
 }
 
 
-void AFQFCharacterBase::RemoveDurationEffectsOnDeath()
-{
-	TArray<FActiveGameplayEffectHandle> HandlesToRemove;
-	// Remove all active infinite effects owned (sourced) by this character
-	for (TTuple<FActiveGameplayEffectHandle, UAbilitySystemComponent*> HandlePair : ActiveDurationEffectHandles)
-	{
-		
-		HandlePair.Value->RemoveActiveGameplayEffect(HandlePair.Key, 1);
-		HandlesToRemove.Add(HandlePair.Key);	
-	}
-	//Must separately remove from the map
-	for (auto& Handle : HandlesToRemove)
-	{
-		ActiveDurationEffectHandles.FindAndRemoveChecked(Handle);
-	}
-}
 
 void AFQFCharacterBase::BeginPlay()
 {
@@ -63,13 +47,15 @@ void AFQFCharacterBase::HandleDeath()
 	Weapon->SetEnableGravity(true);
 	Weapon->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
 
-	RagdollMesh(true);
+	RagdollMesh();
 
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
 	Dissolve();
 
 	RemoveDurationEffectsOnDeath();
+	RemoveInfiniteGameplayEffects();
+
 
 	bDead = true;
 
@@ -77,20 +63,14 @@ void AFQFCharacterBase::HandleDeath()
 
 }
 
-void AFQFCharacterBase::RagdollMesh(bool ShouldRagdoll)
+void AFQFCharacterBase::RagdollMesh()
 {
-	if (ShouldRagdoll)
-	{
-		GetMesh()->SetSimulatePhysics(true);
-		// GetMesh()->SetEnableGravity(true);
-		GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
-		GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
-		return;
-	}
-	GetMesh()->SetSimulatePhysics(false);
-	// GetMesh()->SetEnableGravity(false);
-	GetMesh()->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
-	// GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
+
+	GetMesh()->SetSimulatePhysics(true);
+	GetMesh()->SetEnableGravity(true);
+	GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+	GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
+	
 }
 
 
@@ -172,7 +152,39 @@ FOnDamageSignature& AFQFCharacterBase::GetOnDamageSignature()
 }
 
 
+void AFQFCharacterBase::RemoveInfiniteGameplayEffects()
+{
+	TArray<FActiveGameplayEffectHandle> HandlesToRemove;
+	// Remove all active infinite effects owned (sourced) by this character
+	for (TTuple<FActiveGameplayEffectHandle, UAbilitySystemComponent*> HandlePair : ActiveInfiniteEffectHandles)
+	{
+		
+		HandlePair.Value->RemoveActiveGameplayEffect(HandlePair.Key, 1);
+		HandlesToRemove.Add(HandlePair.Key);	
+	}
+	//Must separately remove from the map
+	for (auto& Handle : HandlesToRemove)
+	{		
+		ActiveInfiniteEffectHandles.FindAndRemoveChecked(Handle);
+	}
+}
 
+void AFQFCharacterBase::RemoveDurationEffectsOnDeath()
+{
+	TArray<FActiveGameplayEffectHandle> HandlesToRemove;
+	// Remove all active infinite effects owned (sourced) by this character
+	for (TTuple<FActiveGameplayEffectHandle, UAbilitySystemComponent*> HandlePair : ActiveDurationEffectHandles)
+	{
+		
+		HandlePair.Value->RemoveActiveGameplayEffect(HandlePair.Key, 1);
+		HandlesToRemove.Add(HandlePair.Key);	
+	}
+	//Must separately remove from the map
+	for (auto& Handle : HandlesToRemove)
+	{
+		ActiveDurationEffectHandles.FindAndRemoveChecked(Handle);
+	}
+}
 
 FVector AFQFCharacterBase::GetCombatSocketLocation_Implementation(const FGameplayTag& SpecificAbilityTag)
 {

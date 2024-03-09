@@ -68,3 +68,4 @@ FDamageEffectParams UFQFGameplayAbility::MakeDamageEffectParamsFromClassDefaults
 	}
 	return  Params;
 }
+

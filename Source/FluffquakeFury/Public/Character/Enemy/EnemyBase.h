@@ -51,8 +51,7 @@ public:
 	FOnAttributeChangedSignature OnMaxHealthChanged;
 
 	virtual void Die(const FVector& DeathImpulse) override;
-	void RemoveInfiniteGameplayEffects();
-
+	
 	UPROPERTY(BlueprintReadWrite, Category = "Combat")
 	TObjectPtr<AActor> CombatTarget;
 	
@@ -73,9 +72,7 @@ protected:
 	virtual void InitAbilityActorInfo() override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Class Defaults")
-	int32 Level = 1;
-
-	
+	int32 Level = 1;	
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TObjectPtr<UWidgetComponent> HealthBar;

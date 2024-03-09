@@ -253,21 +253,30 @@ FGameplayEffectContextHandle UFQFBlueprintFunctionLibrary::ApplyDamageEffect(
 
 	const FActiveGameplayEffectHandle ActiveEffectHandle = DamageEffectParams.TargetAbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data);
 
+	//For infinite effects such as insect and poison damage, need to be added to an array on the Source and, for poison, Target Characters so they can be removed later on death or other event.
 	if (SpecHandle.Data.Get()->Def.Get()->DurationPolicy == EGameplayEffectDurationType::Infinite)
 	{
-		if (AFQFCharacterBase* FQFCharacter = Cast<AFQFCharacterBase>(SourceAvatarActor))
+		if (AFQFCharacterBase* SourceFQFCharacter = Cast<AFQFCharacterBase>(SourceAvatarActor))
 		{
-			FQFCharacter->ActiveInfiniteEffectHandles.Add(ActiveEffectHandle, DamageEffectParams.TargetAbilitySystemComponent);
+			SourceFQFCharacter->ActiveInfiniteEffectHandles.Add(ActiveEffectHandle, DamageEffectParams.TargetAbilitySystemComponent);
+		}
+		if (DamageEffectParams.DamageType == GameplayTags.DamageType_Poison)
+		{
+			if (AFQFCharacterBase* TargetFQFCharacter = Cast<AFQFCharacterBase>(TargetAvatarActor))
+			{
+				TargetFQFCharacter->ActiveInfiniteEffectHandles.Add(ActiveEffectHandle, DamageEffectParams.TargetAbilitySystemComponent);
+			}
+
 		}
 	}
-	if (SpecHandle.Data.Get()->Def.Get()->DurationPolicy == EGameplayEffectDurationType::HasDuration)
-	{
-		//For Poison Damage, need to add the active effect handle to the Target, so that it can be removed on death later.
-		if (AFQFCharacterBase* TargetCharacter = Cast<AFQFCharacterBase>(TargetAvatarActor))
-		{
-			TargetCharacter->ActiveDurationEffectHandles.Add(ActiveEffectHandle, DamageEffectParams.TargetAbilitySystemComponent);
-		}
-	}
+	// if (SpecHandle.Data.Get()->Def.Get()->DurationPolicy == EGameplayEffectDurationType::HasDuration)
+	// {
+	// 	//For Poison Damage, need to add the active effect handle to the Target, so that it can be removed on death later.
+	// 	if (AFQFCharacterBase* TargetCharacter = Cast<AFQFCharacterBase>(TargetAvatarActor))
+	// 	{
+	// 		TargetCharacter->ActiveDurationEffectHandles.Add(ActiveEffectHandle, DamageEffectParams.TargetAbilitySystemComponent);
+	// 	}
+	// }
 
 
 	return EffectContextHandle;

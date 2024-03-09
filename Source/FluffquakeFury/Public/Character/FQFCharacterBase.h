@@ -53,7 +53,7 @@ public:
 	void HandleDeath();
 
 	UFUNCTION(BlueprintCallable)
-	void RagdollMesh(bool ShouldRagdoll);
+	void RagdollMesh();
 
 	FOnDeathSignature OnDeathDelegate;
 
@@ -81,8 +81,12 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TMap<FActiveGameplayEffectHandle, UAbilitySystemComponent*> ActiveDurationEffectHandles;
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
+	void RemoveInfiniteGameplayEffects();
+	
+	UFUNCTION(BlueprintCallable)
 	void RemoveDurationEffectsOnDeath();
+
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	TObjectPtr<UAttributeSet> AttributeSet;
@@ -93,7 +97,8 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-	
+	UPROPERTY()
+	TArray<FActiveGameplayEffectHandle> StoredEffectHandles;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat")
 	TObjectPtr<USkeletalMeshComponent> Weapon;

@@ -127,7 +127,6 @@ void AEnemyBase::Die(const FVector& DeathImpulse)
 {
 	SetLifeSpan(5.f);
 	FQFAIController->GetBlackboardComponent()->SetValueAsBool(FName("IsDead"), true);
-	RemoveInfiniteGameplayEffects();
 
 	PlayAnimMontage(DeathMontage);
 
@@ -150,23 +149,6 @@ void AEnemyBase::Die(const FVector& DeathImpulse)
 		
 	}
 
-}
-
-void AEnemyBase::RemoveInfiniteGameplayEffects()
-{
-	TArray<FActiveGameplayEffectHandle> HandlesToRemove;
-	// Remove all active infinite effects owned (sourced) by this character
-	for (TTuple<FActiveGameplayEffectHandle, UAbilitySystemComponent*> HandlePair : ActiveInfiniteEffectHandles)
-	{
-		
-		HandlePair.Value->RemoveActiveGameplayEffect(HandlePair.Key, 1);
-		HandlesToRemove.Add(HandlePair.Key);	
-	}
-	//Must separately remove from the map
-	for (auto& Handle : HandlesToRemove)
-	{
-		ActiveInfiniteEffectHandles.FindAndRemoveChecked(Handle);
-	}
 }
 
 void AEnemyBase::HighlightActor()
