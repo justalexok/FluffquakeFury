@@ -96,4 +96,7 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void SpawnReward();
+
+	UPROPERTY(BlueprintReadWrite)
+	bool HotelLevelFinishedSpawning = true;
 };

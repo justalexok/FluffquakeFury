@@ -54,8 +54,8 @@ void AFQFGameModeBase::CheckIfLevelComplete()
 
 	const APippaPlayerController* PlayerController = CastChecked<APippaPlayerController>(GetWorld()->GetFirstPlayerController());
 
-	//Must be 0 enemies and have made it past the minimum survival length
-	if (NumEnemiesInLevel == 0 && PlayerController->LevelSecondsRemaining < (GetCurrentLevelInfo().LevelLength - GetCurrentLevelInfo().MinimumSurvivalLength))
+	//Must be 0 enemies and have made it past the minimum survival length, AND if Hotel Level, finished spawning.
+	if (NumEnemiesInLevel == 0 && HotelLevelFinishedSpawning && PlayerController->LevelSecondsRemaining < (GetCurrentLevelInfo().LevelLength - GetCurrentLevelInfo().MinimumSurvivalLength))
 	{
 		UE_LOG(LogTemp,Warning,TEXT("LEVEL COMPLETE!"))
 		OnLevelCompletionDelegate.Broadcast();
