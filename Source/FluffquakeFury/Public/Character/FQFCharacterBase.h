@@ -15,6 +15,8 @@ class UAbilitySystemComponent;
 class UAttributeSet;
 class UGameplayEffect;
 class UGameplayAbility;
+enum class EHotelLocation : uint8;
+
 
 
 	
@@ -93,6 +95,9 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	EHotelLocation HotelLocation = EHotelLocation::None;
 
 protected:
 	virtual void BeginPlay() override;

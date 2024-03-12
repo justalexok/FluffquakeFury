@@ -141,12 +141,12 @@ void AEnemyBase::Die(const FVector& DeathImpulse)
 	//Tell GameMode to check if level is complete And Spawn Reward
 	if (AFQFGameModeBase* GameMode = UFQFBlueprintFunctionLibrary::GetFQFGameMode(this))
 	{
+		GameMode->OnEnemyDeathDelegate.Broadcast(HotelLocation);
 		GameMode->CheckIfLevelComplete();
 		if (Level > 1)
 		{
 			GameMode->SpawnReward();
 		}
-		//if hotel demo and count for room complete, spawn poison pillow
 	}
 
 }

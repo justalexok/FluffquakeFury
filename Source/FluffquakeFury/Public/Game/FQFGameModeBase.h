@@ -14,7 +14,23 @@ class ULevelInfo;
 class UAbilityInfo;
 class UCharacterClassInfo;
 
+
+UENUM(BlueprintType)
+enum class EHotelLocation : uint8
+{
+	None,
+	Room1,
+	Room2,
+	Room3,
+	Room4,
+	Landing,
+	Lift,
+	Basement
+};
+
+
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FGeneralLevelMechanicsSignature);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FEnemyDeathSignature, EHotelLocation, HotelLocation);
 
 
 
@@ -51,6 +67,9 @@ public:
 	FGeneralLevelMechanicsSignature OnPlayerDeathDelegate;
 	UFUNCTION(BlueprintCallable, Category = "Events")
 	void BroadcastPlayerDeath() const {OnPlayerDeathDelegate.Broadcast();}
+
+	UPROPERTY(BlueprintAssignable, Category = "Events")
+	FEnemyDeathSignature OnEnemyDeathDelegate;
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Character Class Defaults")
 	TObjectPtr<UCharacterClassInfo> CharacterClassInfo;
