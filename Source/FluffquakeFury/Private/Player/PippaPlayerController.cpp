@@ -124,9 +124,15 @@ void APippaPlayerController::ShowPickupWidget_Implementation(float ChangeAmount,
 {
 	if (IsValid(EffectActor) && PickupTextComponentClass)
 	{
-		UPickupTextComponent* HealthChangeText = NewObject<UPickupTextComponent>(EffectActor, PickupTextComponentClass);
+		// UPickupTextComponent* HealthChangeText = NewObject<UPickupTextComponent>(EffectActor, PickupTextComponentClass);
+		
+		AActor* PickupActor = GetWorld()->SpawnActor<AActor>();
+		PickupActor->SetActorLocation(EffectActor->GetActorLocation());
+		UPickupTextComponent* HealthChangeText = NewObject<UPickupTextComponent>(PickupActor, PickupTextComponentClass);
 		HealthChangeText->RegisterComponent();
-		HealthChangeText->AttachToComponent(EffectActor->GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
+		// HealthChangeText->AttachToComponent(EffectActor->GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
+		HealthChangeText->AttachToComponent(PickupActor->GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
+
 		HealthChangeText->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
 		HealthChangeText->SetPickupText(ChangeAmount, AttributeTag);		
 	}
