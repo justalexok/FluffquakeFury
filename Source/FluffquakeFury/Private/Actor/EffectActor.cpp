@@ -78,13 +78,15 @@ bool AEffectActor::ApplyEffectToTarget(AActor* Target, TSubclassOf<UGameplayEffe
 
 	check(GameplayEffectClass);
 	FGameplayEffectContextHandle EffectContextHandle = TargetASC->MakeEffectContext();
+	// UFQFBlueprintFunctionLibrary::SetDamageType(EffectContextHandle, FFQFGameplayTags::Get().DamageType_Physical);
+
 	EffectContextHandle.AddSourceObject(this);
 	const FGameplayEffectSpecHandle EffectSpecHandle = TargetASC->MakeOutgoingSpec(GameplayEffectClass, 1.f, EffectContextHandle);
-	
 
 	const float ModifiedMagnitude = GetModifiedMagnitude(GameplayEffectClass);
 
-	TargetASC->ApplyGameplayEffectSpecToSelf(*EffectSpecHandle.Data.Get());
+
+    	TargetASC->ApplyGameplayEffectSpecToSelf(*EffectSpecHandle.Data.Get());
 
 	if (!bIsDamageCauser) ShowPickupText(ModifiedMagnitude, Target,EffectedAttribute);
 

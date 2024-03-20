@@ -58,7 +58,7 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 	TObjectPtr<AFQFAIController> FQFAIController;
 
-	UPROPERTY(EditAnywhere, Category = "Character Class Defaults")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character Class Defaults")
 	TArray<FGameplayTag>Immunities;
 
 	UFUNCTION(BlueprintCallable)
