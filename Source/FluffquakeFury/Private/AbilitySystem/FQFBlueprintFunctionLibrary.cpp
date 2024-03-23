@@ -330,6 +330,22 @@ UFQFGameInstance* UFQFBlueprintFunctionLibrary::GetGameInstance(const UObject* W
 	return GameInstance;
 }
 
+FString UFQFBlueprintFunctionLibrary::SecondsToTimeString(float InSeconds)
+{
+	
+	// Determine whether to display this number as a negative
+	InSeconds = FMath::Abs(InSeconds);
+
+	// Get whole minutes
+	const int32 NumMinutes = FMath::FloorToInt(InSeconds/60.f);
+	// Get seconds not part of whole minutes
+	const int32 NumSeconds = FMath::FloorToInt(InSeconds-(NumMinutes*60.f));
+
+	// Create string, including leading zeroes
+	return FString::Printf(TEXT("%02d:%02d"), NumMinutes, NumSeconds);
+	
+}
+
 FVector UFQFBlueprintFunctionLibrary::GetDeathImpulse(const FGameplayEffectContextHandle& EffectContextHandle)
 {
 	if (const FFQFGameplayEffectContext* FQFEffectContext = static_cast<const FFQFGameplayEffectContext*>(EffectContextHandle.Get()))

@@ -74,6 +74,9 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = "FQFBlueprintFunctionLibrary|GameplayMechanics")
 	static UFQFGameInstance* GetGameInstance(const UObject* WorldContextObject);
+	
+	UFUNCTION(BlueprintPure, Category = "FQFBlueprintFunctionLibrary|GameplayMechanics")
+	static FString SecondsToTimeString(float InSeconds);
 
 //EffectContext Getters
 	static void SetDamageType(UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle, const FGameplayTag& InDamageType);
