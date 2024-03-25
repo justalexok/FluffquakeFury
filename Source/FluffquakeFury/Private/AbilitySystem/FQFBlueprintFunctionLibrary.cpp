@@ -333,7 +333,6 @@ UFQFGameInstance* UFQFBlueprintFunctionLibrary::GetGameInstance(const UObject* W
 FString UFQFBlueprintFunctionLibrary::SecondsToTimeString(float InSeconds)
 {
 	
-	// Determine whether to display this number as a negative
 	InSeconds = FMath::Abs(InSeconds);
 
 	// Get whole minutes
